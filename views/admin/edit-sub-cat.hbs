@@ -1,0 +1,39 @@
+
+<section id="main">
+<div class="container" style="padding: 16%;">
+    <div class="rows">
+        <div class="col-md-6">
+            <form id="editSubcategory">
+                <div class="form-group mb-3">
+                    <label for="name">sub category</label>
+                    <input type="text" name="catId" value="{{catId}}" hidden>
+                    <input type="text" name="filter" value="{{subcat}}" hidden>
+
+                    <input type="text" name="editedSubCat" class="form-control" value="{{subcat}}" required>
+                </div>
+                <button type="submit" class="btn btn-success">submit</button>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+</section>
+
+<script>
+    $('#editSubcategory').submit((e)=>{
+        e.preventDefault()
+        $.ajax({
+            url:'/admin/edit/subcat',
+            method:'put',
+            data:$('#editSubcategory').serialize(),
+            success:(response)=>{
+                if(response.status){
+                    window.location.href='/admin/subcategories/'+response.catId
+
+                }
+            }
+        })
+    })
+</script>

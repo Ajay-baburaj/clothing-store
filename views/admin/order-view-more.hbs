@@ -1,0 +1,85 @@
+
+
+<section id="main">
+<div class="rows container mt-5 d-flex justify-content-around">
+
+    <div class="card-body col-md-4" style="background-color:#F7F4F4 ;">
+        <h5 class="card-title fw-bold">Billing Address</h5>
+
+        <div class="">
+            <h5 class="text-uppercase">{{address.addressDetails.name}}</h5>
+            <span>{{address.addressDetails.address}}</span><br>
+            <span>{{address.addressDetails.city}}</span><br>
+            <span>{{address.addressDetails.pincode}}</span><br>
+            <span>{{address.addressDetails.mobile}}</span>
+
+
+            
+        </div>
+    </div>
+
+    <div class="card-body col-md-4" style="background-color:#F7F4F4 ;">
+        <h5 class="card-title">Total amount : &nbsp; &nbsp;<span class="fw-bold">₹ {{orderTotal}}</span></h5>
+
+        <div class="">
+           <span>payment-method: </span><span>{{address.paymentMethod}}</span><br>
+            <span>status: </span> <span class="text-success">{{address.status}}</span><br>
+             <span>order-id: </span><span class="fw-bold">{{address._id}}</span><br>
+        </div>
+    </div>
+
+
+</div>
+<section class="mb-5" >
+
+    <div class="container" style="margin-top: 3rem;">
+        <table class="table table-striped" id="dataTable">
+            <thead>
+                <tr class="text-center">
+                    <th scope="col">no.</th>
+                    {{!-- <th scope="col">user</th> --}}
+                    {{!-- <th scope="col">date</th> --}}
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Product img</th>
+
+                    {{!-- <th scope="col">image</th> --}}
+                    <th scope="col">price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total amount</th>
+                    {{!-- <th>action</th> --}}
+                </tr>
+            </thead>
+            <tbody>
+                {{#each orderDetials}}
+                <tr class="text-center">
+                    <td>{{inc @index}}</td>
+                    <td>{{this.productDetails.name}}</td>
+                    <td> <img src="/images/product/{{this.productDetails.img.[0]}}" alt="" style="height: 50px;width:50px;"> </td>
+                    
+                    <td>{{this.discountedPrice}}</td>
+                    <td>{{this.products.quantity}}</td>
+                    <td>{{this.productTotal}}</td>
+                    {{!-- <td>{{this.paymentMethod}}</td> --}}
+                    {{!-- <td>
+                        <select name="status" id="status" class="border-0" style="background-color: #D06A54;border-radius:10px;height:30px;">
+                            <option value="{{this.status}}">{{this.status}}</option>
+                            <option value="cancelled">cancelled</option>
+                            <option value="delivered">delivered</option>
+                        </select>
+                    </td> --}}
+
+                    {{!-- <td><a href="/admin/order-view-more/{{this._id}}" type="button" class="btn btn-secondary btn-sm">view more</a></td> --}}
+                </tr>
+                {{/each}}
+                
+            </tbody>
+        </table>
+    </div>
+</section>    
+
+</section>
+<div style="margin-bottom:10rem">
+    <h1 class="p-5"></h1>
+</div>
+
+

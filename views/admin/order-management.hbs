@@ -1,0 +1,108 @@
+<section id="main">
+
+    <div class="container" style="margin-top: 2rem;">
+        {{!-- <h2 class="text-center">product management</h2> --}}
+        <div class="d-flex flex-row justify-content-between">
+            {{!-- <a href="/admin/add-products" type="btn" class="btn btn-success btn-sm m-2">Add products</a> --}}
+            <a href="/admin" type="btn" class="btn btn-dark btn-sm m-2">back</a>
+        </div>
+        <table class="table table-striped" id="dataTable">
+            <thead>
+                <tr class="text-center">
+                    <th scope="col">no.</th>
+                    <th scope="col">user</th>
+                    <th scope="col">date</th>
+                    <th scope="col">order id</th>
+                    <th scope="col">price</th>
+                    <th scope="col">payment mode</th>
+                    <th scope="col">status</th>
+                    <th>action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each orderArrray}}
+                <tr class="text-center">
+                    <td>{{inc @index}}</td>
+                    <td>{{this.userDetails.name}}</td>
+                    <td>{{this.date}}</td>
+                    <td>{{this._id}}</td>
+                    <td>{{this.total}}</td>
+                    <td>{{this.paymentMethod}}</td>
+                    <td>
+                        {{!-- <select name="status" id="status" class="border-0" style="background-color: #D06A54;border-radius:10px;height:30px;">
+                            <option value="{{this.status}}">{{this.status}}</option>
+                            <option value="cancelled">cancelled</option>
+                            <option value="delivered">delivered</option>
+                        </select> --}}
+
+                        <button type="button" class="btn btn-success rounded-pill" data-bs-toggle="modal"
+                        data-bs-target="#verticalycentered{{this._id}}{{this.productdetails._id}}">order status
+                        </button>
+                        <div class="modal fade" id="verticalycentered{{this._id}}{{this.productdetails._id}}" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Order Status</h5>
+
+                                </div>
+                                <div class="modal-body">
+                                    <select class="form-select" aria-label="Default select example" name="status"
+                                        id="dropDownSelect{{this._id}}">
+                                        <option value="{{this.status}}" class="d-none">{{this.status}}</option>
+                                         <option value="placed" >placed</option>
+                                        <option value="cancelled">cancelled</option>
+                                        <option value="delivered">Delivered</option>
+                                    </select>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary"
+                                     onclick=" statusChange('{{this._id}}','{{this.userDetails._id}}')"> Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                        </div> 
+                                    
+                                    
+                                    
+                                    
+
+                    </td>
+
+
+
+
+
+
+                    <td><a href="/admin/view/more/{{this._id}}" type="button" class="btn btn-danger rounded-pill btn-sm">view more</a></td>
+                </tr>
+                {{/each}}
+                
+            </tbody>
+        </table>
+    </div>
+
+</section>
+
+
+<script>
+    function statusChange(orderId,userId){
+    let status = document.getElementById('dropDownSelect'+orderId).value;
+        $.ajax({
+          url:'/admin/status/change',
+          data:{
+            orderId:orderId,
+            userId:userId,
+            value:status,
+          },
+          method:'patch',
+          success:(response)=>{
+        if(response.status){
+           window.location.reload()
+
+        }            
+          }  
+        })
+    }
+    
+</script>

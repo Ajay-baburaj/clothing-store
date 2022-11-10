@@ -1,0 +1,32 @@
+<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+    data-bs-target="#verticalycentered{{this._id}}{{this.productdetails._id}}">
+    Edit Order Status
+</button>
+<div class="modal fade" id="verticalycentered{{this._id}}{{this.productdetails._id}}" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Order Status</h5>
+
+            </div>
+            <div class="modal-body">
+                <select class="form-select" aria-label="Default select example"
+                    id="shipping{{this._id}}{{this.productdetails._id}}">
+                    <option selected>{{this.product.shipping}}</option>
+                    {{#if Return}}
+
+                    <option>Refund-Completed</option>
+                    {{else}}
+                    <option>Shipped</option>
+                    <option>Delivered</option>
+                    {{/if}}
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary"
+                    onclick=" Shipping('{{this._id}}','{{this.productdetails._id}}')"> Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

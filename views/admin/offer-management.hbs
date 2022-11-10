@@ -1,0 +1,214 @@
+<div class="container mt-5" id="main">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">offer Management</h5>
+
+            <!-- Vertical Pills Tabs -->
+            <div class="d-flex align-items-start">
+                <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home"
+                        aria-selected="true">Product</button>
+                    <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile"
+                        aria-selected="false">Category</button>
+                    {{!-- <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages"
+                        aria-selected="false">Referrel</button> --}}
+                </div>
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                        aria-labelledby="v-pills-home-tab">
+
+                        <table class="table table-striped" id="dataTable">
+                            <thead>
+                                <tr>
+
+                                    <th scope="col">Title</th>
+                                    <th scope="col">category</th>
+                                    <th scope="col">price</th>
+                                    <th scope="col">image</th>
+                                    <th scope="col">discount</th>
+                                    <th scope="col">% price</th>
+
+                                    <th scope="col">actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each products}}
+                                <tr>
+                                    <td>{{this.name}}</td>
+                                    <td>{{this.categoryDetails.category}}</td>
+                                    <td id="price{{this._id}}">{{this.price}}</td>
+                                    <td><img src="/images/product/{{this.img.[0]}}" style="width: 50px;height: 50px">
+                                    </td>
+                                    <td><button class="btn border-1 border-success"
+                                            style="background-color: transparent;"><span id="button{{this._id}}">{{this.discount}}</span> <span
+                                                class="text-danger">%</button></td>
+                                                <td class="text-primary"><strong>{{this.discountedPrice}}</strong></td>
+                                    <td>
+                                        
+                                        <button type="button" class="btn btn-success" data-toggle="modal"
+                                            data-target="#product{{this._id}}">add offer</button>
+                                            <button class="btn btn-success" onclick="removeOffer('{{this._id}}')">remove offer</button>
+                                        <div class="modal fade bd-example-modal-sm"  id="product{{this._id}}" tabindex="-1" role="dialog"
+                                            aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-sm">
+                                                <div class="modal-content p-5">
+                                                    <form id="form{{this._id}}">
+                                                    <input type="text" name="productId"  value={{this._id}} class="form-control" hidden>
+                                                        <div class="form-group mb-3">
+                                                            
+
+                                                            <label for="name">enter offer percentage</label>
+                                                            <input type="text" name="discountVal" class="form-control">
+                                                        </div>
+                                                        <button class="btn btn-success" onclick="addOffers('{{this._id}}','{{this.price}}')">add offer</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {{/each}}
+
+                            </tbody>
+                        </table>
+
+
+
+
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
+                        aria-labelledby="v-pills-profile-tab" >
+                        <table class="table table-striped ml-5" id="dataTable" >
+                            <thead>
+                                <tr>
+
+                                   
+                                    <th scope="col">category</th>
+                                    <th scope="col">image</th>
+                                    <th scope="col">discount</th>
+                                    <th scope="col">actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each category}}
+                                <tr>
+                                    <td>{{this.category}}</td>
+                                    <td><img src="{{this.img}}" style="width: 50px;height: 50px"></td>
+                                    <td><button class="btn border-1 border-success"
+                                            style="background-color: transparent;"><span id="button{{this._id}}">{{this.discount}}</span> <span
+                                                class="text-danger">%</button></td>
+                                    <td>
+                                        <button type="button" class="btn btn-success" data-toggle="modal"
+                                            data-target="#cat{{this._id}}">add offer</button>
+                                            <button class="btn btn-danger" onclick="removeCategoryOffer('{{this._id}}')">remove offer</button>
+                                        <div class="modal fade bd-example-modal-sm"  id="cat{{this._id}}" tabindex="-1" role="dialog"
+                                            aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-sm">
+                                                <div class="modal-content p-5">
+                                                    <form id="form{{this._id}}">
+                                                    <input type="text" name="catId"  value={{this._id}} class="form-control" hidden>
+                                                        <div class="form-group mb-3">
+                                                            
+
+                                                            <label for="name">enter offer percentage</label>
+                                                            <input type="text" name="discountVal" class="form-control">
+                                                        </div>
+                                                        <button class="btn btn-success" onclick="addOffersCat('{{this._id}}')">add offer</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>            
+                                </tr>
+                                {{/each}}
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
+                        aria-labelledby="v-pills-messages-tab">
+                        Saepe animi et soluta ad odit soluta sunt. Nihil quos omnis animi debitis cumque. Accusantium
+                        quibusdam perspiciatis qui qui omnis magnam. Officiis accusamus impedit molestias nostrum
+                        veniam.
+                        Qui amet ipsum iure. Dignissimos fuga tempore dolor.
+                    </div>
+                </div>
+            </div>
+            <!-- End Vertical Pills Tabs -->
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script>
+    function addOffers(productId,price){
+        console.log(('#form'+productId))
+        $('#form'+productId).submit((e)=>{
+            e.preventDefault()
+            $.ajax({
+                url:'/admin/add/offer',
+                type:'post',
+                data: $('#form'+productId).serialize(),
+                success:(response)=>{
+                    if(response.status){
+                        window.location.reload()
+                    }
+                    
+                }
+            })
+
+        })
+    }
+    function addOffersCat(catId){
+        console.log('call is coming')
+        $('#form'+catId).submit((e)=>{
+            e.preventDefault()
+            $.ajax({
+                url:'/admin/add/offer/category',
+                type:'post',
+                data: $('#form'+catId).serialize(),
+                success:(response)=>{
+                    if(response.status){
+                        window.location.reload()
+                    }
+                    
+                }
+            })
+
+        })
+
+    }
+    function removeOffer(productId){
+        $.ajax({
+            url:'/admin/remove/offer/?proId='+productId,
+            type:'delete',
+            success:(response)=>{
+                if(response.deletedStatus){
+                    window.location.reload()
+                }
+            }
+        })
+    }
+
+    function removeCategoryOffer(categoryId){
+        $.ajax({
+            url:'/admin/remove/category/offer/?catId='+categoryId,
+            type:'patch',
+            success:(response)=>{
+                if(response.categoryRemove){
+                    window.location.reload()
+                }
+            }
+        })
+    }
+
+</script>

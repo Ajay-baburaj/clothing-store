@@ -1,0 +1,109 @@
+
+
+
+{{!-- 
+            <div class="container" style="padding: 20%;">
+
+                {{#if noUserErr}}
+                    <p class="text-danger">{{noUserErr}}</p>
+                {{/if}}    
+                
+                <form action="/sign-in-otp" method="post">
+                  <div class="form-outline mb-4 d-flex flex-column justify-content-center">
+                    <input type="text" id="Mobile" class="form-control form-control-lg" placeholder="Enter mobile " name="mobile"
+                      onkeyup="validatemobile()" />
+                    <span class="text-danger" id="mobileError"></span>
+                  </div>
+                  <button class="btn btn-dark btn-lg" style="" type="submit">Get otp</button>
+                </form>
+            </div> --}}
+
+
+
+
+
+<style>
+    .card {
+        width: 350px;
+        padding: 10px;
+        border-radius: 20px;
+        background: #fff;
+        border: none;
+        height: 350px;
+        position: relative;
+    }
+
+    .container {
+        height: 100vh;
+    }
+
+    body {
+        background: #eee;
+    }
+
+    .mobile-text {
+        color: #989696b8;
+        font-size: 15px;
+    }
+
+    .form-control {
+        margin-right: 12px;
+    }
+
+    .form-control:focus {
+        color: #495057;
+        background-color: #fff;
+        border-color: #ff8880;
+        outline: 0;
+        box-shadow: none;
+    }
+
+    .cursor {
+        cursor: pointer;
+    }
+</style>
+
+
+<div class="d-flex justify-content-center align-items-center container">
+     
+    <form action="/signin/otp" method="post">
+
+        <div class="card py-5 px-3">
+            {{#if noUserErr}}
+                    <span class="text-danger m-3">{{noUserErr}}</span>
+        {{/if}} 
+            <h3 class="m-0 text-center">Login with otp </h3>
+            <p class="mobile-text text-center mt-3">
+                Enter the mobile number you have already signed in</p>
+            <div class="d-flex flex-row mt-3"><input type="number" id="Mobile" name="mobile" class="form-control" autofocus=""  onkeyup="validateMobile()"></div>
+            <span class="text-danger" id="mobileError"></span>
+                <div class="text-center mb-3 mt-3">
+                    <button class="btn btn-danger" type="submit">Get otp</button>
+                </div>
+            {{!-- <div class="text-center mt-1"><span class="d-block mobile-text">Don't receive the code?</span><span
+                    class="font-weight-bold text-danger cursor">Resend</span></div> --}}
+        </div>
+    </form>
+</div>
+
+
+            <script>
+                let mobileErrorEl = document.getElementById("mobileError");
+                            function validateMobile(){
+                                let mobile = document.getElementById("Mobile").value;
+
+                                if(mobile.length==0){
+                                    mobileErrorEl.innerHTML="enter mobile";
+                                    return false
+                                }
+                                if(!mobile.match(/^[0-9]{10}$/)){
+                                    mobileErrorEl.innerHTML = "enter valid mobile";
+                                    return false;
+                                }else{
+                                    mobileErrorEl.innerHTML = "";
+                                    return true;
+                                }
+                            }
+
+            </script>
+               

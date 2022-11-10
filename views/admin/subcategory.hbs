@@ -1,0 +1,100 @@
+<section id="main">
+  <h1 class="text-center mt-2">sub category</h1>
+<div class="container">
+
+      <button type="button" class="btn btn-success ml-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+         Add New
+      </button>                         	
+        <div class="row">
+
+            {{#each subCategories.subcategory}}
+          <div class="col-md-4 col-sm-6" style="margin-top: 2rem;">
+            <div class="card mb-30"><a class="card-img-tiles" href="" data-abc="true">
+              <div class="card-body text-center">
+                <h4 class="card-title">{{this}}</h4>
+                
+            <div class="p-3">
+                
+                {{!-- <button onclick="editSubCat('{{../subCategories._id}}','{{this}}')" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editSubCatModal">
+                  edit
+                </button> --}}
+                <a href="/admin/edit/subcat/?id={{../subCategories._id}}&subcat={{this}}"
+                type="button" class="btn btn-success">edit</a>
+              
+                {{!-- <a href="/admin/sub-cat-delete/?id={{../subCategories._id}}&subcat={{this}}" onclick="return confirm('are you sure want to delete?')"
+                type="button" class="btn btn-danger">delete</a> --}}
+                <button class="btn btn-danger" onclick="deleteSubCat('{{../subCategories._id}}','{{this}}')">delete</button>
+            </div>
+              </div>
+            </div>
+          </div>
+          {{/each }}
+        </div>
+        </div>
+
+
+        <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel" class="fw-500" ></h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/admin/add/subcategory" method="post">
+                <div class="form-group mb-3">
+                    <label for="name"> enter sub-category name</label>
+                    <input type="text" name="catId" value="{{categoryId}}" hidden>
+
+                    <input type="text" name="catVal" class="form-control" required>
+                </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Add</button>
+      </div>
+     </form> 
+    </div>
+  </div>
+</div>
+<!-- Button trigger modal -->
+<script>
+  function deleteSubCat(catId,subcat){
+    console.log(catId)
+    console.log(subcat)
+    Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire(
+        'Deleted!',
+        'Your file has been deleted.',
+        'success'
+      )
+      $.ajax({
+      url:'/admin/delete/subcat/',
+      method:'delete',
+      data:{catId,subcat},
+      success:(response)=>{
+        if(response.status){
+          window.location.reload()
+        }
+      }
+    })
+    }
+  })
+
+
+  }
+
+</script>

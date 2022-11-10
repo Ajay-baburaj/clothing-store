@@ -1,0 +1,278 @@
+
+<section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>Personal edit</h4>
+                    <div class="breadcrumb__links">
+                        <a href="/">Home</a>
+                        <a href="/my-account">My account</a>
+                        <span>personal edit</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+<div style="margin-left: 8rem;">
+    <h5 class="mt-2">Refer and earn</h5>
+
+<div class="copy-link">
+  <input type="text" class="copy-link-input form-control" value="http://localhost:3003/sign-up/?ref={{user._id}}" readonly>
+  <button type="button" class="copy-link-button">
+    <span class="material-icons">copy</span>
+  </button>
+</div>
+</div>
+
+<!-- Checkout Section Begin -->
+<section class="checkout spad">
+    <div class="container">
+        <div class="checkout__form">
+            <form id="editPersonalForm">
+                <div class="row">
+                    <div class="col-lg-8 col-md-6">
+                        {{!-- <h6 class="coupon__code"><span class="icon_tag_alt"></span> Have a coupon? <a
+                                href="#">Click
+                                here</a> to enter your code</h6> --}}
+                        <h6 class="checkout__title">Personal Details Edit</h6>
+                        <div class="row">
+                            {{#if userExist}}
+                                <p class="text-danger">{{emailError}}</p>
+                            {{else}}
+                                <p></p>    
+                            {{/if}}
+                            {{#if passwordErr}}
+                                <p class="text-danger">{{passwordErr}}</p>
+                            {{/if }}
+                            {{#if passwordSuc}}
+                                <p class="text-success">{{passwordSuc}}</p>
+                            {{/if }}
+
+
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Name<span>*</span></p>
+                                    <input type="text" name="name" required value="{{userDetails.name}}" id="name" onkeyup="validateName()">
+                                <p class="text-danger" id="nameError"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>email<span>*</span></p>
+                                    <input type="text" placeholder="Street Address" class="checkout__input__add"
+                                        name="email" value="{{userDetails.email}}" id="email" onkeyup="validateEmail()">
+                                        <p class="text-danger" id="emailError"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="text" name="userId" id="" value="{{userDetails._id}}" hidden>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>mobile<span>*</span></p>
+                                    <input type="text" placeholder="Street Address" class="checkout__input__add"
+                                        name="mobile" value="{{userDetails.mobile}}" id="mobile" onkeyup="validateMobile()">
+                                        <p class="text-danger" id="mobileError"></p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="site-btn">update</button>
+                    </div>
+            </form>
+        </div>
+        <div class="mt-5">
+            <h3 class="mb-4">Change Password</h3>
+            <form id="passwordForm">
+
+                <div class="row ">
+                    <div class="col-lg-4">
+                        <div class="checkout__input">
+                            <p>Current password<span>*</span></p>
+                            <input type="password" placeholder="current password" class="checkout__input__add"
+                                name="currentPassword"  id="password" required onkeyup="validatePassword()">
+                                <p class="text-danger" id="passwordError"></p>
+
+                        </div>
+                     
+                        
+
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <div class="col-lg-4">
+                        <div class="checkout__input">
+                            <p>New password<span>*</span></p>
+                            <input type="password" placeholder="new password" class="checkout__input__add"
+                                name="newPassword" id="newPassword" required onkeyup="validateNewPassword()">
+                                <p class="text-danger" id="newPasswordError"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="site-btn">change password</button>
+            </form>
+        </div>
+    </div>
+</section> <!-- Checkout Section End -->
+
+
+<script>
+
+  
+
+    $('#editPersonalForm').submit((e)=>{
+        e.preventDefault()
+        $.ajax({
+            url: '/edit/personal',
+            method:'patch',
+            data:$('#editPersonalForm').serialize(),
+            success:(response)=>{
+                if(response.status){
+                    window.location.reload()
+                }
+            }
+
+            
+        })
+    })
+
+    $('#passwordForm').submit((e)=>{
+        e.preventDefault()
+        $.ajax({
+            url:'/change/password',
+            method:'put',
+            data:$('#passwordForm').serialize(),
+            success:(response)=>{
+                if(response.passwordChange){
+                    window.location.href='/sign-in'
+                }else{
+                    window.location.href='/edit/personal'
+                }
+            }
+        })
+    })
+                
+      let emailErrorEl = document.getElementById("emailError");
+      let passwordErrorEl = document.getElementById("passwordError");
+      let nameErrorEl = document.getElementById("nameError");
+      let mobileErrorEl = document.getElementById("mobileError");
+      let confirmPasswordErrorEl = document.getElementById("confirmPasswordError");
+      let newPasswordErrorEl = document.getElementById('newPasswordError')
+      let correctedPassword;
+      
+
+
+      function validateName(){
+          let name = document.getElementById("name").value;
+          console.log(name);
+          if(name.length == 0){
+              nameErrorEl.innerHTML = "enter name";
+              return false;
+          }
+          if(!name.match(/^[A-Za-z]*\s{1}[A-Za-z]*$/)){
+              nameErrorEl.innerHTML = "enter valid name";
+          }
+          else{
+              nameErrorEl.innerHTML = "";
+              return false;
+          }
+              
+          
+
+      }
+
+      function validateEmail(){
+          
+          let email = document.getElementById("email").value;
+          console.log(email)
+          if(email.length==0){
+              emailErrorEl.innerHTML="please enter email"
+              return false;
+          }
+          if(!email.match(/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/)){
+              emailErrorEl.innerHTML = "Enter valid email";
+              return false;
+          }
+          else{
+                emailErrorEl.innerHTML = "";
+                return true;
+          }
+
+      }
+      function validateMobile(){
+          let mobile = document.getElementById("mobile").value;
+
+          if(mobile.length==0){
+              mobileErrorEl.innerHTML="enter mobile";
+              return false
+          }
+          if(!mobile.match(/^[0-9]{10}$/)){
+              mobileErrorEl.innerHTML = "enter valid mobile";
+              return false;
+          }else{
+              mobileErrorEl.innerHTML = "";
+              return true;
+          }
+      }
+
+
+      function validatePassword(){
+          let password = document.getElementById("password").value;
+          
+          if(password.length==0){
+              passwordErrorEl.innerHTML = "Please enter a password"; 
+              return false; 
+          }
+          if(!password.match(/^[A-Za-z0-9]*$/)){
+              passwordErrorEl.innerHTML = "enter valid password"; 
+              return false;
+          }
+          if(password.length<6){
+              passwordErrorEl.innerHTML = "enter more than 6 characters"
+              return false;
+          }
+          else{
+              passwordErrorEl.innerHTML = "";
+              return false;
+
+          }
+
+      }
+
+      function validateNewPassword(){
+          let password = document.getElementById("newPassword").value;
+          
+          if(password.length==0){
+              newPasswordErrorEl.innerHTML = "Please enter a password"; 
+              return false; 
+          }
+          if(!password.match(/^[A-Za-z0-9]*$/)){
+              newPasswordErrorEl.innerHTML = "enter valid password"; 
+              return false;
+          }
+          if(password.length<6){
+              newPasswordErrorEl.innerHTML = "enter more than 6 characters"
+              return false;
+          }
+          else{
+              newPasswordErrorEl.innerHTML = "";
+              return false;
+
+          }
+
+      }
+
+     
+
+
+
+</script>

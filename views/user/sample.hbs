@@ -1,0 +1,359 @@
+<button type="button" class="btn btn-primary ml-3" data-bs-toggle="modal"data-bs-target="#staticBackdrop">Add Address</button>
+
+        <!-- Modal -->
+        {{!-- <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Your Address
+                        </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+
+                        <div class="row">
+                            <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                <label for="input-firstname">Name <span
+                                        class="required-f">name:
+                                        {{this.name}}</span></label>
+                                <input name="firstname" value="" id="input-firstname"
+                                    type="text">
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                <label for="input-email">E-Mail <span
+                                        class="required-f">*</span></label>
+                                <input name="email" value="" id="input-email" type="email">
+                            </div>
+                            {{!-- <div
+                                class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                <label for="input-lastname">Last Name <span
+                                        class="required-f">*</span></label>
+                                <input name="lastname" value="" id="input-lastname"
+                                    type="text">
+                            </div> --}}
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                <label for="input-telephone">Telephone <span
+                                        class="required-f">*</span></label>
+                                <input name="telephone" value="" id="input-telephone"
+                                    type="tel">
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                <label for="input-address-1">Address <span
+                                        class="required-f">*</span></label>
+                                <input name="address_1" value="" id="input-address"
+                                    type="text">
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                <label for="input-city">City <span
+                                        class="required-f">*</span></label>
+                                <input name="city" value="" id="input-city" type="text">
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                <label for="input-postcode">Post Code <span
+                                        class="required-f">*</span></label>
+                                <input name="postcode" value="" id="input-postcode"
+                                    type="text">
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                <label for="input-landmark">Land Mark <span
+                                        class="required-f">*</span></label>
+                                <input name="landmark" value="" id="input-landmark"
+                                    type="text">
+                            </div>
+
+                        </div>
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
+
+
+
+{{!-- router.post('/address-submmit',async(req,res)=>{
+  
+  let newAddress = req.params.body
+  orderHelpers.createAddress(newAddress).then((response)=>{
+    res.redirect('/checkout')
+  })
+  
+})
+
+router.get('/add-new-address',(req,res)=>{
+  if(req.session.loggedIn){
+    res.render('user/add-address',{userheader:true,user:req.session.user})
+  }else{
+    res.redirect('/sign-in')
+  }
+})
+
+
+
+router.get('/edit-address/:id',async(req,res)=>{
+  console.log(req.params.id)
+  
+  let editAddress= await orderHelpers.getEditAddress(req.params.id)
+ 
+  console.log(editAddress)
+  if(req.session.loggedIn){
+    res.render('user/edit-address',{userheader:true,user:req.session.user,editAddress})
+  }else{
+    res.redirect('/sign-in')
+  }
+})
+
+
+
+
+
+
+
+
+
+----------------------add new ------------------
+
+router.get('/address-update-add-new',(req,res)=>{
+  if(req.session.loggedIn){
+    res.render('user/address-update-add-new',{userheader:true,user:req.session.user})
+  }else{
+    res.redirect('/sign-in')
+  }
+})
+
+router.post('/address-update-add-new',(req,res)=>{
+  console.log('req of address in profile')
+  console.log(req)
+  orderHelpers.createAddress(req.body).then((response)=>{
+    
+    res.redirect('/address-update')
+  })
+
+})
+
+
+-----------------for edit-----------------------
+router.get('/address/edit/:id',async(req,res)=>{
+
+  console.log(req.params.id)
+  
+  let editAddress= await orderHelpers.getEditAddress(req.params.id)
+ 
+  console.log(editAddress)
+  if(req.session.loggedIn){
+    res.render('user/address-update-edit',{userheader:true,user:req.session.user,editAddress})
+  }else{
+    res.redirect('/sign-in')
+  }
+  
+})
+
+router.patch('/address/edit',async(req,res)=>{
+  console.log('request is coming here')
+  console.log(req.body)
+  let editedAddress = req.body
+  if(req.session.loggedIn){
+    await orderHelpers.editAddress(editedAddress).then(()=>{
+        res.json({udpatedStatus:true})
+    })
+  }
+
+})
+
+---------------------------edit adress proper-one---------------------- --}}
+{{!-- 
+
+<div class="modal fade" id="editaddressModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Your Address
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editAddressForm">
+                <div class="modal-body">
+            
+                    <div class="row">
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-firstname">Name <span class="required-f text-danger">
+                                    *</span></label>
+                            <input name="name" value="" id="input-Firstname" type="text" class="form-control">
+                            
+                        </div>
+                       
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-telephone">Telephone <span class="required-f text-danger">*</span></label>
+                            <input name="mobile" value="" id="input-Telephone" type="tel" class="form-control">
+                        </div>
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-address-1">Address <span class="required-f text-danger">*</span></label>
+                            <input name="address" value="" id="input-Address" type="text" class="form-control">
+                        </div>
+                    </div>
+            
+                     <input type="text" name="addressId" value="" id="addressId" hidden>
+                    <div class="row">
+            
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-city">City <span class="required-f text-danger">*</span></label>
+                            <input name="city" value="" id="input-City" type="text" class="form-control">
+                        </div>
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-postcode">Post Code <span class="required-f text-danger">*</span></label>
+                            <input name="pincode" value="" id="input-Postcode" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+            
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-landmark">State<span class="required-f text-danger">*</span></label>
+                            <input name="landmark" value="Kerala" id="input-State" type="text" readonly class="form-control">
+                        </div>
+            
+                    </div>
+            
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" >Add</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div> --}}
+
+<div class="container mt-5" id="main">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">offer Management</h5>
+
+            <!-- Vertical Pills Tabs -->
+            <div class="d-flex align-items-start">
+                <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home"
+                        aria-selected="true">Product</button>
+                    <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile"
+                        aria-selected="false">Category</button>
+                    <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages"
+                        aria-selected="false">Referrel</button>
+                </div>
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                        aria-labelledby="v-pills-home-tab">
+
+                        <table class="table table-striped" id="dataTable">
+                            <thead>
+                                <tr>
+
+                                    <th scope="col">Title</th>
+                                    <th scope="col">category</th>
+                                    <th scope="col">price</th>
+                                    <th scope="col">image</th>
+                                    <th scope="col">discount</th>
+                                    <th scope="col">actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each products}}
+                                <tr>
+                                    <td>{{this.name}}</td>
+                                    <td>{{this.categoryDetails.category}}</td>
+                                    <td>{{this.price}}</td>
+                                    <td><img src="/images/product/{{this.img.[0]}}" style="width: 50px;height: 50px">
+                                    </td>
+                                    <td><button class="btn border-1 border-success"
+                                            style="background-color: transparent;">10 <span
+                                                class="text-danger">%</button></td>
+                                    <td>
+                                        <button type="button" class="btn btn-success" data-toggle="modal"
+                                            data-target="#product{{this._id}}">add offer</button>
+                                        <div class="modal fade bd-example-modal-sm"  id="product{{this._id}}" tabindex="-1" role="dialog"
+                                            aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-sm">
+                                                <div class="modal-content p-5">
+                                                    <form id="form{{this._id}}" method="post" action="/admin/add/offer">
+                                                    <input type="text" name="productId"  value={{this._id}} class="form-control" hidden>
+                                                        <div class="form-group mb-3">
+                                                            
+
+                                                            <label for="name">enter offer percentage</label>
+                                                            <input type="text" name="discountVal" class="form-control">
+                                                        </div>
+                                                        <button class="btn btn-success" type="submit">add offer</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {{/each}}
+
+                            </tbody>
+                        </table>
+
+
+
+
+                    </div>
+
+
+
+
+
+
+                    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
+                        aria-labelledby="v-pills-profile-tab">
+                        Nesciunt totam et. Consequuntur magnam aliquid eos nulla dolor iure eos quia. Accusantium
+                        distinctio
+                        omnis et atque fugiat. Itaque doloremque aliquid sint quasi quia distinctio similique. Voluptate
+                        nihil recusandae mollitia dolores. Ut laboriosam voluptatum dicta.
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
+                        aria-labelledby="v-pills-messages-tab">
+                        Saepe animi et soluta ad odit soluta sunt. Nihil quos omnis animi debitis cumque. Accusantium
+                        quibusdam perspiciatis qui qui omnis magnam. Officiis accusamus impedit molestias nostrum
+                        veniam.
+                        Qui amet ipsum iure. Dignissimos fuga tempore dolor.
+                    </div>
+                </div>
+            </div>
+            <!-- End Vertical Pills Tabs -->
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script>
+    function discountPrice(){
+        let discountPercentage = document.getElementById('')
+    }
+</script>

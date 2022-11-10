@@ -1,0 +1,99 @@
+{{!--       
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+           <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables.css">
+          <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables_themeroller.css">
+        <title>Document</title>
+      </head>
+      <body> --}}
+<section id="main">
+
+        <div class="container">
+
+          <h1 class="text-center m-3">User Management</h1>
+
+        <button class="btn btn-dark mb-2" style="margin-left: 65rem;"><a href="/admin" class="text-white">back</a></button>
+</div>
+
+<div class="container">
+  <table class="table table-bordered" id="dataTable">
+    <thead class="thread-dark">
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Mobile</th>
+        <th class="text-end">actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each response}}
+      <tr>
+        <td>{{this.name}}</td>
+        <td>{{this.email}}</td>
+        <td>{{this.mobile}}</td>
+        {{!-- <td>9567088516</td> --}}
+        <td>
+            {{#if this.status}}
+            <button class="btn btn-danger" onclick="blockUser('{{this._id}}')">block</button>
+            
+            {{else}}
+            <button class="btn btn-success" onclick="unblockUser('{{this._id}}')">unblock</button>
+            {{!-- <a href="/admin/unblock-user/{{this._id}}" class="btn btn-success" onclick="return  confirm('do you want to unblock {{this.name}}')">unblock</a> --}}
+            {{/if}}
+            </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+</section>
+
+
+
+<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/jquery.dataTables.min.js"></script>
+
+<script>
+
+    function blockUser(userId){
+
+     fetch('/admin/block/user/?userId='+userId,
+      {
+        method:"PUT",
+        headers:{
+          "Content-Type":'application/json;charset=utf-8'
+        },
+
+      }).then(()=>{
+        window.location.reload()
+      });
+
+  
+
+      }
+
+    function unblockUser(userId){
+      console.log('call is coming inside function')
+
+      fetch('/admin/unblock/user/?userId='+userId,
+      {
+        method:'PUT',
+        headers:{
+          "Content-Type":'application/json;charset=utf-8'
+        }
+      }).then(()=>{
+        window.location.reload()
+      })
+    }
+
+</script>
+
+    
+  </body>
+</html>
+      

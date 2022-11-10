@@ -1,0 +1,180 @@
+<section class="vh-100" style="background-color: #F9F8F1;">
+  <div class="container py-3 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-xl-10">
+        <div class="card" style="border-radius: 1rem;">
+          <div class="row g-0">
+            <div class="col-md-6 col-lg-5 d-none d-md-block">
+              <img src="https://assets.ajio.com/medias/sys_master/root/20220322/lAYn/6238cc4af997dd03e22423e5/-1117Wx1400H-441244113-white-MODEL.jpg"
+                alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
+            </div>
+            <div class="col-md-6 col-lg-7 d-flex align-items-center">
+              <div class="card-body p-4 p-lg-5 text-black">
+
+                {{#if signupErr}}
+                  <p class="text-danger">{{signupErr}}</p>
+                {{/if}}  
+
+                <form action="/sign-up" method="post">
+
+                  <div class="d-flex align-items-center mb-1 pb-1">
+                    <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
+                    <span class="h1 fw-bold mb-0">Logo</span>
+                  </div>
+
+                  <h5 class="fw-normal mb-1 pb-2" style="letter-spacing: 1px;">create account here</h5>
+
+                  <div class="form-outline mb-4">
+                    <input type="text" id="name" class="form-control form-control-lg" placeholder="enter name" name="name" onkeyup="validateName()" required/>
+                    <span class="text-danger" id="nameError"></span>
+                  </div>
+
+                  <input type="text" value="{{referalId}}" name="referalId" hidden/>
+                  <input type="text" value='100' name="referalBonus" hidden/>
+
+                  
+ 
+
+                  <div class="form-outline mb-4">
+                    <input type="email" id="Email" class="form-control form-control-lg" placeholder="enter email" name="email" onkeyup="validateEmail()" required/>
+                    <span class="text-danger" id="emailError"></span>
+                  </div>
+
+                  <div class="form-outline mb-4">
+                    <input type="text" id="Mobile" class="form-control form-control-lg" placeholder="Enter mobile " name="mobile" onkeyup="validateMobile()" required/>
+                    <span class="text-danger" id="mobileError"></span>
+                  </div>
+
+                  <div class="form-outline mb-4">
+                    <input type="password" id="password" class="form-control form-control-lg" placeholder="password" name="password" onkeyup="validatePassword()" required/>
+                    <p class="text-danger" id="passwordError"></p>
+                  </div>
+
+                {{!-- <div class="form-outline mb-4">
+                    <input type="password" id="confirmPassword" class="form-control form-control-lg" placeholder="re-enter password" onkeyup="validateConfirmPassword()"/>
+                    <p class="text-danger" id="confirmPasswordError"></p>
+                </div> --}}
+                
+                  <input type="text" class="d-none" name="status" value="true">
+
+                  <div class="pt-1 mb-2">
+                    <button class="btn btn-dark btn-lg btn-block" type="submit" onclick="validateForm()">Sign up</button>
+                  </div>
+
+                  <p class="text-denger" id="displayError"></p>
+                </form>
+                
+                
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+ <script>
+                
+      let emailErrorEl = document.getElementById("emailError");
+      let passwordErrorEl = document.getElementById("passwordError");
+      let nameErrorEl = document.getElementById("nameError");
+      let mobileErrorEl = document.getElementById("mobileError");
+      let confirmPasswordErrorEl = document.getElementById("confirmPasswordError");
+      let correctedPassword;
+      
+
+
+      function validateName(){
+          let name = document.getElementById("name").value;
+          console.log(name);
+          if(name.length == 0){
+              nameErrorEl.innerHTML = "enter name";
+              return false;
+          }
+          if(!name.match(/^[A-Za-z]*\s{1}[A-Za-z]*$/)){
+              nameErrorEl.innerHTML = "enter valid name";
+          }
+          else{
+              nameErrorEl.innerHTML = "";
+              return false;
+          }
+              
+          
+
+      }
+
+      function validateEmail(){
+          
+          let email = document.getElementById("Email").value;
+          console.log(email)
+          if(email.length==0){
+              emailErrorEl.innerHTML="please enter email"
+              return false;
+          }
+          if(!email.match(/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/)){
+              emailErrorEl.innerHTML = "Enter valid email";
+              return false;
+          }
+          else{
+                emailErrorEl.innerHTML = "";
+                return true;
+          }
+
+      }
+      function validateMobile(){
+          let mobile = document.getElementById("Mobile").value;
+
+          if(mobile.length==0){
+              mobileErrorEl.innerHTML="enter mobile";
+              return false
+          }
+          if(!mobile.match(/^[0-9]{10}$/)){
+              mobileErrorEl.innerHTML = "enter valid mobile";
+              return false;
+          }else{
+              mobileErrorEl.innerHTML = "";
+              return true;
+          }
+      }
+
+
+      function validatePassword(){
+          let password = document.getElementById("password").value;
+          
+          if(password.length==0){
+              passwordErrorEl.innerHTML = "Please enter a password"; 
+              return false; 
+          }
+          if(!password.match(/^[A-Za-z0-9]*$/)){
+              passwordErrorEl.innerHTML = "enter valid password"; 
+              return false;
+          }
+          if(password.length<6){
+              passwordErrorEl.innerHTML = "enter more than 6 characters"
+              return false;
+          }
+          else{
+              passwordErrorEl.innerHTML = "";
+              return false;
+
+          }
+
+      }
+
+      function validateConfirmPassword(){
+          let confirmPassword = document.getElementById("confirmPassword").value;
+          if(correctedPassword===confirmPassword){
+              confirmPasswordErrorEl.innerHTML = "";
+              return true; 
+          }else{
+              confirmPasswordErrorEl.innerHTML = "enter proper password";
+
+          }
+
+      }
+
+
+
+</script>

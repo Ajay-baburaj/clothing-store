@@ -1,0 +1,258 @@
+<section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>Add address</h4>
+                    <div class="breadcrumb__links">
+                        <a href="./index.html">Home</a>
+                        <a href="./shop.html">Shop</a>
+                        <span>Check Out</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="col-lg-6 col-md-6 mr-md-5 ml-md-5">
+
+    <div class="card p-1 py-2 mt-3 card-1 text-left checkout__order">
+        <div class="p-2 card-2">
+            {{#each addressArray}}
+            <div class="p-3 card-child mb-3 col-md-">
+                <div class="d-flex flex-row align-items-center ">
+                    <span class="circle mr-3" style="">
+                        <input type="radio" value="{{this._id}}" name="addressId" checked required>
+                    </span>
+                    <div class="d-flex flex-column ms-3">
+                        <h6 class="fw-bold">{{this.name}}</h6>
+                        <span>{{this.address}}, <br>{{this.city}} ,{{this.pincode}}<br>
+                            {{this.mobile}}</span>
+                    </div>
+                </div>
+                <div>
+                   
+                    <button type="button" class="border-0 btn-sm text-primary ml-5" onclick="editAddress('{{this._id}}')" data-bs-toggle="modal" data-bs-target="#editaddressModal">
+                        edit</button>
+                    <button class="border-0 btn-sm text-primary" id="deleteBtn" onclick="displayAlert('{{this._id}}')">delete</button>
+
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+    <button type="button" class="site-btn mt-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add
+        Address</button>
+</div>
+
+<!-- Modal  for add address-->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Your Address
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+             <span class="text-center text-danger" id="errorMsg"></span>
+            <form id="addressAddForm">
+                <div class="modal-body">
+                           
+                    <div class="row">
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-firstname">Name <span class="required-f text-danger">
+                                    *</span></label>
+                            <input name="name" value="" id="name" type="text" class="form-control" onkeyup="validateName()">
+                            <span id="nameError" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="email">E-Mail <span class="required-f text-danger">*</span></label>
+                            <input name="email" value="" id="email" type="email" class="form-control" onkeyup="validateEmail()">
+                            <span id="emailError" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-telephone">Telephone <span class="required-f text-danger">*</span></label>
+                            <input name="mobile" value="" id="mobile" type="tel" class="form-control" onkeyup="validateMobile()">
+                            <span id="mobileError" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-address-1">Address <span class="required-f text-danger">*</span></label>
+                            <input name="address" value="" id="address" type="text" class="form-control" onkeyup="validateAddress()">
+                            <span id="addressError" class="text-danger"></span>
+                        </div>
+                    </div>
+            
+                    <input type="text" name="userId" value="{{user._id}}" hidden>
+                    <div class="row">
+            
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-city">City <span class="required-f text-danger">*</span></label>
+                            <input name="city" value="" id="city" type="text" class="form-control" onkeyup="validateCity()">
+                            <span id="cityError" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-postcode">Post Code <span class="required-f text-danger">*</span></label>
+                            <input name="pincode" value="" id="pincode" type="text" class="form-control" onkeyup="validatePincode()">
+                            <span id="pincodeError" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+            
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-landmark">State<span class="required-f text-danger">*</span></label>
+                            <input name="landmark" value="Kerala" id="input-landmark" type="text" readonly class="form-control">
+                        </div>
+            
+                    </div>
+            
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" onclick="return addAddress()">Add</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for edit address-->
+{{!-- <div class="modal fade" id="editaddressModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Your Address
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editAddressForm">
+                <div class="modal-body">
+            
+                    <div class="row">
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-firstname">Name <span class="required-f text-danger">
+                                    *</span></label>
+                            <input name="name" value="" id="name" type="text" class="form-control" onclick="validateName()">
+                             <span id="nameError" class="text-danger"></span>
+                        </div>
+                       
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-telephone">Telephone <span class="required-f text-danger">*</span></label>
+                            <input name="mobile" value="" id="mobile" type="tel" class="form-control" onclick="validateMobile()">
+                            <span id="mobileError" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-address-1">Address <span class="required-f text-danger">*</span></label>
+                            <input name="address" value="" id="address" type="text" class="form-control" onclick="validateAddress()">
+                            <span id="addressError" class="text-danger"></span>
+                        </div>
+                    </div>
+            
+                     <input type="text" name="addressId" value="" id="addressId" hidden>
+                    <div class="row">
+            
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-city">City <span class="required-f text-danger">*</span></label>
+                            <input name="city" value="" id="city" type="text" class="form-control" onclick="validateCity()">
+                        </div>
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-postcode">Post Code <span class="required-f text-danger">*</span></label>
+                            <input name="pincode" value="" id="pincode" type="text" class="form-control" onclick="validatePincode()">
+                             <span id="pincodeError" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+            
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-landmark">State<span class="required-f text-danger">*</span></label>
+                            <input name="landmark" value="Kerala" id="input-State" type="text" readonly class="form-control">
+                        </div>
+            
+                    </div>
+            
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" >Add</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div> --}}
+<div class="modal fade" id="editaddressModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Your Address
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <span class="text-center text-danger" id="errorMsg1"></span>
+            <form id="editAddressForm">
+                <div class="modal-body">
+            
+                    <div class="row">
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-firstname">Name <span class="required-f text-danger">
+                                    *</span></label>
+                            <input name="name" value="" id="input-Firstname" type="text" class="form-control" onkeyup="validateName1()">
+                             <span id="nameErrorEdit" class="text-danger"></span>
+                        </div>
+                       
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-telephone">Telephone <span class="required-f text-danger">*</span></label>
+                            <input name="mobile" value="" id="input-Telephone" type="tel" class="form-control" onkeyup="validateMobile1()">
+                            <span id="mobileErrorEdit" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-address-1">Address <span class="required-f text-danger">*</span></label>
+                            <input name="address" value="" id="input-Address" type="text" class="form-control" onkeyup="validateAddress1()">
+                             <span id="addressErrorEdit" class="text-danger"></span>
+                        </div>
+                    </div>
+            
+                     <input type="text" name="addressId" value="" id="addressId" hidden>
+                    <div class="row">
+            
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-city">City <span class="required-f text-danger">*</span></label>
+                            <input name="city" value="" id="input-City" type="text" class="form-control" onkeyup="validateCity1()">
+                             <span id="cityErrorEdit" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-postcode">Post Code <span class="required-f text-danger">*</span></label>
+                            <input name="pincode" value="" id="input-Postcode" type="text" class="form-control" onkeyup="validatePincode1()">
+                            <span id="pincodeErrorEdit" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+            
+                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                            <label for="input-landmark">State<span class="required-f text-danger">*</span></label>
+                            <input name="landmark" value="Kerala" id="input-State" type="text" readonly class="form-control">
+                        </div>
+            
+                    </div>
+            
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" onclick="return EditAddress()" class="btn btn-primary" >Add</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/javascripts/addAddress.js"></script>
+<script src="/javascripts/validations.js"></script>
+
