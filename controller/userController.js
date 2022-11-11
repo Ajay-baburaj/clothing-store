@@ -33,19 +33,20 @@ let productIdState = {
 
 const home = async function(req, res, next) {
 try{
+  let topSellingProducts = await chartHelpers.topSellingProducts()
+  let categoryDetails = await productHelpers.getCategoryDetails()
+  console.log(categoryDetails)
     if(req.session.user){
         let userId = req.session.user._id
-        let topSellingProducts = await chartHelpers.topSellingProducts()
-        console.log(topSellingProducts)
         let cartCount = await cartHelpers.getCartCount(userId)
-        res.render('user/home', { title: 'Clothing  store',user:req.session.user,loggedIn:req.session.loggedIn,cartCount,userheader:true,walletTotal:req.session.walletTotal});
+        res.render('user/home', { title: 'Ind Wear',user:req.session.user,loggedIn:req.session.loggedIn,cartCount,userheader:true,walletTotal:req.session.walletTotal,topSellingProducts,categoryDetails});
   
       }else{
-        res.render('user/home',{userheader:true})
+        res.render('user/home',{userheader:true,topSellingProducts,categoryDetails})
       }
 
-}catch{
-    throw(err)
+}catch(err){
+    next(err)
 }
   
 }
@@ -826,21 +827,12 @@ const applyCoupon = (req,res)=>{
   console.log('call is coming here')
   console.log(req.body)
   console.log('call is coming here')
+  let message = response.message
+  let validity = response.couponValid
   
 
   productHelpers.applyCoupon(req.body.couponCode,req.body.userId,req.body.total).then((response)=>{
-
-
-    console.log('call is coming inside this')
-    console.log('===================')
-    console.log(response)
-    console.log('===================')
-    let message = response.message
-    let validity = response.couponValid
-    console.log('===================')
-    console.log(response.totalDetails)
-    console.log('===================')
-    res.json({couponStatus:true,validity,message,discount:response.discountPrice,total:response.totalPriceAfterOffer,totalDetails:response.totalDetails})
+    res.json({couponStatus:true,message,validity,discount:response.discountPrice,total:response.totalPriceAfterOffer,totalDetails:response.totalDetails})
   })
 
 }

@@ -424,6 +424,10 @@ const approveReturn = (req,res)=>{
     res.json({approvedStatus:true})
   })
 }
+
+const bannerManagement = (req,res)=>{
+  res.render('admin/banner',{adminheader:true})
+}
   module.exports={
     dashboard,
     loginGET,
@@ -456,5 +460,6 @@ const approveReturn = (req,res)=>{
     editCoupon,
     deleteCoupon,
     removeProductOffer,
-    categoryOfferRemoval,returnOrder,approveReturn
+    categoryOfferRemoval,returnOrder,approveReturn,
+    bannerManagement
   }

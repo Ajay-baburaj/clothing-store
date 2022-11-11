@@ -428,88 +428,7 @@ module.exports={
                             couponId:couponFind._id
                         }
 
-                //   let totalCheck = await db.get().collection(collection.CART_COLLECTION).aggregate([
-                //             {
-                //                 $match: { user: objectId(userId) }
-                //                 // matching the user with userId in cart collection
-                //             },
-                //             {
-                //                 $unwind:'$products'
-                //             },
-                //             {
-                //                 $project:{
-                //                     item:'$products.item',
-                //                     quantity:'$products.quantity',
-                //                     discount:1
-                                       
-                //                 }
-                //             },
-                //             {
-                //                 $lookup:{
-                //                     from: collection.PRODUCT_COLLECTION,
-                //                     localField:'item',
-                //                     foreignField:'_id',
-                //                     as:'product'
-                //                 }
-                //             },
-                //             {
-                //                 $project:{
-                //                     item:1,
-                //                     quantity:1,
-                //                     product:{$arrayElemAt:['$product',0]}
-                //                 }
-                //             },
-                //             {
-                //                $addFields:{
-                //                    convertedPrice:{$toInt:"$product.price"}
-                //                }
-                //             },
-                //             {
-                //                $group:{
-                //                    _id:null,
-                //                    total:{$sum:{$multiply:['$quantity','$convertedPrice']}}
-                //                }
-                //             },
-                //             {
-                //                 $set:{
-                //                     couponDiscount:code
-                //                 }
-                //             },
-                //             {
-                //                 $lookup:{
-                //                     from:collection.COUPON_COLLECTION,
-                //                     localField:'couponDiscount',
-                //                     foreignField:'Code',
-                //                     as:'couponDetails'
-                //                 }
-                //             },
-                //             {
-                //                 $unwind:'$couponDetails'
-                //             },
-                //             {
-                //                 $addFields:{
-                //                     couponDiscount:{$round:{$multiply:[{$divide:[{$toInt:'$couponDetails.Percentage'},100]},'$total']}}
-                //                 }
-                //             },
-                //             {
-                //                 $addFields:{
-                //                     couponDiscountedPrice:{$subtract:['$total','$couponDiscount']}
-                //                 }
-                //             },
-                //             {
-                //                 $project:{
-                //                     total:1,
-                //                     couponDiscount:1,
-                //                     couponCode:"$couponDetails.Code",
-                //                     couponDiscountedPrice:1
-                //                 }
-                //             }
-                //         ]).toArray()
-                        // response.totalDetails = totalCheck
-                    
-                        // console.log('heyyaa total is here')
-                        // console.log(totalCheck)
-                        // console.log('heyyaa total is here')
+
 
                         db.get().collection(collection.APPLIED_COUPON_COLLECTION).insertOne(appliedCouponObj)
                             resolve(response)
@@ -648,6 +567,13 @@ module.exports={
         let productsCount = await db.get().collection(collection.PRODUCT_COLLECTION).find().toArray()
             productsCount = parseInt(productsCount.length)
         resolve(productsCount)
+        })
+    },
+
+    getCategoryDetails:()=>{
+        return new Promise(async(resolve,reject)=>{
+            let categoryDetails = await db.get().collection(collection.CATEGORY_COLLECTION).find().toArray()
+            resolve(categoryDetails) 
         })
     }
 

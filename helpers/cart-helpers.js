@@ -444,7 +444,13 @@ module.exports = {
                                 },
                                 {
                                     $addFields:{
-                                        couponDiscountedPrice:{$subtract:['$total','$couponDiscount']}
+                                        comparedCouponDiscount:{$cond:{if:{$gt:['$couponDiscount',2000]},then:2000,else:'$couponDiscount'}}
+                                    }
+                                }
+                                ,
+                                {
+                                    $addFields:{
+                                        couponDiscountedPrice:{$subtract:['$total','$comparedCouponDiscount']}
                                     }
                                 },
                                     {
@@ -453,7 +459,8 @@ module.exports = {
                                             couponDiscount:1,
                                             couponId:'$coupon._id',  
                                             couponCode:"$coupon.Code",
-                                            couponDiscountedPrice:1
+                                            couponDiscountedPrice:1,
+                                            comparedCouponDiscount:1
                                         }
                                     }
     

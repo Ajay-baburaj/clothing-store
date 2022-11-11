@@ -8,7 +8,8 @@ var { dashboard, loginGET, loginPost, userListing, blockUser,
     editProductGET, editProductPOST,deleteProduct, categoryListing, 
     subcategoryListing, addSubCategory, editSubCatGET, editSubCatPOST, 
     deletesubCat, logout, orderDetials, orderViewMore, orderStatusChange,salesReport ,
-    offerManagementGET,addOffer,categoryOffer,couponManageGET,addCoupon,editCoupon,deleteCoupon,removeProductOffer,categoryOfferRemoval,returnOrder,approveReturn} = require('../controller/adminController');
+    offerManagementGET,addOffer,categoryOffer,couponManageGET,addCoupon,editCoupon,deleteCoupon,removeProductOffer,categoryOfferRemoval,returnOrder,approveReturn
+    ,bannerManagement} = require('../controller/adminController');
 
 
 
@@ -76,6 +77,9 @@ router.delete('/delete/coupon',deleteCoupon)
 
 router.get('/return/order',adminFalse,returnOrder)
 router.post('/approve/return',approveReturn)
+
+//banner management
+router.get('/banner/management',adminFalse,bannerManagement)
 
 
 

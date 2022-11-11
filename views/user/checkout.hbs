@@ -97,7 +97,7 @@
                                 <li>Subtotal <span>₹ {{total}}</span></li>
                                 {{#if couponDiscount.[0]}}
                                 <li>Coupon code <span>{{couponDiscount.[0].couponCode}}</span></li><a href="/remove/coupon/{{couponDiscount.[0].couponId}}" class="">remove coupon  X</a>
-                                <li>discount<span> {{couponDiscount.[0].couponDiscount}}</span></li>
+                                <li>discount<span> {{couponDiscount.[0].comparedCouponDiscount}}</span></li>
                                 <input type="text" name="couponApplied" value="true" hidden>
                                 <li>Total <span>₹ {{couponDiscount.[0].couponDiscountedPrice}}</span></li>
                                 {{else}}
