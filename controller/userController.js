@@ -473,7 +473,7 @@ const checkoutPOST = async (req, res) => {
                 "payment_method": "paypal"
               },
               "redirect_urls": {
-                "return_url": "https://indwear/success?orderId="+response,
+                "return_url": "https://indwear/success/?orderId="+response,
                 "cancel_url": "https://indwear/cancel"
               },
               "transactions": [{
