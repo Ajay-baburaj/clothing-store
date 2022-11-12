@@ -29,7 +29,7 @@ const dashboard =async(req,res,next)=>{
     
     res.render('admin/dashboard',{adminheader:true,chartDetails,paymentDetails,categoryWiseSales,topSelling,weeklyTotal})
   }catch (err){
-    throw(err)
+    next(err)
   }
   
   }
