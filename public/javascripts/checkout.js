@@ -19,6 +19,12 @@ $("#checkout-form").submit((e)=>{
                 }else if(response){
                         window.location.href=response
 
+                }else if(response.addressFalse){
+                    Swal.fire(
+                        'please Add your Address',
+                        'Then try checkout',
+                        'question'
+                      )
                 }
             }
         })

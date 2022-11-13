@@ -383,7 +383,7 @@ module.exports={
             try{
 
                 let address = await db.get().collection(collection.ADDRESS_COLLECTION).findOne({userId:objectId(userId)})
-                if(address != null){
+                if(address){
                     resolve({status:true})
                 }else{
                     resolve({status:false})

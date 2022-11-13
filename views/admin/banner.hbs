@@ -1,126 +1,255 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css"
-    href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables.css">
-
-<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
-<script type="text/javascript" charset="utf8"
-    src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/jquery.dataTables.min.js"></script>
-
-
-<main class="main" id="main">
-    <section style="background-color:rgba(244, 238, 238, 0.904)">
-        <div class="container mt-5 p-5">
-            <div class="">
-                <div class="row m-4 d-flex justify-content-end">
-                    {{!-- <a href="/admin/add-banner" style="width:auto" class="btn btn-success">Add Banner</a> --}}
-
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary" style="width: auto;" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">
-                        Add Banner
+ 
+        <section class="content-main" id="main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Banner Management</h2>
+                   
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addBanner">
+                    <i class="text-muted material-icons md-post_add"></i> Add New Banner
                     </button>
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="card mb-4">
+                {{!-- <header class="card-header">
+                    <div class="row gx-3">
+                        <div class="col-lg-4 mb-lg-0 mb-15 me-auto">
+                            <input type="text" placeholder="Search..." class="form-control">
+                        </div>
+                        <div class="col-lg-2 col-6">
+                            <input type="date" class="form-control" name="">
+                        </div>
+                    </div>
+                </header> <!-- card-header end// --> --}}
+                <div class="card-body p-5">
+                    <div class="row gx-12">
+                        {{#each banners}}
+                        <div class="  col-md-3 col-6">
+                            <figure class="card border-1">
+                                <div class="card-header bg-white text-center">
+                                    <img height="100" src="/images/product/{{this.img.[0]}}" class="img-fluid" alt="Logo">
                                 </div>
-                                <div class="modal-body">
+                                <figcaption class="card-body text-center">
+                                    <h6 class="card-title m-0">{{this.title}}</h6>
+                                    <p class="card-title m-0">{{this.subtitle}}</p>
 
-                                    <form class="mx-1 mx-md-4" action="/admin/add-banner" enctype="multipart/form-data"
-                                        method="post">
+                                    <button onclick="deleteBanner('{{this._id}}')" class="btn btn-xs btn-danger mb-2">Delete</a>
+                                    
+                                     {{!-- <a href="/admin/edit-banner/{{this._id}}" class="btn btn-xs btn-primary "> Edit </a> --}}
+                                     <button type="button" class="btn btn-primary btn-xs mb-3" data-bs-toggle="modal" data-bs-target="#editBanner{{this._id}}">
+                                       edit banner
+                                        </button>
+                                        
+                                        {{!-- ============================================edit modal================================ --}}
 
-                                        <div class="d-flex flex-row align-items-center mb-4">
-                                            <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                                            <div class="form-outline flex-fill mb-0">
-                                                <label class="form-label" for="name">Banner Name</label>
-                                                <input type="text" id="name" onkeyup="validateemail()" name="name"
-                                                    class="form-control" />
-                                                <span class="text-danger" id="ErrorEmail"></span>
+                                         <div class="modal fade" id="editBanner{{this._id}}" tabindex="-1" aria-labelledby="editBannerLabel" aria-hidden="true">
+                                    <form action="/admin/edit/banner/{{this._id}}" method="post" enctype="multipart/form-data">
+                                        <div class="modal-dialog ">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="editBannerLabel"> Edit Banner </h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="content-main">
+                                                        <div class="row">
+                                                            {{!-- <div class="col-12">
+                                
+                                                                <div class="content-header">
+                                                                    <h2 class="content-title">Add New Product</h2>
+                                                                </div>
+                                                            </div> --}}
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <div class="card mb-4">
+                                                                    <div class="card-body">
+                                                                        <div class="row">
+                                                                            <div class="col-md-3">
+                                                                                <h6>1. General info</h6>
+                                                                            </div>
+                                                                            <div class="col-md-9">
+                                                                                <div class="mb-4">
+                                                                                    <label class="form-label">Banner title</label>
+                                                                                    <input type="text" name='title'  value="{{this.title}}" placeholder="Type here"
+                                                                                        class="form-control">
+                                                                                </div>
+                                                                                <div class="mb-4">
+                                                                                    <label class="form-label">Description</label>
+                                                                                    <input type="text" name='subtitle' value="{{this.subtitle}}" placeholder="Type here"
+                                                                                        class="form-control">
+                                
+                                                                                </div>
+                                
+                                                                            </div> <!-- col.// -->
+                                                                        </div> <!-- row.// -->
+                                                                       
+                                                                       
+                                
+                                                                        <hr class=" mt-0">
+                                                                        <div class="row">
+                                                                            <div class="col-md-3">
+                                                                                <h6>4. Media</h6>
+                                                                            </div>
+                                                                            <div class="col-md-9">
+                                                                                <div class="mt-0">
+                                                                                    <label class="form-label">Images</label>
+                                                                                    <img src="/images/product/{{this.img.[0]}}" id="imgViews" alt=""
+                                                                                        style="width:100px; height:100px;">
+                                                                                    <input name="image" onchange="viewImages(event)" class="" type="file"
+                                                                                        id="gallery-photo-add" multiple="multiple" required>
+                                                                                </div>
+                                                                            </div> <!-- col.// -->
+                                                                        </div> <!-- .row end// -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Edit Banner</button>
+                                                </div>
                                             </div>
-                                        </div>
-
-                                        <div class="d-flex flex-row align-items-center mb-4">
-                                            <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                                            <div class="form-outline flex-fill mb-0">
-                                                <label class="form-label" for="id_image">Banner Image</label>
-                                                <input type="file" class="form-control" id="id_image" name="image"
-                                                    data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                    accept="image/*">
-                                                <span class="text-danger" id="ErrorEmail"></span>
-                                            </div>
-                                        </div>
-
-
-
-                                        <div class="form-check d-flex justify-content-center mb-5">
-                                            <p class="text-danger"></p>
-                                        </div>
-
-                                        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                            <button type="submit" class="btn btn-primary btn-lg">Add Banner</button>
-                                        </div>
-
                                     </form>
+                                         </div>
+                    
 
+
+                                        {{!-- ============================================edit modal================================ --}}
+
+                                    
+
+                                </figcaption>
+                            </figure>
+                        </div> <!-- col.// -->
+                        {{/each}}
+                    </div> <!-- row.// -->
+                </div> <!-- card-body end// -->
+            </div> <!-- card end// -->
+        </section> <!-- content-main end// -->
+       
+ 
+<!-- Mirrored from wp.alithemes.com/html/evara/evara-backend/page-brands.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Aug 2021 15:33:49 GMT -->
+ 
+{{!-- ---------------------------add banner----------------- --}}
+ 
+<div class="modal fade" id="addBanner" tabindex="-1" aria-labelledby="addBannerLabel" aria-hidden="true">
+    <form action="/admin/add/banner" method="post" enctype="multipart/form-data">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="addBannerLabel">Add banner</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="content-main">
+            <div class="row">
+                <div class="col-12">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card mb-4">
+                        <div class="card-body p-2">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h6>1. General info</h6>
                                 </div>
-                                {{!-- <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                </div> --}}
-                            </div>
+                                <div class="col-md-9">
+                                    <div class="mb-4">
+                                        <label class="form-label">Banner title</label>
+                                        <input type="text"name='title' placeholder="Type here" class="form-control">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="form-label">Description</label>
+                                        <input type="text"name='subtitle' placeholder="Type here" class="form-control">
+ 
+                                    </div>
+                                   
+                                </div> <!-- col.// -->
+                            </div> <!-- row.// -->
+
+                            <hr class="mb-4 mt-0">
+                           
+                            <hr class=" mt-0">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h6>4. Media</h6>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="mt-0">
+                                        <label class="form-label">Images</label>
+                                       <img src="https://img.freepik.com/free-photo/cloud-uploading-icon-technology-graphic_53876-14666.jpg?w=740&t=st=1668269991~exp=1668270591~hmac=c26a3d1094cbc87157eadde994e5cbb5fba3145c00670fa45b10f3ae3d6b3058" id="imgView" alt="" style="width:100px; height:100px;" >
+                                        <input name="image" onchange="viewImage(event)" class="" type="file" id="gallery-photo-add" multiple="multiple" required>
+                                    </div>
+                                </div> <!-- col.// -->
+                            </div> <!-- .row end// -->
                         </div>
                     </div>
                 </div>
-                <div>
-                    <table class="table" id="myTable">
-                        <thead>
-                            <tr class="text-center bg-white border">
-
-                                <th scope="col">Category Name</th>
-
-                                <th scope="col">Category Image</th>
-                                <th scope="col">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white">
-                            {{#each response}}
-                            <tr class="text-center">
-
-                                <td>{{this.name}}</td>
-
-                                <td><img src="/images/product/{{this.img}}" style="width:50px ;height: 50px" alt="">
-                                </td>
-
-                                <td><a href="/admin/edit-banner/{{this._id}}"><button
-                                            class="btn btn-danger">Edit</button></a><a
-                                        href="/admin/delete-banner/{{this._id}}"><button
-                                            class="btn btn-success">Delete</button></a></td>
-
-                            </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
-                </div>
             </div>
-    </section>
-</main>
+            </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit"  class="btn btn-primary">Add Banner</button>
+      </div>
+      </div>
+      </form>
+    </div>
+ 
+ 
+ 
+  
+ 
+
+ 
+    <script>
+function viewImage(event){
+document.getElementById('imgView').src=URL.createObjectURL(event.target.files[0])
+               }
+ function viewImages(event){
+document.getElementById('imgViews').src=URL.createObjectURL(event.target.files[0])
+               }   
+
+               function deleteBanner(bannerId){
+
+                Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+
+                     Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                    )
+                    
+                    $.ajax({
+                    url:'/admin/delete/banner/?bannerId='+bannerId,
+                    method:'get',
+                    success:(response)=>{
+                        console.log(response)
+                        if(response.deleteBannerStatus){
+                         window.location.reload()   
+                        }
+                    }
+                })
+                   
+                }
+                })
 
 
-<script>
-
-    $(document).ready(function () {
-        $('#myTable').DataTable();
-    });
-
+               
+               }           
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
-    crossorigin="anonymous"></script>
+

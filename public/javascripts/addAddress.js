@@ -118,7 +118,7 @@ function validatePincode1(){
         return false;
     }else{
         pincodeErrorEle.innerHTML = ''
-        return true
+        return true;
     }
 }
 
@@ -127,7 +127,6 @@ function EditAddress() {
         document.getElementById('errorMsg1').innerHTML ="enter proper details"
         return false;
     }else{
-
         $("#editAddressForm").submit((e)=>{
             e.preventDefault()
             $.ajax({

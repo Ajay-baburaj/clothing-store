@@ -206,7 +206,7 @@ topSellingProducts:()=>{
                 $sort:{count:-1}
             },
             {
-                $limit:3
+                $limit:4
             },
             {
                 $lookup:{
@@ -218,7 +218,36 @@ topSellingProducts:()=>{
             },
             {
                 $unwind:'$productInfo'
-            }
+            },
+            {
+                $lookup:{
+                    from:collection.CATEGORY_COLLECTION,
+                    localField:'productInfo.category',
+                    foreignField:'_id',
+                    as:'categoryDetails'
+                }
+            },
+            {
+                $unwind:"$categoryDetails"
+             },
+             {
+                $addFields:{
+                    categoryDiscount:{$toInt:"$categoryDetails.discount"}
+                }
+             },
+             {
+                $addFields:{
+                    convertedPrice:{$toInt:'$productInfo.price'},
+                    comparedDiscount:{
+                        $cond:{if:{$gt:['$productInfo.discount','$categoryDiscount']},then:'$productInfo.discount',else:'$categoryDiscount'}
+                    }
+                }
+             },
+             {
+                $addFields:{
+                    discountedPrice:{$round:[{$subtract:['$convertedPrice',{$divide:[{$multiply:['$convertedPrice','$comparedDiscount']},100]}]}]}
+                }
+             }
         
         ]).toArray()
         resolve(topSelling)

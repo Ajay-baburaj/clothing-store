@@ -15,10 +15,11 @@ function validateName(){
     }
     if(!name.match(/^[A-Za-z]*\s{1}[A-Za-z]*$/)){
         nameErrorEl.innerHTML = "enter valid name";
+        return false;
     }
     else{
         nameErrorEl.innerHTML = "";
-        return false;
+        return true;
     }
         
 } 
@@ -26,13 +27,14 @@ function validateAddress(){
     let address = document.getElementById("address").value;
     if(address.length==0){
         addressErrorEl.innerHTML = 'Enter address';
-        return false
+        return false;
     }
     if(!address.match(/^([a-zA-z0-9/\\''(),-\s]{2,255})$/)){
         addressErrorEl.innerHTML ='enter valid address';
+        return false;
     }else{
         addressErrorEl.innerHTML ='';
-        return false;
+        return true;
     }
 }
 
@@ -105,7 +107,7 @@ function validatePincode(){
 }
 
 function addAddress() {
-    if (!validateName() || !validatePincode() ||!validateMobile() || !validateCity()  || !validateAddress() || validateEmail) {
+    if (!validateName() || !validatePincode() ||!validateMobile() || !validateCity()  || !validateAddress() || !validateEmail()) {
         document.getElementById('errorMsg').innerHTML ="enter proper details"
         return false;
     }else{

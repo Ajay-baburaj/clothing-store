@@ -33,6 +33,7 @@ module.exports={
               amount: total*100,
               currency: "INR",
               receipt: "" + orderId,
+      
         
             }, (err, order) => {
               if (err) {
@@ -91,7 +92,7 @@ module.exports={
     //       "redirect_urls": {
     //           "return_url": "http://return.url",
     //           "cancel_url": "http://cancel.url"
-    //       },
+    //       },    
     //       "transactions": [{
     //           // "item_list": {
     //           //     "items": [{

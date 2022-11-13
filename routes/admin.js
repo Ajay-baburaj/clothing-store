@@ -9,7 +9,8 @@ var { dashboard, loginGET, loginPost, userListing, blockUser,
     subcategoryListing, addSubCategory, editSubCatGET, editSubCatPOST, 
     deletesubCat, logout, orderDetials, orderViewMore, orderStatusChange,salesReport ,
     offerManagementGET,addOffer,categoryOffer,couponManageGET,addCoupon,editCoupon,deleteCoupon,removeProductOffer,categoryOfferRemoval,returnOrder,approveReturn
-    ,bannerManagement} = require('../controller/adminController');
+    ,bannerManagement,addBanner,editBanner,deleteBanner} = require('../controller/adminController');
+
 
 
 
@@ -80,6 +81,9 @@ router.post('/approve/return',approveReturn)
 
 //banner management
 router.get('/banner/management',adminFalse,bannerManagement)
+router.post('/add/banner/',upload.array('image'),addBanner)
+router.post('/edit/banner/:id',upload.array('image'),editBanner)
+router.get('/delete/banner/',deleteBanner)
 
 
 

@@ -8,6 +8,7 @@ module.exports ={
     CATEGORY_COLLECTION:"category",
     COUPON_COLLECTION:'coupon',
     APPLIED_COUPON_COLLECTION:'AppliedCoupon',
-    WISHLIST_COLLECTION:'wishlist'
+    WISHLIST_COLLECTION:'wishlist',
+    BANNER_COLLECTION:'banner'
 
 }

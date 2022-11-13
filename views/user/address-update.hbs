@@ -119,72 +119,7 @@
     </div>
 </div>
 
-<!-- Modal for edit address-->
-{{!-- <div class="modal fade" id="editaddressModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Your Address
-                </h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form id="editAddressForm">
-                <div class="modal-body">
-            
-                    <div class="row">
-                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
-                            <label for="input-firstname">Name <span class="required-f text-danger">
-                                    *</span></label>
-                            <input name="name" value="" id="name" type="text" class="form-control" onclick="validateName()">
-                             <span id="nameError" class="text-danger"></span>
-                        </div>
-                       
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
-                            <label for="input-telephone">Telephone <span class="required-f text-danger">*</span></label>
-                            <input name="mobile" value="" id="mobile" type="tel" class="form-control" onclick="validateMobile()">
-                            <span id="mobileError" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
-                            <label for="input-address-1">Address <span class="required-f text-danger">*</span></label>
-                            <input name="address" value="" id="address" type="text" class="form-control" onclick="validateAddress()">
-                            <span id="addressError" class="text-danger"></span>
-                        </div>
-                    </div>
-            
-                     <input type="text" name="addressId" value="" id="addressId" hidden>
-                    <div class="row">
-            
-                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
-                            <label for="input-city">City <span class="required-f text-danger">*</span></label>
-                            <input name="city" value="" id="city" type="text" class="form-control" onclick="validateCity()">
-                        </div>
-                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
-                            <label for="input-postcode">Post Code <span class="required-f text-danger">*</span></label>
-                            <input name="pincode" value="" id="pincode" type="text" class="form-control" onclick="validatePincode()">
-                             <span id="pincodeError" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="row">
-            
-                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
-                            <label for="input-landmark">State<span class="required-f text-danger">*</span></label>
-                            <input name="landmark" value="Kerala" id="input-State" type="text" readonly class="form-control">
-                        </div>
-            
-                    </div>
-            
-                </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" >Add</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div> --}}
+<!-- modal for edit address --->
 <div class="modal fade" id="editaddressModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -252,6 +187,77 @@
         </div>
     </div>
 </div>
+
+
+
+
+ <!-- Footer Section Begin -->
+    <footer class="footer" style="margin-top: 25rem;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer__about">
+                        <div class="footer__logo">
+                            <a href="/"><strong><span class="fw-bolder h2 text-dark m-0 p-0">IND<span class="fw-bolder h2 text-danger m-0 p-0"> W</span>EAR</span></strong></a>
+
+                        </div>
+                        <p>The customer is at the heart of our unique business model, which includes design.</p>
+                        <a href="#"><img src="img/payment.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Shopping</h6>
+                        <ul>
+                            <li><a href="#">Clothing Store</a></li>
+                            <li><a href="#">Trending Shoes</a></li>
+                            <li><a href="#">Accessories</a></li>
+                            <li><a href="#">Sale</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Shopping</h6>
+                        <ul>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Payment Methods</a></li>
+                            <li><a href="#">Delivary</a></li>
+                            <li><a href="#">Return & Exchanges</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>NewLetter</h6>
+                        <div class="footer__newslatter">
+                            <p>Be the first to know about new arrivals, look books, sales & promos!</p>
+                            <form action="#">
+                                <input type="text" placeholder="Your email">
+                                <button type="submit"><span class="icon_mail_alt"></span></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="footer__copyright__text">
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        <p>Copyright ©
+                            <script>
+                                document.write(new Date().getFullYear());
+                            </script>2020
+                            All rights reserved | This template is made with <i class="fa fa-heart-o"
+                                aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        </p>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Section End -->
 
 <script src="/javascripts/addAddress.js"></script>
 <script src="/javascripts/validations.js"></script>

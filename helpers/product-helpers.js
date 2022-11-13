@@ -374,6 +374,7 @@ module.exports={
     },
 
     applyCoupon:(code,userId,total)=>{
+        console.log('call is coimg here inside apply coupon')
         let response = {}
 
         let d = new Date()
@@ -453,6 +454,7 @@ module.exports={
         
         })
     },
+
     removeCoupon:(userId,couponId)=>{
         return new Promise((resolve,reject)=>{
             db.get().collection(collection.APPLIED_COUPON_COLLECTION).deleteOne({userId:objectId(userId),couponId:objectId(couponId)}).then(()=>{
@@ -575,22 +577,116 @@ module.exports={
             let categoryDetails = await db.get().collection(collection.CATEGORY_COLLECTION).find().toArray()
             resolve(categoryDetails) 
         })
+    },
+
+    addBanner:(bannerdata) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.BANNER_COLLECTION).insertOne(bannerdata).then((data)=>{
+                resolve(data)
+            })
+        })
+    },
+
+    getAllBanners:()=>{
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.BANNER_COLLECTION).find().toArray().then((data)=>{
+                resolve(data)
+            })
+        })
+    },
+    
+    editBanner:async (bannerId,bannerDetails)=>{
+        const response = await new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.BANNER_COLLECTION).updateOne({ _id: objectId(bannerId) },
+ 
+                {
+                    $set: {
+                        title: bannerDetails.title,
+                        subtitle: bannerDetails.subtitle,
+                        img: bannerDetails.img,
+                    }
+                }
+ 
+            ).then((response) => {
+                resolve(response)
+            })
+        })
+       
+    },
+    getBanner: (bannerId) => {
+        console.log(bannerId);
+        console.log('call is here');
+        return new Promise((resolve, reject)=>{
+            db.get().collection(collection.BANNER_COLLECTION).findOne({_id:objectId(bannerId)}).
+            then((banner)=>{
+                resolve(banner)
+            })
+        })
+    },
+    deleteBanner: (bannerId) => {
+        return new Promise((resolve, reject)=>{
+            db.get().collection(collection.BANNER_COLLECTION).deleteOne({_id:objectId(bannerId)}).then((response)=>{
+                resolve(response)
+            })
+        })
+    },
+
+    mostOfferProducts:()=>{
+        return new Promise((resolve,reject)=>{
+            let offerProducts =db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
+                {
+                    $lookup:{
+                        from:collection.CATEGORY_COLLECTION,
+                        localField:'category',
+                        foreignField:'_id',
+                        as:"categoryDetails"
+    
+                    },
+                },
+                {
+                    $unwind:'$categoryDetails'
+                },
+                {
+                    $addFields:{
+                        categoryDiscount:{$toInt:'$categoryDetails.discount'}
+                    }
+                },
+                {
+                    $addFields :{
+                        convertedPrice :{$toInt:"$price"},
+                        comparedDiscount:{
+                            $cond:{if:{$gt:['$discount','$categoryDiscount']},then:'$discount',else:'$categoryDiscount'}
+                        },
+                    }
+                },
+                {
+                    $addFields:{
+                        
+                        discountedPrice:{$round:[{$subtract:['$convertedPrice',{$multiply:[{$divide:['$comparedDiscount',100]},'$convertedPrice']}]}
+                    ]}
+                    }
+                },
+                {
+                    $sort:{
+                        comparedDiscount:-1
+                    }
+                },
+                {
+                    $limit:4
+                }
+            ]).toArray()
+            resolve(offerProducts)
+        })
     }
 
-}
-    // addCategory:(category,value)=>{
-    //     return new Promise(async(resolve,reject)=>{
-    //         db.get().collection(collection.CATEGORY_COLLECTION).updateOne
-    //         (
-    //             {category:category},
-                
-    //             $addToSet:{ subcategory: value}
 
-    //             }
-
-    //             }
-    //         })
-    //     },
     
+
+
+
+}
+
+
+
 
 

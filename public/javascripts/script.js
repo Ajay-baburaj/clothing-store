@@ -18,6 +18,8 @@
                         timer: 1500,
                       })
                     
+                }else{
+                    window.location.href='/sign-in'
                 }
     
             }

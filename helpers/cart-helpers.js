@@ -76,6 +76,7 @@ module.exports = {
                      },
                      {
                          $project:{
+                            _id:1,
                              item:'$products.item',
                              quantity:'$products.quantity'   
                          }
@@ -90,6 +91,7 @@ module.exports = {
                      },
                      {
                          $project:{
+                            _id:1,
                              item:1,
                              quantity:1,
                              product:{$arrayElemAt:['$product',0]}
@@ -126,6 +128,7 @@ module.exports = {
                      },
                      {
                          $project:{
+                            _id:1,
                              item:1,
                              quantity:1,
                              product:1,
@@ -329,6 +332,7 @@ module.exports = {
         })
     },
     getCouponDiscount:(userId)=>{
+        console.log('call is coming inside get coupon discount')
         return new Promise(async(resolve,reject)=>{
             let totalAfterCoupon =  await db.get().collection(collection.CART_COLLECTION).aggregate([
                 {

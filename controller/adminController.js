@@ -315,10 +315,12 @@ const orderDetials = async(req,res)=>{
 const orderStatusChange = (req,res)=>{
   try{
     orderHelpers.statusChange(req.body).then(()=>{
+      console.log('==========req body is here===========')
+      console.log(req.body)
       res.json({status:true})
     })
-  }catch{
-    throw(err)
+  }catch(err){
+    next(err)
   }
 }
 
@@ -422,12 +424,83 @@ const approveReturn = (req,res)=>{
 
   orderHelpers.returnApproved(req.query.orderId).then((response)=>{
     res.json({approvedStatus:true})
+
+    orderHelpers.getOrderProductQuantity(req.query.orderId).then((data) => { 
+      data.forEach((element) => {
+        orderHelpers.updateStockIncrease(element);
+      });
+    });
+
   })
 }
 
-const bannerManagement = (req,res)=>{
-  res.render('admin/banner',{adminheader:true})
+const bannerManagement = async(req,res)=>{
+  try{
+    let banners = await productHelpers.getAllBanners()
+    res.render('admin/banner',{adminheader:true,banners})
+
+  }catch(err){
+    next(err)
+  }
+
+
 }
+
+
+const addBanner = (req,res)=>{
+  console.log('call is coming here')
+  const files = req.files
+  const file = files.map((file) => {
+    return file
+  })
+  const fileName = file.map((file) => {
+    return file.filename
+  })
+  const banner = req.body
+  banner.img = fileName
+   console.log(req.body)
+  productHelpers.addBanner(banner).then(() => {
+      res.redirect('/admin/banner/management')
+  })
+
+}
+
+const editBanner = (req,res)=>{
+  console.log('call is coming here')
+
+  const files = req.files
+  const file = files.map((file) => {
+    return file
+  })
+  const fileName = file.map((file) => {
+    return file.filename
+  })
+  const banner = req.body
+  const bannerId = req.params.id
+  banner.img = fileName
+
+  productHelpers.editBanner(bannerId,banner).then((response)=>{
+      res.redirect('/admin/banner/management')
+  }).catch((err)=>{
+    next(err)
+  })
+
+}
+
+const deleteBanner = (req,res)=>{
+  try{
+    console.log('call is coming insde delete')
+    console.log(req.query.bannerId)
+    productHelpers.deleteBanner(req.query.bannerId).then(()=>{
+      res.json({deleteBannerStatus:true})
+    })
+
+  }catch(err){
+    next(err)
+  }
+}
+
+
   module.exports={
     dashboard,
     loginGET,
@@ -461,5 +534,8 @@ const bannerManagement = (req,res)=>{
     deleteCoupon,
     removeProductOffer,
     categoryOfferRemoval,returnOrder,approveReturn,
-    bannerManagement
+    bannerManagement,
+    addBanner,
+    editBanner,
+    deleteBanner
   }

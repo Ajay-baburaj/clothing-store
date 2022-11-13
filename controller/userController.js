@@ -33,16 +33,18 @@ let productIdState = {
 
 const home = async function(req, res, next) {
 try{
+  let banners = await productHelpers.getAllBanners()
   let topSellingProducts = await chartHelpers.topSellingProducts()
   let categoryDetails = await productHelpers.getCategoryDetails()
-  console.log(categoryDetails)
+  let offerProducts = await productHelpers.mostOfferProducts()
+
     if(req.session.user){
         let userId = req.session.user._id
         let cartCount = await cartHelpers.getCartCount(userId)
-        res.render('user/home', { title: 'Ind Wear',user:req.session.user,loggedIn:req.session.loggedIn,cartCount,userheader:true,walletTotal:req.session.walletTotal,topSellingProducts,categoryDetails});
+        res.render('user/home', { title: 'Ind Wear',user:req.session.user,loggedIn:req.session.loggedIn,cartCount,userheader:true,walletTotal:req.session.walletTotal,topSellingProducts,categoryDetails,banners,offerProducts});
   
       }else{
-        res.render('user/home',{userheader:true,topSellingProducts,categoryDetails})
+        res.render('user/home',{userheader:true,topSellingProducts,categoryDetails,banners,offerProducts})
       }
 
 }catch(err){
@@ -333,6 +335,7 @@ const cart = async(req,res)=>{
 
 const addToCart = async (req, res) => {
   if (req.session.loggedIn) {
+    console.log('call is coming here also')
     productId = req.params.id
     userId = req.session.user._id
     let cartCount = await cartHelpers.getCartCount(userId)
@@ -342,7 +345,8 @@ const addToCart = async (req, res) => {
       throw(err)
     })
   }else{
-    res.redirect('/sign-in')
+    res.json({status:false})
+    
   }
 }
 
@@ -402,9 +406,11 @@ const checkoutGET  = async(req,res)=>{
             total = await cartHelpers.getCartTotal(userId)
             total = total[0].total
         }
+        let coupons = await productHelpers.viewCoupons()
+
         let cartDetails = await cartHelpers.getCartDetails(userId)
         let couponDiscount = await cartHelpers.getCouponDiscount(userId)
-        res.render('user/checkout',{userheader:true,user:req.session.user,total,cartDetails,addressArray,couponDiscount})
+        res.render('user/checkout',{userheader:true,user:req.session.user,total,cartDetails,addressArray,couponDiscount,coupons})
       }else{
           res.redirect('/cart')
       }
@@ -418,6 +424,10 @@ const checkoutGET  = async(req,res)=>{
 const checkoutPOST = async (req, res) => {
   if (req.session.loggedIn) {
     let billingDetails = req.body
+    console.log('---------billing----------')
+    console.log(billingDetails)
+    console.log('---------billing----------')
+
       if(req.body.couponApplied){
         var totalPrice =await cartHelpers.getCouponDiscount(req.body.userId)
         totalPrice = totalPrice[0].couponDiscountedPrice
@@ -448,10 +458,10 @@ const checkoutPOST = async (req, res) => {
           })
         }
         else if (req.body.paymentMethod === "razorpay") {
-  
           orderHelpers.placeOrderOnline(billingDetails, products, totalPrice).then((response) => {
               //here response equals orderId
               paymentHelpers.generateRazorpay(response, totalPrice).then((response) => {
+                
                 console.log("here comes the response as we wanted")
                 console.log(response)
                 response.razorpayStatus = true
@@ -459,6 +469,13 @@ const checkoutPOST = async (req, res) => {
                 productHelpers.orderSuccessCouponRemove(req.body.userId)
 
                 })
+
+                orderHelpers.getOrderProductQuantity(response).then((data) => { 
+                  data.forEach((element) => {
+                    orderHelpers.updateStockDecrease(element);
+                  });
+                });
+
               })    
               
         }
@@ -473,7 +490,7 @@ const checkoutPOST = async (req, res) => {
                 "payment_method": "paypal"
               },
               "redirect_urls": {
-                "return_url": "https://www.indwear.store/success/?orderId="+response,
+                "return_url": "http://www.indwear.store/success/?orderId="+response,
                 "cancel_url": "https://www.indwear.store/cancel"
               },
               "transactions": [{
@@ -504,7 +521,7 @@ const checkoutPOST = async (req, res) => {
           })
         }
       } else {
-        req.session.addressErr = "please enter address"
+        req.session.addressErr = true;
         res.redirect('/checkout')
       }
     })
@@ -520,7 +537,13 @@ const success = (req, res) => {
     const orderId = req.query.orderId
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;
-    console.log(orderId)
+   
+
+    orderHelpers.getOrderProductQuantity(orderId).then((data) => { 
+      data.forEach((element) => {
+        orderHelpers.updateStockDecrease(element);
+      });
+    });
   
     const execute_payment_json = {
       "payer_id": payerId,
@@ -827,11 +850,11 @@ const applyCoupon = (req,res)=>{
   console.log('call is coming here')
   console.log(req.body)
   console.log('call is coming here')
-  let message = response.message
-  let validity = response.couponValid
-  
 
   productHelpers.applyCoupon(req.body.couponCode,req.body.userId,req.body.total).then((response)=>{
+    let message = response.message
+    let validity = response.couponValid
+    console.log(response)
     res.json({couponStatus:true,message,validity,discount:response.discountPrice,total:response.totalPriceAfterOffer,totalDetails:response.totalDetails})
   })
 
