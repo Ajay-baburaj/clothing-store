@@ -30,6 +30,49 @@ Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
   return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
 });
 
+Handlebars.registerHelper('wishlistHeartIcon',function(productId,wishlistArray,options){
+  if(wishlistArray){
+    function doesAnyWishlistIdMatch(wishlistProducts){
+
+      console.log('call is coming inisde wish')
+        
+     
+
+      return productId.toString() == wishlistProducts.products.toString()
+  }
+  if(wishlistArray.some(doesAnyWishlistIdMatch)){
+    return options.fn()
+  }else{
+    return options.inverse();   
+}
+
+  }else{
+    return options.inverse();   
+}
+
+
+});
+
+// wishlistHeartIcon:(productId,wishlistArray,options)=>{
+            
+//   if(wishlistArray){
+//       function doesAnyWishlistIdMatch(wishlistProducts){
+        
+     
+
+//           return productId.toString() == wishlistProducts.products.toString()
+//       }
+//       if(wishlistArray.some(doesAnyWishlistIdMatch)){
+//           return options.fn()
+//       }else{
+//           return options.inverse();   
+//       }
+//   }else{
+//       return options.inverse();   
+//   }
+  
+// }
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

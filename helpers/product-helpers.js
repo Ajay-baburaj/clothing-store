@@ -133,6 +133,8 @@ module.exports={
                     }
                 ]).toArray()
                 productDetails = productDetails[0]
+                console.log('======product Details============')
+                console.log(productDetails)
                 resolve(productDetails)
                
         })
@@ -255,7 +257,44 @@ module.exports={
         return new Promise((resolve,reject)=>{
             try{
 
-                let productsByCat = db.get().collection(collection.PRODUCT_COLLECTION).find({category:objectId(catId)}).toArray()
+                let productsByCat = db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
+                    {
+                       $match:{category:objectId(catId)} 
+                    },
+                    {
+                        $lookup:{
+                            from:collection.CATEGORY_COLLECTION,
+                            localField:'category',
+                            foreignField:'_id',
+                            as:"categoryDetails"
+        
+                        },
+                    },
+                    {
+                        $unwind:'$categoryDetails'
+                    },
+                    {
+                        $addFields:{
+                            categoryDiscount:{$toInt:'$categoryDetails.discount'}
+                        }
+                    },
+                    {
+                        $addFields :{
+                            convertedPrice :{$toInt:"$price"},
+                            comparedDiscount:{
+                                $cond:{if:{$gt:['$discount','$categoryDiscount']},then:'$discount',else:'$categoryDiscount'}
+                            },
+                        }
+                    },
+                    {
+                        $addFields:{
+                            
+                            discountedPrice:{$round:[{$subtract:['$convertedPrice',{$multiply:[{$divide:['$comparedDiscount',100]},'$convertedPrice']}]}
+                        ]}
+                        }
+                    }
+
+                ]).toArray()
                 resolve(productsByCat)
             }catch{
                 reject(err)
@@ -676,6 +715,57 @@ module.exports={
                 }
             ]).toArray()
             resolve(offerProducts)
+        })
+    },
+
+    categoryFind:()=>{
+        return new Promise(async(resolve,reject)=>{
+           let categoryDetails = await db.get().collection(collection.CATEGORY_COLLECTION).find().toArray()
+           resolve(categoryDetails)
+        })
+    },
+
+    subcatProducts:(subcatval,catId)=>{
+        return new Promise(async(resolve,reject)=>{
+            let products = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
+                {
+                    $match:{$and:[{subCategory:subcatval},{category:objectId(catId)}]}
+                },
+                {
+                    $lookup:{
+                        from:collection.CATEGORY_COLLECTION,
+                        localField:'category',
+                        foreignField:'_id',
+                        as:"categoryDetails"
+    
+                    },
+                },
+                {
+                    $unwind:'$categoryDetails'
+                },
+                {
+                    $addFields:{
+                        categoryDiscount:{$toInt:'$categoryDetails.discount'}
+                    }
+                },
+                {
+                    $addFields :{
+                        convertedPrice :{$toInt:"$price"},
+                        comparedDiscount:{
+                            $cond:{if:{$gt:['$discount','$categoryDiscount']},then:'$discount',else:'$categoryDiscount'}
+                        },
+                    }
+                },
+                {
+                    $addFields:{
+                        
+                        discountedPrice:{$round:[{$subtract:['$convertedPrice',{$multiply:[{$divide:['$comparedDiscount',100]},'$convertedPrice']}]}
+                    ]}
+                    }
+                }
+            ]).toArray()
+            resolve(products)
+            console.log(products)
         })
     }
 

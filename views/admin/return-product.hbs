@@ -9,6 +9,7 @@
                     <th scope="col">user</th>
                     <th scope="col">date</th>
                     <th scope="col">order id</th>
+                    <th scope="col">view more</th>
                     <th scope="col">status</th>
                     {{!-- <th scope="col">status</th> --}}
                     <th>action</th>
@@ -21,6 +22,7 @@
                     <td>{{this.userDetails.name}}</td>
                     <td>{{this.date}}</td>
                     <td>{{this._id}}</td>
+                     <td ><a href="/admin/view/more/{{this._id}}"><span class="badge badge-primary">order details</span></a></td>
                     <td ><span class="badge badge-info">{{this.status}}</span></td>
                     <td>
                         {{!-- <select name="status" id="status" class="border-0" style="background-color: #D06A54;border-radius:10px;height:30px;">
@@ -57,7 +59,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                     <button type="button" class="btn btn-primary"
-                                     onclick="approveReturn('{{this._id}}','{{this.total}}')">approve return</button>
+                                     onclick="approveReturn('{{this._id}}','{{this.total}}','{{this.userDetails._id}}')">approve return</button>
                                 </div>
                         </div>
                         </div> 
@@ -90,6 +92,7 @@
                     <th scope="col">user</th>
                     <th scope="col">date</th>
                     <th scope="col">order id</th>
+                    <th scope="col">view more</th>
                     <th scope="col">status</th>
                 </tr>
             </thead>
@@ -100,6 +103,7 @@
                     <td>{{this.userDetails.name}}</td>
                     <td>{{this.date}}</td>
                     <td>{{this._id}}</td>
+                    <td ><a href="/admin/view/more/{{this._id}}"><span class="badge badge-primary">order details</span></a></td>
                     <td ><span class="badge badge-info">{{this.status}}</span></td>
                 </tr>
                 {{/each}}
@@ -111,10 +115,10 @@
 </div>  
 
 <script>
-    function approveReturn(orderid,total){
-       
+    function approveReturn(orderid,total,userId){
+       alert(userId)
         $.ajax({
-            url:'/admin/approve/return/?orderId='+orderid+'&total='+total,
+            url:'/admin/approve/return/?orderId='+orderid+'&total='+total+'&userId='+userId,
             method:'post',
             success:(response)=>{
                 console.log(response)

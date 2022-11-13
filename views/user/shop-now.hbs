@@ -53,42 +53,40 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{!-- <div class="card">
+
+                                 <div class="card">
                                     <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseTwo">Branding</a>
+                                        <a data-toggle="collapse" data-target="#collapseTwo">MEN</a>
                                     </div>
                                     <div id="collapseTwo" class="collapse show" data-parent="#accordionExample">
                                         <div class="card-body">
                                             <div class="shop__sidebar__brand">
                                                 <ul>
-                                                    <li><a href="#">Louis Vuitton</a></li>
-                                                    <li><a href="#">Chanel</a></li>
-                                                    <li><a href="#">Hermes</a></li>
-                                                    <li><a href="#">Gucci</a></li>
+                                                    {{#each categoryDetails.[0].subcategory}}
+                                                    <li><a href="/subcatwise/?subcat={{this}}&catId={{../categoryDetails.[0]._id}}">{{this}}</a></li>
+                                                    {{/each}}
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card">
+                              <div class="card"> 
                                     <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseThree">Filter Price</a>
+                                        <a data-toggle="collapse" data-target="#collapseThree">WOMEN</a>
                                     </div>
                                     <div id="collapseThree" class="collapse show" data-parent="#accordionExample">
                                         <div class="card-body">
                                             <div class="shop__sidebar__price">
                                                 <ul>
-                                                    <li><a href="#">$0.00 - $50.00</a></li>
-                                                    <li><a href="#">$50.00 - $100.00</a></li>
-                                                    <li><a href="#">$100.00 - $150.00</a></li>
-                                                    <li><a href="#">$150.00 - $200.00</a></li>
-                                                    <li><a href="#">$200.00 - $250.00</a></li>
-                                                    <li><a href="#">250.00+</a></li>
+                                                    {{#each categoryDetails.[1].subcategory}}
+                                                    <li><a href="/subcatwise/?subcat={{this}}&catId={{../categoryDetails.[1]._id}}">{{this}}</a></li>
+                                                    {{/each}}
+                                                    
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
-                                </div> --}}
+                                </div>
                                 {{!-- <div class="card">
                                     <div class="card-heading">
                                         <a data-toggle="collapse" data-target="#collapseFour">Size</a>
@@ -217,14 +215,27 @@
                                     <span class="label">{{this.comparedDiscount}}%</span>
                                     {{/if}}
                                     <ul class="product__hover">
-                                        {{#if wishlist}}
+                                        {{!-- {{#if wishlist}}
                                         <li><button onclick="addToWishlist('{{this._id}}')" class="btn btn-transparent"><i id="wishlistHeart" class="fa-solid fa-heart text-danger" style="font-size: 30px;"></i></button></li>
                                         {{else}}
                                         <li><button onclick="addToWishlist('{{this._id}}')" class="btn btn-transparent"><i id="wishlistHeart" class="fa-solid fa-heart text-light" style="font-size: 30px;"></i></button></li>
-                                        {{/if}}
-                                        {{!-- <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a>
-                                        </li>
-                                        <li><a href="#"><img src="img/icon/search.png" alt=""></a></li> --}}
+                                        {{/if}} --}}
+                                        
+
+                                        {{#wishlistHeartIcon this._id ../wishlistProducts}}
+											<button id="wishlistButton{{this._id}}" class="wishlistButton border border-0" onclick="addToWishlist('{{../this._id}}')"><i class="fa fa-heart heartIcon"  id="heartIcon{{../this._id}}" style="color:red;" aria-hidden="true"></i></button>
+
+											
+
+											{{else}}
+
+											<button id="wishlistButton{{../this._id}}" class="wishlistButton border border-0"  onclick="addToWishlist('{{../this._id}}')"><i class="fa fa-heart heartIcon" style="color:grey!important; "  id="heartIcon{{../this._id}}"  aria-hidden="true"></i></button>
+
+
+											
+											{{/wishlistHeartIcon}}
+
+
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
@@ -359,8 +370,13 @@
                 url:'/addto/wishlist/'+productId,
                 type:'get',
                 success:(response)=>{
+                    console.log(response)
+                    if(response.signUp){
+                        window.location.href='/sign-in'
+                    }
                     if(response.addStatus){
-                        window.location.reload()
+                        
+                        document.getElementById('heartIcon'+productId).style.color='rgb(0, 115, 255)'
                     }
                    
                 }

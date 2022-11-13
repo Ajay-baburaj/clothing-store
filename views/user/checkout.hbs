@@ -1,3 +1,12 @@
+<style>
+body{
+    overflow-x: hidden;
+}
+</style>
+
+
+
+
 <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-option">
     <div class="container">
@@ -18,13 +27,13 @@
 <!-- Breadcrumb Section End -->
 
 
-<section class="checkout spad">
-    <div class="cart__discount" style="margin-left: 8rem;">
+<section class="checkout spad p-2">
+    <div class="cart__discount">
         <div class="row">
             {{#if couponDiscount}}
                 <p></p>
                 {{else}}
-             <div class="col-lg-4">
+             <div class="col-lg-4 pb-0 mb-0" style="margin-left: 46rem;" >
 
                         <h6>Discount codes</h6>
                         <form id="applyCopounForm">
@@ -44,14 +53,16 @@
                     
                     <h6 class="checkout__title">Billing Details</h6>
                     
-
+                    
                    
-                    <div class="col-lg-6 col-md-6 mr-md-5 ml-md-5">
-
+                    <div class="col-lg-6 col-md-6 mr-md-5 ml-md-3">
+                            <button type="button" class="site-btn mb-2"  data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">Add
+                            Address</button>
                         <div class="card p-1 py-2 card-1 text-left" style="display:flex;flex-wrap:wrap">
                             {{!-- <div class=""> --}}
                                 {{#each addressArray}}
-                                <div class="p-3 card-child mb-3 col-md-">
+                                <div class="p-3 card-child">
                                     <div class="d-flex flex-row align-items-center ">
                                         <span class="circle mr-3" style="">
                                             <input type="radio" value="{{this._id}}" name="addressId" checked required>
@@ -63,7 +74,7 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <button type="button" class="border-0 btn-sm text-primary ml-5 mb-5"
+                                        <button type="button" class="border-0 btn-sm text-primary ml-5 mb-1"
                                             onclick="editAddress('{{this._id}}')" data-bs-toggle="modal"
                                             data-bs-target="#editaddressModal">
                                             edit</button>
@@ -74,9 +85,7 @@
                                 {{/each}}
                             {{!-- </div> --}}
                         </div>
-                        <button type="button" class="site-btn ml-3 mt-5" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop">Add
-                            Address</button>
+                        
                     </div>
 
                     <input type="text" value="{{user._id}}" name="userId" hidden>

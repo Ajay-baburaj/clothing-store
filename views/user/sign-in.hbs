@@ -28,19 +28,19 @@
                   <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
 
                   <div class="form-outline mb-4">
-                    <input type="email" id="Email" class="form-control form-control-lg" placeholder="email" name="email" onkeyup="validateEmail()" required />
+                    <input type="email" id="Email" class="form-control form-control-lg" placeholder="email" name="email" onkeyup="validateEmail()" />
                     <span class="text-danger" id="emailError"></span>
                   </div>
                   
                  
 
                   <div class="form-outline mb-4">
-                    <input type="password" id="password" class="form-control form-control-lg" placeholder="password" name="password" onkeyup="validatePassword()" required/>
+                    <input type="password" id="password" class="form-control form-control-lg" placeholder="password" name="password" onkeyup="validatePassword()"/>
                     <p class="text-danger" id="passwordError"></p>
                   </div>
 
                   <div class="pt-1 mb-4">
-                    <button class="btn btn-dark btn-lg btn-block" type="submit" >Login</button>
+                    <button class="btn btn-dark btn-lg btn-block" type="submit" onclick="return submitForm()">Login</button>
                   </div>
 
                   <p class="text-denger" id="displayError"></p>
@@ -106,7 +106,7 @@
                                 }
                                 else{
                                     passwordErrorEl.innerHTML = "";
-                                    return false;
+                                    return true;
 
                                 }
 
@@ -123,10 +123,7 @@
                                 }
                             }
 
-                            function enterMobile(){
-                              let LoginEl = document.getElementById("login")
-                              LoginEl.classList.toggle('d-none')
-                            }
+                            
 
 
 

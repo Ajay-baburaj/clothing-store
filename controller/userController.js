@@ -13,6 +13,7 @@ const Accounts = require('twilio/lib/rest/Accounts');
 const paypal = require('paypal-rest-sdk');
 const { response } = require('../app');
 const { Db } = require('mongodb');
+const { query } = require('express');
 
 let YOUR_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID
 let YOUR_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN
@@ -237,8 +238,7 @@ const signUpPOST = (req, res) => {
       }
   
     }).catch((err)=>{
-      throw(err)
-      console.log(err)
+      next(err)
     })
   
     }
@@ -257,11 +257,13 @@ const shopNow = async(req,res)=>{
   let productDetails =res.getPaginatedResult.products
   let pages = res.getPaginatedResult.pages
   let categoryDetails = await productHelpers.viewCategories()
+  let wishlistProducts = await cartHelpers.getWishlistProductDetails()
+  
   // let products = res.paginatedResult.products;
   if(req.session.user){
     let userId = req.session.user._id
     let cartCount = await cartHelpers.getCartCount(userId)
-    res.render('user/shop-now',{user:req.session.user,productDetails,categoryDetails,cartCount,userheader:true,pages})
+    res.render('user/shop-now',{user:req.session.user,productDetails,categoryDetails,cartCount,userheader:true,pages,wishlistProducts})
   }else{
     res.render('user/shop-now',{productDetails,categoryDetails,userheader:true,pages})
   }
@@ -832,12 +834,15 @@ const categoryWiseShopping = async(req,res)=>{
 
   let catId = req.params.id
   let categoryDetails = await productHelpers.viewCategories()
+  let wishlistProducts = await cartHelpers.getWishlistProductDetails()
   let productByCat = await productHelpers.getProductByCatgories(catId)
+  console.log('=======================products by cat=============')
+  console.log(productByCat)
   if(req.session.user){
     let userId = req.session.user._id
     let cartCount = await cartHelpers.getCartCount(userId)
    
-      res.render('user/categorywise',{user:req.session.user,productByCat,categoryDetails,cartCount,userheader:true})
+      res.render('user/categorywise',{user:req.session.user,productByCat,categoryDetails,cartCount,userheader:true,wishlistProducts})
   }else{
     res.render('user/categorywise',{productByCat,categoryDetails,userheader:true})
   }
@@ -891,6 +896,8 @@ const addtoWishlist =(req,res)=>{
     cartHelpers.addToWishlist(productId,userId).then((response)=>{
       res.json({addStatus:true,})
     })
+  }else{
+    res.json({signUp:true})
   }
 
 }
@@ -918,6 +925,23 @@ const returnApproval =(req,res)=>{
     console.log('coming inside then')
     res.json({returnApproval:true})
   })
+
+}
+
+const subcatWiseShopping = async(req,res)=>{
+
+  let categoryDetails = await productHelpers.viewCategories()
+  let wishlistProducts = await cartHelpers.getWishlistProductDetails()
+  let products = await productHelpers.subcatProducts(req.query.subcat,req.query.catId)
+  if(req.session.loggedIn){
+    let userId = req.session.user._id
+    let cartCount = await cartHelpers.getCartCount(userId)
+    res.render('user/subcatshop',{userheader:true,products,categoryDetails,wishlistProducts,cartCount})
+
+  }else{
+
+    res.render('user/subcatshop',{userheader:true,products,categoryDetails,wishlistProducts})
+  }
 
 }
 
@@ -969,4 +993,5 @@ module.exports = {
     removeProductWishlist,
     getSearchResults,
     returnApproval,
+    subcatWiseShopping
   }

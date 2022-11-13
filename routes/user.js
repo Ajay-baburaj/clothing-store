@@ -7,7 +7,7 @@ var {home,singinGET,signinPOST,signinOtpGET,signinOtpPOST,otpEnterPageGET,otpEnt
     changeProductQuantity,removeCartProduct,checkoutGET,checkoutPOST,success,cancel,orderSuccessFull,verifyPayment
     ,myAccount,editPersonal,editPersonalPatch,changePassword,orderHistory,orderDisplayId,orderDisplay,cancelOrder
     ,updateAddress,addNewAddress,addressEditGET,addressEditPATCH,deleteAddress,categoryWiseShopping,applyCoupon,removeCoupon,wishList,addtoWishlist
-  ,removeProductWishlist,getSearchResults,returnApproval} = require('../controller/userController')
+  ,removeProductWishlist,getSearchResults,returnApproval,subcatWiseShopping} = require('../controller/userController')
 
 var{productListPageNation} =require('../middlewares/middleware')
 function userTrue(req,res,next){
@@ -101,8 +101,9 @@ router.delete('/address/delete/:id',deleteAddress)
 
 //==========categorywise=============
 router.get('/category-wise-shop-now/:id',categoryWiseShopping),
+router.get('/subcatwise/',subcatWiseShopping)
 
-//=================search===================
+//=================search========p===========
 router.post('/product/search',getSearchResults)
 
 

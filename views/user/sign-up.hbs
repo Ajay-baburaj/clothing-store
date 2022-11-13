@@ -25,7 +25,7 @@
                   <h5 class="fw-normal mb-1 pb-2" style="letter-spacing: 1px;">create account here</h5>
 
                   <div class="form-outline mb-4">
-                    <input type="text" id="name" class="form-control form-control-lg" placeholder="enter name" name="name" onkeyup="validateName()" required/>
+                    <input type="text" id="name" class="form-control form-control-lg" placeholder="enter name" name="name" onkeyup="validateName()"/>
                     <span class="text-danger" id="nameError"></span>
                   </div>
 
@@ -36,17 +36,17 @@
  
 
                   <div class="form-outline mb-4">
-                    <input type="email" id="Email" class="form-control form-control-lg" placeholder="enter email" name="email" onkeyup="validateEmail()" required/>
+                    <input type="email" id="Email" class="form-control form-control-lg" placeholder="enter email" name="email" onkeyup="validateEmail()"/>
                     <span class="text-danger" id="emailError"></span>
                   </div>
 
                   <div class="form-outline mb-4">
-                    <input type="text" id="Mobile" class="form-control form-control-lg" placeholder="Enter mobile " name="mobile" onkeyup="validateMobile()" required/>
+                    <input type="text" id="Mobile" class="form-control form-control-lg" placeholder="Enter mobile " name="mobile" onkeyup="validateMobile()" />
                     <span class="text-danger" id="mobileError"></span>
                   </div>
 
                   <div class="form-outline mb-4">
-                    <input type="password" id="password" class="form-control form-control-lg" placeholder="password" name="password" onkeyup="validatePassword()" required/>
+                    <input type="password" id="password" class="form-control form-control-lg" placeholder="password" name="password" onkeyup="validatePassword()" />
                     <p class="text-danger" id="passwordError"></p>
                   </div>
 
@@ -58,10 +58,10 @@
                   <input type="text" class="d-none" name="status" value="true">
 
                   <div class="pt-1 mb-2">
-                    <button class="btn btn-dark btn-lg btn-block" type="submit" onclick="validateForm()">Sign up</button>
+                    <button class="btn btn-dark btn-lg btn-block" type="submit" onclick="return validateForm()">Sign up</button>
                   </div>
 
-                  <p class="text-denger" id="displayError"></p>
+                  <p class="text-danger" id="displayError"></p>
                 </form>
                 
                 
@@ -95,10 +95,11 @@
           }
           if(!name.match(/^[A-Za-z]*\s{1}[A-Za-z]*$/)){
               nameErrorEl.innerHTML = "enter valid name";
+              return false;
           }
           else{
               nameErrorEl.innerHTML = "";
-              return false;
+              return true;
           }
               
           
@@ -157,23 +158,22 @@
           }
           else{
               passwordErrorEl.innerHTML = "";
-              return false;
+              return true;
 
           }
 
       }
 
-      function validateConfirmPassword(){
-          let confirmPassword = document.getElementById("confirmPassword").value;
-          if(correctedPassword===confirmPassword){
-              confirmPasswordErrorEl.innerHTML = "";
-              return true; 
-          }else{
-              confirmPasswordErrorEl.innerHTML = "enter proper password";
+  function validateForm(){
+    if(!validateEmail() || !validateName() || !validateMobile() || !validatePassword()){
+    alert('please fill proper details')
+      return false;
+    }
+  }
+      
 
-          }
 
-      }
+
 
 
 

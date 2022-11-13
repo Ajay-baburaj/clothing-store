@@ -409,6 +409,8 @@ const categoryOfferRemoval =(req,res)=>{
 const returnOrder =async(req,res)=>{
 
   let returnOrders = await orderHelpers.returnProductApproval()
+  console.log("==========returnOrder===========")
+  console.log(returnOrders)
   let returnApprovedProducts = await orderHelpers.returnApprovedProducts()
 
   res.render('admin/return-product',{adminheader:true,returnOrders,returnApprovedProducts})
@@ -424,7 +426,7 @@ const approveReturn = (req,res)=>{
 
   orderHelpers.returnApproved(req.query.orderId).then((response)=>{
     res.json({approvedStatus:true})
-
+    orderHelpers.updateWallet(req.query.userId,req.query.total)
     orderHelpers.getOrderProductQuantity(req.query.orderId).then((data) => { 
       data.forEach((element) => {
         orderHelpers.updateStockIncrease(element);

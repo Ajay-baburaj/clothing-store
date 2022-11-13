@@ -661,6 +661,24 @@ updateStockIncrease:({productId,quantity})=>{
     })
   },
 
+  updateWallet:(userId,total)=>{
+     total = parseInt(total)
+    return new Promise(async(resolve,reject)=>{
+
+        await db.get().collection(collection.USER_COLLECTION).updateOne({ _id:objectId(userId)},
+        
+        {
+            
+            $push:{
+                referalBonus: total
+            }
+        
+        })
+        resolve()
+
+    })
+
+  }
 
  
 
