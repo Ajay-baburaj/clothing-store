@@ -581,9 +581,11 @@ const orderSuccessFull = async(req,res)=>{
   try{
     if(req.session.loggedIn){
       let orderDetials = await orderHelpers.getOrderDetails(req.session.user._id)
-      
-      
-      res.render('user/order-succesfull',{userheader:true,user:req.session.user,orderDetials})
+    
+     console.log('========================') 
+     console.log(orderDetials) 
+     console.log('========================') 
+     res.render('user/order-succesfull',{userheader:true,user:req.session.user,orderDetials})
     }
   }catch{
     throw(err)
