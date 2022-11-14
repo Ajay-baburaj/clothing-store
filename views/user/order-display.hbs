@@ -30,6 +30,7 @@
               <p class="lead fw-normal mb-0" style="color: black">order details</p>
               {{!-- <p class="small text-muted mb-0">Receipt Voucher : 1KAU9-84UIL</p> --}}
             </div>
+            <button onclick="return confirm('{{orderDetials.[0].productDetails.name}}')"> orderDetials</button>
             {{#each orderDetials}}
             <div class="card shadow-0 border mb-4">
               <div class="card-body">

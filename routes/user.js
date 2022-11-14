@@ -10,6 +10,7 @@ var {home,singinGET,signinPOST,signinOtpGET,signinOtpPOST,otpEnterPageGET,otpEnt
   ,removeProductWishlist,getSearchResults,returnApproval,subcatWiseShopping} = require('../controller/userController')
 
 var{productListPageNation} =require('../middlewares/middleware')
+
 function userTrue(req,res,next){
   if(req.session.loggedIn===true){
     res.redirect('/')
@@ -22,7 +23,8 @@ function userFalse(req,res,next){
   if(req.session.loggedIn ===false){
     res.redirect('/sign-in')
   }
-  next()}
+  next()
+}
 
 
 /* GET home page. */
