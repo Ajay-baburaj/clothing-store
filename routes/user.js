@@ -5,7 +5,9 @@ const app = require('../app');
 var {home,singinGET,signinPOST,signinOtpGET,signinOtpPOST,otpEnterPageGET,otpEnterPagePOST,
     signUpGET,signUpPOST,logOUT,shopNow,productDetailsID,productDetails,cart,addToCart,addToCartProduct,
     changeProductQuantity,removeCartProduct,checkoutGET,checkoutPOST,success,cancel,orderSuccessFull,verifyPayment
-    ,myAccount,editPersonal,editPersonalPatch,changePassword,orderHistory,orderDisplayId,orderDisplay,cancelOrder
+    ,myAccount,editPersonal,editPersonalPatch,changePassword,orderHistory,orderDisplayId,paymentFail
+    // orderDisplay
+    ,cancelOrder
     ,updateAddress,addNewAddress,addressEditGET,addressEditPATCH,deleteAddress,categoryWiseShopping,applyCoupon,removeCoupon,wishList,addtoWishlist
   ,removeProductWishlist,getSearchResults,returnApproval,subcatWiseShopping} = require('../controller/userController')
 
@@ -74,6 +76,7 @@ router.get('/success', success);
 router.get('/cancel', cancel);
 router.get('/order-succesfull',orderSuccessFull)
 router.post('/verify-payment', verifyPayment)
+router.delete('/remove-payfail',paymentFail)
 
 //============ profile===========
 router.get('/my-account',myAccount)
@@ -87,12 +90,12 @@ router.get('/wishlist',wishList)
 router.get('/addto/wishlist/:id',addtoWishlist)
 router.patch('/remove/product/wishlist',removeProductWishlist)
 
-//==========order history==========
+//==========order history===========
 router.get('/order-history',orderHistory)
 router.get('/order-display/:id',orderDisplayId)
-router.get('/order-display',orderDisplay)
 router.patch('/cancel-order',cancelOrder)
 router.post('/return/approval',returnApproval)
+// router.get('/order-display',orderDisplay)
 
 // ==========address section===========
 router.get('/address-update',updateAddress)

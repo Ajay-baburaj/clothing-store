@@ -77,7 +77,7 @@
                                           </div>
                                           </div>
                                           <button class="btn btn-outline-success" onclick="weeklyReportPDF()"><i class="bi bi-download"></i>  Download Pdf</button>
-                                          {{!-- <button class="btn btn-outline-success" onclick="dailyData()"><i class="bi bi-download"></i>  Download exel</button> --}}
+                                          <button class="btn btn-outline-success" onclick="dailyData()"><i class="bi bi-download"></i>  Download exel</button>
                 
                 </div>
 
@@ -140,7 +140,7 @@
                                           </div>
                                           </div>
                                           <button class="btn btn-outline-success" onclick="monthlyReportPDF()"><i class="bi bi-download"></i>  Download</button>
-                                         {{!-- <button class="btn btn-outline-success" onclick="monthlyData()"><i class="bi bi-download"></i>  Download exel</button> --}}
+                                         <button class="btn btn-outline-success" onclick="monthlyData()"><i class="bi bi-download"></i>  Download exel</button>
 
 
 
@@ -201,7 +201,7 @@
                                           </div>
                                           </div>
                                           <button class="btn btn-outline-success" onclick="yearlyReportPDF()"><i class="bi bi-download"></i>  Download</button>
-                                           {{!-- <button class="btn btn-outline-success" onclick="yearlyData()"><i class="bi bi-download"></i>  Download exel</button> --}}
+                                           <button class="btn btn-outline-success" onclick="yearlyData()"><i class="bi bi-download"></i>  Download exel</button>
 
 
                 </div>
@@ -372,8 +372,8 @@
                 function dailyData() {
                     const data = `
                           ,date,Total,no.of Order
-                        {{#each DailySalesforDownload}}
-                         ,{{_id}},{{DailySaleAmount}},{{count}}
+                        {{#each chartDetails.dailySales}}
+                         ,{{_id}},{{totalAmount}},{{count}}
                         {{/each}},GrandTotal,{{totalDaily.[0].GrandTotal}}`
 
                     const blob = new Blob([data], { type: 'octet-stream' })

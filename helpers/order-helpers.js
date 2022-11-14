@@ -1,6 +1,7 @@
 const db = require('../config/connection')
 const objectId = require('mongodb').ObjectId
 const collection = require('../config/collection')
+const { order } = require('paypal-rest-sdk')
 
 module.exports={
     placeOders:(billingDetails,products,cartTotal)=>{
@@ -193,9 +194,6 @@ module.exports={
                     // }   
                     
                 ]).toArray()
-                console.log('-------order-here------')
-                console.log(orders)
-                console.log('-------order-here------')
 
                     resolve(orders)
             }catch{

@@ -15,12 +15,9 @@ module.exports={
                     }
                 },
                 {
-                    $unwind:'$total'
-                },
-                {
                     $group:{
                         _id:'$date',
-                        totalAmount:{$sum:'$total.total'} ,
+                        totalAmount:{$sum:'$total'} ,
                         count:{$sum:1}
                     }
                 },
@@ -40,12 +37,13 @@ module.exports={
                
                 {
                     $match:{
-                        'status':{$nin:['cancelled','pending']}
+                        'status':{$nin:['cancelled','pending','return approved','return applied']}
                     }
                 },
-                {
-                    $unwind:'$total'
-                },
+                // {
+                //     $unwind:'$total'
+                // }
+                
                 {
                     $project:{
                         isoDate:{$dateFromString:{dateString:"$date"}},
@@ -55,7 +53,7 @@ module.exports={
                 {
                     $group: {
                         _id:{ $dateToString: { format: "%Y-%m", date: "$isoDate"} },
-                        totalAmount: { $sum: "$total.total" },
+                        totalAmount: { $sum: "$total" },
                         count:{$sum:1}
                     }
                 },
@@ -69,11 +67,8 @@ module.exports={
                
                 {
                     $match:{
-                        'status':{$nin:['cancelled','pending']}
+                        'status':{$nin:['cancelled','pending','return approved','return applied']}
                     }
-                },
-                {
-                    $unwind:'$total'
                 },
                 {
                     $project:{
@@ -84,7 +79,7 @@ module.exports={
                 {
                     $group: {
                         _id:{ $dateToString: { format: "%Y", date: "$isoDate"} },
-                        totalAmount: { $sum: "$total.total" },
+                        totalAmount: { $sum: "$total" },
                         count:{$sum:1}
                     }
                 },
@@ -104,27 +99,29 @@ module.exports={
         try{
             return new Promise(async(resolve,reject)=>{
                 let totalPayments = await db.get().collection(collection.ORDER_COLLECTION).countDocuments({
-                    status : {$nin: ['cancelled']}
+                    status : {$nin:['cancelled','pending','return approved','return applied']}
                 })
     
                 let totalCOD = await db.get().collection(collection.ORDER_COLLECTION).countDocuments({
-                    paymentMethod: 'COD', status: {$nin: ['cancelled','pending']}
+                    paymentMethod: 'COD', status: {$nin:['cancelled','pending','return approved','return applied']}
                 })
     
                 let totalRazorpay = await db.get().collection(collection.ORDER_COLLECTION).countDocuments({
-                    paymentMethod: 'razorpay', status: {$nin: ['cancelled','pending']}
+                    paymentMethod: 'razorpay', status: {$nin:['cancelled','pending','return approved','return applied']}
                 })
     
                 let totalPaypal = await db.get().collection(collection.ORDER_COLLECTION).countDocuments({
-                    paymentMethod: 'paypal', status: {$nin: ['cancelled','pending']}
+                    paymentMethod: 'paypal', status: {$nin:['cancelled','pending','return approved','return applied']}
                 })
     
                 let percentageCOD = Math.round(totalCOD/totalPayments*100);
                 let percentageRazorpay = Math.round(totalRazorpay/totalPayments*100);
                 let percentagePaypal = Math.round(totalPaypal/totalPayments*100);
+
+            
     
                 // console.log(totalPayments, totalCOD, totalUPI, totalPaypal)
-                resolve({percentageCOD, percentageRazorpay, percentagePaypal})
+                resolve({percentageCOD, percentageRazorpay, percentagePaypal,totalPayments})
             })
         }
         catch{
@@ -258,16 +255,13 @@ getDailySalesTotal:()=>{
         let dailySalesTotal=await db.get().collection(collection.ORDER_COLLECTION).aggregate([
             {
                 $match:{
-                    'status':{$nin:['cancelled','pending']}
+                    'status':{$nin:['cancelled','pending','return approved','return applied']}
                 }
-            },
-            {
-                $unwind:'$total'
             },
             {
                 $group:{
                     _id:'$date',
-                    totalAmount:{$sum:'$total.total'} ,
+                    totalAmount:{$sum:'$total'} ,
                     count:{$sum:1} 
                     
                 }
@@ -297,6 +291,20 @@ getDailySalesTotal:()=>{
         resolve(dailySalesTotal[0].total)
 
     })
-}
+},
+getDailySalesNumber:()=>{
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    console.log(date)
 
+    return new Promise(async(resolve,reject)=>{
+        let totalSales = await db.get().collection(collection.ORDER_COLLECTION).countDocuments({
+            date : date
+        })
+    
+        resolve(totalSales)
+    })
+
+
+}
 }

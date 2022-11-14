@@ -581,14 +581,10 @@ const orderSuccessFull = async(req,res)=>{
   try{
     if(req.session.loggedIn){
       let orderDetials = await orderHelpers.getOrderDetails(req.session.user._id)
-    
-     console.log('========================') 
-     console.log(orderDetials) 
-     console.log('========================') 
      res.render('user/order-succesfull',{userheader:true,user:req.session.user,orderDetials})
     }
-  }catch{
-    throw(err)
+  }catch(err){
+    next(err)
   }
 }
 
@@ -715,43 +711,51 @@ const orderHistory = async(req,res)=>{
   }
 }
 
-const orderDisplayId = (req,res)=>{
-  orderDoc.orderId = req.params.id
-  res.redirect('/order-display')
-
-}
-
-const orderDisplay = async(req,res)=>{
+const orderDisplayId = async(req,res)=>{
+  let orderId = req.params.id
+  console.log(orderId)
   try{
     if(req.session.loggedIn){
-      let orderDetials = await orderHelpers.displayOrderDetials(orderDoc.orderId)
-      console.log('========================================')
-      console.log(orderDetials)
-      console.log('========================================')
-
-      
-  
-      if(displayOrderDetials.status == 'placed'){
-       var orderStatus = true;
-      }
-      else if(displayOrderDetials.status == "delivered"){
-       var deliveryStatus = true;
-      }
-     
-    let orderTotal = await orderHelpers.getOrderTotal(orderDoc.orderId)
-    let address = await orderHelpers.getAddress(orderDoc.orderId)
-    console.log('-------------------------address-------------------------')
-    console.log(address)
-    console.log('-------------------------address-------------------------')
-
-      res.render('user/order-display',{userheader:true,user:req.session.user,orderDetials,orderTotal,address,orderStatus,deliveryStatus,orderId:orderDoc.orderId})
+      let orderDetials = await orderHelpers.displayOrderDetials(orderId) 
+    let orderTotal = await orderHelpers.getOrderTotal(orderId)
+    let address = await orderHelpers.getAddress(orderId)
+     res.render('user/order-display',{userheader:true,user:req.session.user,orderDetials,orderTotal,address,orderId})
     }else{
      res.redirect('/sign-in')
     }
-  }catch{
-    throw(err)
+  }catch(err){
+    next(err)
   }
+
 }
+
+// const orderDisplay = async(req,res)=>{
+//  try{
+//     if(req.session.loggedIn){
+//       let orderDetials = await orderHelpers.displayOrderDetials(orderDoc.orderId)
+//       console.log('========================================')
+//       console.log(orderDetials)
+//       console.log('========================================')
+
+      
+  
+//       if(displayOrderDetials.status == 'placed'){
+//        var orderStatus = true;
+//       }
+//       else if(displayOrderDetials.status == "delivered"){
+//        var deliveryStatus = true;
+//       }
+     
+//     let orderTotal = await orderHelpers.getOrderTotal(orderId)
+//     let address = await orderHelpers.getAddress(orderId)
+//      res.render('user/order-display',{userheader:true,user:req.session.user,orderDetials,orderTotal,address,orderStatus,deliveryStatus,orderId:orderDoc.orderId})
+//     }else{
+//      res.redirect('/sign-in')
+//     }
+//   }catch{
+//     throw(err)
+//   }
+// }
 
 const cancelOrder = async(req,res)=>{ 
   await orderHelpers.cancelOrders(req.query.orderId).then(()=>{
@@ -947,6 +951,11 @@ const subcatWiseShopping = async(req,res)=>{
 
 }
 
+const paymentFail = (req,res)=>{ 
+  let {receipt}=req.body.orderId
+  paymentHelpers.removeorder(receipt)
+}
+
 
 
 
@@ -981,7 +990,7 @@ module.exports = {
     changePassword,
     orderHistory,
     orderDisplayId,
-    orderDisplay,
+    // orderDisplay,
     cancelOrder,
     updateAddress,
     addNewAddress,
@@ -995,5 +1004,6 @@ module.exports = {
     removeProductWishlist,
     getSearchResults,
     returnApproval,
-    subcatWiseShopping
+    subcatWiseShopping,
+    paymentFail
   }

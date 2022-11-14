@@ -81,6 +81,14 @@ module.exports={
       })
     },
 
+    removeorder:(orderId)=>{      
+      return new Promise((resolve, reject) => {
+          db.get().collection(collection.ORDER_COLLECTION).deleteOne({_id: objectId(orderId)}).then((data) => {
+              resolve()
+          })
+      })
+  },
+
     // generatePaypal:(orderId,total)=>{
     //   return new Promise((resolve,reject)=>{
         

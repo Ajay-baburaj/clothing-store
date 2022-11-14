@@ -26,8 +26,9 @@ const dashboard =async(req,res,next)=>{
     let categoryWiseSales = await charthelpers.categoryWiseSales()
     let chartDetails =   await charthelpers.getTotalSalesGraph()
     let paymentDetails = await charthelpers.getPaymentWiseGraph()
+    let dailysale = await charthelpers.getDailySalesNumber()
     
-    res.render('admin/dashboard',{adminheader:true,chartDetails,paymentDetails,categoryWiseSales,topSelling,weeklyTotal})
+    res.render('admin/dashboard',{adminheader:true,chartDetails,paymentDetails,categoryWiseSales,topSelling,weeklyTotal,dailysale})
   }catch (err){
     next(err)
   }

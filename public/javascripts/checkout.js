@@ -59,7 +59,13 @@ function rayzorpayPayment(order){
         }
 }
 var rzp1 = new Razorpay(options);
+
+rzp1.on('payment.failed',function(response){
+    deleteOrder(order)
+})
+
 rzp1.open();
+
     
 }
 
@@ -82,6 +88,29 @@ function verifyPayment(payment,order){
         }
     })
 }
+
+function deleteOrder(orderId){
+    fetch('remove-payfail',{
+   method:'delete',
+   headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({orderId:orderId})
+}).then(res =>
+{
+   if (res.ok){
+       console.log('success')
+       }
+   else{
+       console.log('failed')
+       }
+   return res;
+
+}
+).then(res=>{
+   console.log(res)
+   window.location.reload();
+   })
+
+   }
 
 // function paypalPayment(total,orderId){
 

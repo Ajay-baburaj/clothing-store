@@ -542,7 +542,7 @@ module.exports={
     },
     searchResults:(payload)=>{
         return new Promise(async(resolve,reject)=>{
-        let searchResults = await db.get().collection(collection.PRODUCT_COLLECTION).find({name:{$regex: new RegExp(payload+'.*','i')}}).limit(5).toArray()
+        let searchResults = await db.get().collection(collection.PRODUCT_COLLECTION).find({name:{$regex: new RegExp(payload,'i')}}).limit(5).toArray()
         // searchResults.slice(0,5);
         resolve(searchResults)
         console.log(searchResults)
