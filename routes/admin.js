@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const  upload  = require('../public/javascripts/fileUpload');
+const {upload }  = require('../public/javascripts/fileUpload');
 
 var { adminFalse, adminTrue } = require('../middlewares/middleware')
 var { dashboard, loginGET, loginPost, userListing, blockUser, 
