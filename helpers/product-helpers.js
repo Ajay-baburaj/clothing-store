@@ -470,16 +470,16 @@ module.exports={
 
 
 
-                        db.get().collection(collection.APPLIED_COUPON_COLLECTION).insertOne(appliedCouponObj)
+                        await db.get().collection(collection.APPLIED_COUPON_COLLECTION).insertOne(appliedCouponObj)
                             resolve(response)
-                        db.get().collection(collection.USER_COLLECTION).updateOne({_id:objectId(userId)},
+                        await db.get().collection(collection.USER_COLLECTION).updateOne({_id:objectId(userId)},
                             {
                                 $set:{couponId:couponFind._id}
                         },{upsert:true}
                         ).then((response)=>{
-                            // console.log('===================')
-                            // console.log(response)
-                            // console.log('===================')
+                            console.log('===================')
+                            console.log(response)
+                            console.log('===================')
                         })
                         
                     }
@@ -495,8 +495,8 @@ module.exports={
     },
 
     removeCoupon:(userId,couponId)=>{
-        return new Promise((resolve,reject)=>{
-            db.get().collection(collection.APPLIED_COUPON_COLLECTION).deleteOne({userId:objectId(userId),couponId:objectId(couponId)}).then(()=>{
+        return new Promise(async(resolve,reject)=>{
+           await db.get().collection(collection.APPLIED_COUPON_COLLECTION).deleteOne({userId:objectId(userId),couponId:objectId(couponId)}).then(()=>{
                 db.get().collection(collection.USER_COLLECTION).updateOne({_id:objectId(userId)},
                 {
                     $unset:{

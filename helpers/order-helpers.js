@@ -84,7 +84,7 @@ module.exports={
         return new Promise(async(resolve,reject)=>{
             try{
 
-                let allOderDetials = await db.get().collection(collection.ORDER_COLLECTION).find({user:objectId(userId)}).sort({_id:-1}).toArray()
+                let allOderDetials = await db.get().collection(collection.ORDER_COLLECTION).find({$and:[{user:objectId(userId)},{status:{$nin:['pending']}}]}).sort({_id:-1}).toArray()
                 console.log(allOderDetials)
                 resolve(allOderDetials)
             }catch{
@@ -426,6 +426,9 @@ module.exports={
     adminOrderArray:()=>{
         return new Promise(async(resolve,reject)=>{
           let orderArrray = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+            {
+                $match:{'status':{$nin:['pending']}}
+            },
             {
                 $lookup:{
                     from:collection.USER_COLLECTION,
