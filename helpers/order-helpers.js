@@ -566,10 +566,12 @@ module.exports={
             console.log(orderForApproval)
         })
     },
-    returnApproved:(orderId,total,userId)=>{
+    returnApproved:(orderId,userId,total)=>{
         console.log(orderId)
-        return new Promise((resolve,reject)=>{
-            db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:objectId(orderId)},{
+        console.log(userId)
+        console.log(total)
+        return new Promise(async(resolve,reject)=>{
+           await db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:objectId(orderId)},{
 
                 $set:{
                     status:'return approved'
@@ -577,7 +579,7 @@ module.exports={
             }).then((response)=>{
                 db.get().collection(collection.USER_COLLECTION).updateOne({_id:objectId(userId)},
                 {
-                    $push:{}
+                    $push:{referalBonus: total}
                 })
                 console.log(response)
             })
@@ -660,19 +662,21 @@ updateStockIncrease:({productId,quantity})=>{
   },
 
   updateWallet:(userId,total)=>{
-     total = parseInt(total)
+    console.log('call is coming inside wallet')
+    console.log('===============')
+    console.log(userId)
+    console.log('===============')
     return new Promise(async(resolve,reject)=>{
 
-        await db.get().collection(collection.USER_COLLECTION).updateOne({ _id:objectId(userId)},
+       let user = await db.get().collection(collection.USER_COLLECTION).updateOne({ _id:objectId(userId)},
         
         {
             
-            $push:{
-                referalBonus: total
-            }
+            $push:{referalBonus: total}
         
         })
         resolve()
+        console.log(user)
 
     })
 

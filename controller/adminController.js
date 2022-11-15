@@ -99,6 +99,7 @@ const unblockUser = async(req,res)=>{
 const productListing = (req, res) => {
   try {
     producthelpers.viewAllProducts().then((products) => {
+      console.log(products)
       res.render('admin/products', { products, adminheader: true })
     })
   }
@@ -419,16 +420,15 @@ const returnOrder =async(req,res)=>{
 
 
 const approveReturn = (req,res)=>{
-  // console.log('=========================')
-  // console.log('call is coming here')
-  // console.log(req.query.orderId)
-  // console.log(req.query.total)
-  // console.log('=========================')
 
-  orderHelpers.returnApproved(req.query.orderId).then((response)=>{
+  let userId =req.query.userId
+  let total = parseInt(req.query.total)
+
+  orderHelpers.returnApproved(req.query.orderId,userId,total).then(async(response)=>{
+  
+    // await orderHelpers.updateWallet(userId,total)
     res.json({approvedStatus:true})
-    orderHelpers.updateWallet(req.query.userId,req.query.total)
-    orderHelpers.getOrderProductQuantity(req.query.orderId).then((data) => { 
+    await orderHelpers.getOrderProductQuantity(req.query.orderId).then((data) => { 
       data.forEach((element) => {
         orderHelpers.updateStockIncrease(element);
       });

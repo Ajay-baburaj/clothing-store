@@ -374,7 +374,7 @@
                           ,date,Total,no.of Order
                         {{#each chartDetails.dailySales}}
                          ,{{_id}},{{totalAmount}},{{count}}
-                        {{/each}},GrandTotal,{{totalDaily.[0].GrandTotal}}`
+                        {{/each}},GrandTotal,{{weeklyTotal}}`
 
                     const blob = new Blob([data], { type: 'octet-stream' })
 
@@ -398,9 +398,9 @@
                 function monthlyData() {
                     const data = `
                       ,date, Total,no.of Order
-                    {{#each MonthlySalesforDownload}}
-                     ,{{_id}},{{MonthlySaleAmount}},{{count}}
-                    {{/each}},GrandTotal,{{totalDaily.[0].GrandTotal}}`
+                    {{#each chartDetails.monthlysales}}
+                     ,{{_id}},{{totalAmount}},{{count}}
+                    {{/each}}`
 
                     const blob = new Blob([data], { type: 'octet-stream' })
 
@@ -422,11 +422,11 @@
                 }
 
                 function yearlyData() {
-                    {{!-- const data = `
+                    const data = `
                       ,date, Total,no.of Order
-                    {{#each YearlySalesforDownload}}
-                     ,{{_id}},{{YearlySaleAmount}},{{count}}
-                    {{/each}},GrandTotal,{{monthtotal.[0].GrandTotal}}` --}}
+                    {{#each chartDetails.yearlySales}}
+                     ,{{_id}},{{totalAmount}},{{count}}
+                    {{/each}}` 
 
                     const blob = new Blob([data], { type: 'octet-stream' })
 
