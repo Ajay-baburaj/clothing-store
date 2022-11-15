@@ -3,10 +3,10 @@ const multer= require('multer')
 // handle storage using multer
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'public/images/product')
+        cb(null, '/images/product')
     },
     filename: (req, file, cb) => {
-        cb(null, file.originalname + '-' + Date.now())
+        cb(null, Date.now()+file.originalname)
     }
 });
  const upload = multer({ storage: storage });
@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
 // handle storage using multer
 const storage2 = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'public/images/brand')
+        cb(null, '/images/brand')
     },
     filename: (req, file, cb) => {
         cb(null, file.originalname + '-' + Date.now())
