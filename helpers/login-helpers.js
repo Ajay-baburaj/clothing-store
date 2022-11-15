@@ -7,6 +7,7 @@ const { use, response } = require('../app')
 module.exports={
 
     doSignup:(userData)=>{
+        userData.wallet = [0]
         return new Promise(async(resolve,reject)=>{
             const response = {}
         
@@ -179,6 +180,25 @@ module.exports={
             ]).toArray()
             resolve(walletTotal)
         })
+    },
+    getWalletTotal:(userId)=>{
+        return new Promise(async(resolve,reject)=>{
+            
+            walletMoney=    await db.get().collection(collection.USER_COLLECTION).aggregate([
+                {
+                    $match:{_id:objectId(userId)}
+                },
+                {
+                    $project:{
+                        walletTotal:{$sum:'$wallet'}
+                    }
+                }
+            ]).toArray()
+            resolve(walletMoney[0].walletTotal)
+            console.log(walletMoney)
+        })
+      
+
     }
 
 }

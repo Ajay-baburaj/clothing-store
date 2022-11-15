@@ -567,21 +567,27 @@ module.exports={
         })
     },
     returnApproved:(orderId,userId,total)=>{
+        console.log('call is coming inside return')
+        console.log('=======================')
         console.log(orderId)
         console.log(userId)
         console.log(total)
+        console.log('=======================')
+
         return new Promise(async(resolve,reject)=>{
            await db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:objectId(orderId)},{
 
                 $set:{
                     status:'return approved'
                 }
-            }).then((response)=>{
-                db.get().collection(collection.USER_COLLECTION).updateOne({_id:objectId(userId)},
+            }).then(async(response)=>{
+                await db.get().collection(collection.USER_COLLECTION).updateOne({_id:objectId(userId)},
                 {
-                    $push:{referalBonus: total}
+                    $push:{wallet: total}
                 })
+                console.log('---------------')
                 console.log(response)
+                console.log('----------------')
             })
     
         })

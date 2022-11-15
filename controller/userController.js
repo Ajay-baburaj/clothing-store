@@ -38,11 +38,13 @@ try{
   let topSellingProducts = await chartHelpers.topSellingProducts()
   let categoryDetails = await productHelpers.getCategoryDetails()
   let offerProducts = await productHelpers.mostOfferProducts()
+  
 
     if(req.session.user){
         let userId = req.session.user._id
+        let walletMoney = await loginHelpers.getWalletTotal(userId)
         let cartCount = await cartHelpers.getCartCount(userId)
-        res.render('user/home', { title: 'Ind Wear',user:req.session.user,loggedIn:req.session.loggedIn,cartCount,userheader:true,walletTotal:req.session.walletTotal,topSellingProducts,categoryDetails,banners,offerProducts});
+        res.render('user/home', { title: 'Ind Wear',user:req.session.user,loggedIn:req.session.loggedIn,cartCount,userheader:true,walletMoney,topSellingProducts,categoryDetails,banners,offerProducts});
   
       }else{
         res.render('user/home',{userheader:true,topSellingProducts,categoryDetails,banners,offerProducts})
@@ -460,6 +462,8 @@ const checkoutPOST = async (req, res) => {
           })
         }
         else if (req.body.paymentMethod === "razorpay") {
+
+
           orderHelpers.placeOrderOnline(billingDetails, products, totalPrice).then((response) => {
               //here response equals orderId
               paymentHelpers.generateRazorpay(response, totalPrice).then((response) => {
