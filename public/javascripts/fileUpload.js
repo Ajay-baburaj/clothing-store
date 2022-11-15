@@ -3,7 +3,7 @@ const multer= require('multer')
 // handle storage using multer
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, '/images/product')
+        cb(null, '/public/images/product')
     },
     filename: (req, file, cb) => {
         cb(null, Date.now()+file.originalname)
@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
 // handle storage using multer
 const storage2 = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, '/images/brand')
+        cb(null, '/public/images/brand')
     },
     filename: (req, file, cb) => {
         cb(null, file.originalname + '-' + Date.now())
