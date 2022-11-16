@@ -767,7 +767,17 @@ module.exports={
             resolve(products)
             console.log(products)
         })
+    },
+
+    getCouponCounts:()=>{
+        return new Promise(async(resolve,reject)=>{
+            let count = await db.get().collection(collection.COUPON_COLLECTION).countDocuments()
+            console.log(count)
+            resolve(count)
+        })
     }
+
+
 
 
     

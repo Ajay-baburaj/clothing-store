@@ -22,7 +22,7 @@ const productListPageNation = async(req,res,next)=>{
     console.log(req.query.page)
 
     const page = parseInt(req.query.page)
-    const limit = 6
+    const limit = 11
 
     const startIndex = (page-1)*limit
     const endIndex = page*limit

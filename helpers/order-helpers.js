@@ -662,8 +662,8 @@ updateStockDecrease:({productId,quantity})=>{
 
 
 updateStockIncrease:({productId,quantity})=>{
-    return new Promise((resolve,reject)=>{
-        db.get().collection(collection.PRODUCT_COLLECTION).updateOne({_id:objectId(productId)}, {
+    return new Promise(async(resolve,reject)=>{
+        await  db.get().collection(collection.PRODUCT_COLLECTION).updateOne({_id:objectId(productId)}, {
           $inc: {quantity: quantity},
       })
 
@@ -671,10 +671,7 @@ updateStockIncrease:({productId,quantity})=>{
   },
 
   updateWallet:(userId,total)=>{
-    console.log('call is coming inside wallet')
-    console.log('===============')
-    console.log(userId)
-    console.log('===============')
+   
     return new Promise(async(resolve,reject)=>{
 
        let user = await db.get().collection(collection.USER_COLLECTION).updateOne({ _id:objectId(userId)},

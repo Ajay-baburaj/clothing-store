@@ -4,7 +4,7 @@ const collection = require('../config/collection')
 const { ObjectID } = require('bson')
 const { TrustProductsInstance } = require('twilio/lib/rest/trusthub/v1/trustProducts')
 const { Collection } = require('mongodb')
-const { routes } = require('../app')
+const { routes, response } = require('../app')
 
 module.exports = {
     addToCart: (productId, userId) => {
@@ -173,12 +173,9 @@ module.exports = {
     },
     changeProductQuantity:(details)=>{
         count = parseInt(details.count)
-        // console.log(count)
-        // quantity = parseInt(details.quantity)
         console.log(details.quantity)
         return new Promise(async(resolve,reject)=>{
             if(count ==-1 && details.quantity == 1){
-                // console.log("api  call coming inside")
                 await db.get().collection(collection.CART_COLLECTION).updateOne({_id:objectId(details.cart)},
                 {
                     $pull:{products:{item:objectId(details.product)}}
@@ -189,23 +186,44 @@ module.exports = {
                 })
             }else{
 
-                db.get().collection(collection.CART_COLLECTION).updateOne({ 'products.item': objectId(details.product),'_id':objectId(details.cart) },
-                {
-                    $inc: { 'products.$.quantity': count }
-                }).then((response) => {
-                    
-                    resolve({status:true})
-                }).catch((err)=>{
-                    reject(err)
-                })
+                if(count != -1){
+                    let productCheck = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({_id:objectId(details.product)})
+                if(parseInt(productCheck.quantity) > parseInt(details.quantity)){
+
+                 await db.get().collection(collection.CART_COLLECTION).updateOne({ 'products.item': objectId(details.product),'_id':objectId(details.cart) },
+                    {
+                        $inc: { 'products.$.quantity': count }
+                    }).then((response) => {
+                        
+                        resolve({status:true})
+                    }).catch((err)=>{
+                        reject(err)
+                    })
+                }else{
+                    resolve({quantityFalse:true})
+                }
+
+
+                }else{
+
+                    await db.get().collection(collection.CART_COLLECTION).updateOne({ 'products.item': objectId(details.product),'_id':objectId(details.cart) },
+                    {
+                        $inc: { 'products.$.quantity': count }
+                    }).then((response) => {
+                        
+                        resolve({status:true})
+                    }).catch((err)=>{
+                        reject(err)
+                    })
+                }
+
+                
             } 
         
         })
     },
 
     getCartTotal:(userId)=>{
-
-        // console.log('call coming')
         
         return new Promise(async (resolve, reject) => {
             try{
@@ -292,9 +310,6 @@ module.exports = {
                      },
                      
                  ]).toArray()
-                 console.log('==================')
-                 console.log(totalAmount)
-                 console.log('==================')
                     resolve(totalAmount)
 
             }catch{
@@ -448,7 +463,7 @@ module.exports = {
                                 },
                                 {
                                     $addFields:{
-                                        comparedCouponDiscount:{$cond:{if:{$gt:['$couponDiscount',2000]},then:2000,else:'$couponDiscount'}}
+                                        comparedCouponDiscount:{$cond:{if:{$gt:['$couponDiscount',{$toInt:'$coupon.maximumDiscount'}]},then:{$toInt:'$coupon.maximumDiscount'},else:'$couponDiscount'}}
                                     }
                                 }
                                 ,
@@ -470,10 +485,8 @@ module.exports = {
     
                 
             ]).toArray()
-            console.log('------------------')
             resolve(totalAfterCoupon)
-            console.log(totalAfterCoupon)
-            console.log('------------------')
+
         })
     },
     addToWishlist:(productId,userId)=>{
@@ -604,9 +617,6 @@ module.exports = {
         return new Promise(async(resolve,reject)=>{
         let wishList =    await db.get().collection(collection.WISHLIST_COLLECTION).findOne({user:objectId(userId)})
         let wishlistCount = wishList
-        console.log('==========wishlst count is here========')
-        console.log(wishList.products.length)
-        console.log('==========wishlst count is here========')
         resolve(wishList)
         })
     },
@@ -614,9 +624,6 @@ module.exports = {
         console.log('call is coming in cart Checkz')
         return new Promise(async(resolve,reject)=>{
             let cartCheck = await db.get().collection(collection.ORDER_COLLECTION).findOne({$and:[{user:objectId(userId)},{status:'pending'}]})
-            console.log('call is coming here')
-            console.log(cartCheck)
-            console.log('call is coming here')
 
             if(cartCheck){
                 await db.get().collection(collection.ORDER_COLLECTION).deleteOne({user:objectId(userId),status:'pending'}).then((response)=>{

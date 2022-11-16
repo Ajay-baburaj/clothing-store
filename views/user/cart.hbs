@@ -37,7 +37,6 @@
                             <tbody>
                                 {{#each cartDetails}}
                                 <tr>
-                                     {{!-- {{#each this.product}} --}}
                                     <td class="product__cart__item">
                                        
                                         <div class="product__cart__item__pic">
@@ -50,10 +49,8 @@
                                         </div>
                                         
                                     </td>
-                                    {{!-- {{/each}} --}}
                                     <td class="quantity__item">
                                         <div class="quantity">
-                                            {{!-- pro-qty-2  --}}
                                             <div class="d-flex pro-qty-">
                                                 <button class="border-0" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-1)">-</button><span class="ml-2 mr-2" id="{{this.product._id}}">{{this.quantity}}</span><button class="border-0" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',1)">+</button>
                                             </div>
@@ -61,7 +58,6 @@
                                     </td>
                                     <td class="cart__price">₹ <span id="productTotal{{this.product._id}}">{{this.productTotal}}</span></td>
                                     <td class="cart__close"><i class="fa fa-close" onclick="removeProduct('{{this.product._id}}')"></i></a></td>
-                                {{!-- /remove-cart-product/{{this.product._id}} --}}
                                 </tr>
                                 {{/each}}
                             </tbody>
@@ -81,30 +77,6 @@
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    {{!-- <div class="cart__discount">
-                        <h6>Discount codes</h6>
-                        <form id="applyCopounForm">
-                            <input type="text" name="code" id="code" placeholder="Coupon code">
-                            <button onclick="applyCoupon('{{total}}','{{user._id}}')">Apply</button>
-                        </form>
-                    </div> --}}
-                    {{!-- {{#if couponDiscountDetails}}
-                    <span class="text-success  ml-5 fw-bold p-3" role="text" id="appliedAlert"> you have applied coupon</span>&nbsp;<span class="text-success fw-bold">{{couponDiscountDetails.totalDetails.[0].couponCode}} <i class="fa-light fa-xmark"></i></span>
-                    <div class="cart__total">
-                        <h6>Cart total</h6>
-                        <ul>
-                            <li>Total <span id="totalValue">{{total}}</span></li>
-                            <li class="text-success">-<span id="couponDiscount" class="text-success">{{couponDiscountDetails.totalDetails.[0].couponDiscount}}</span></li>
-                            <li>Subtotal<span id="subTotal">{{couponDiscountDetails.totalDetails.[0].couponDiscountedPrice}}</span></li>
-                        </ul>
-                        {{#if cartCount}}
-                        <a href="/checkout" class="primary-btn">Proceed to checkout</a>
-                        {{else}}
-                        <a href="/shop/now" class="primary-btn">shop now</a>
-                        {{/if}}
-                    </div> --}}
-                    {{!-- {{else}} --}}
-
                         <div class="cart__total">
                         <h6>Cart total</h6>
                         <ul>
@@ -214,6 +186,9 @@
                     if(response.removeProduct){
                         alert('Product removed from cart')
                         location.reload()
+                    }else if(response.quantityFalse){
+                        alert('out of stock')
+                        
                     }else{
                         document.getElementById(productId).innerHTML = quantity+count;
                         document.getElementById('totalValue').innerHTML=response.total[0].total;

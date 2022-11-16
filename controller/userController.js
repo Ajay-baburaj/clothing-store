@@ -38,16 +38,22 @@ try{
   let topSellingProducts = await chartHelpers.topSellingProducts()
   let categoryDetails = await productHelpers.getCategoryDetails()
   let offerProducts = await productHelpers.mostOfferProducts()
+  let couponCount = await productHelpers.getCouponCounts()
+  let coupons = await productHelpers.viewCoupons()
+
   
 
     if(req.session.user){
         let userId = req.session.user._id
         let walletMoney = await loginHelpers.getWalletTotal(userId)
         let cartCount = await cartHelpers.getCartCount(userId)
-        res.render('user/home', { title: 'Ind Wear',user:req.session.user,loggedIn:req.session.loggedIn,cartCount,userheader:true,walletMoney,topSellingProducts,categoryDetails,banners,offerProducts});
+        req.session.walletMoney = walletMoney
+        req.session.couponCount = couponCount
+        req.session.coupons = coupons
+        res.render('user/home', { title: 'Ind Wear',user:req.session.user,loggedIn:req.session.loggedIn,cartCount,userheader:true,walletMoney,topSellingProducts,categoryDetails,banners,offerProducts,couponCount,coupons});
   
       }else{
-        res.render('user/home',{userheader:true,topSellingProducts,categoryDetails,banners,offerProducts})
+        res.render('user/home',{userheader:true,topSellingProducts,categoryDetails,banners,offerProducts,couponCount,coupons})
       }
 
 }catch(err){
@@ -64,8 +70,8 @@ const singinGET = (req, res) => {
           return req.session.logInErr =''
         }
         res.render('user/sign-in')
-    }catch{
-        throw(err)
+    }catch(err){
+        next(err)
     }
   }
 
@@ -92,7 +98,7 @@ const singinGET = (req, res) => {
         res.redirect('/sign-in')
       }
     }).catch((err)=>{
-        throw(err)
+        next(err)
     })
     }
 
@@ -105,8 +111,8 @@ const signinOtpGET = (req,res)=>{
          req.session.mobileErr= ""
        }
        res.render('user/otp-login')
-   }catch{
-    throw(err)
+   }catch(err){
+    next(err)
    }
 }
 
@@ -190,9 +196,6 @@ const signinOtpPOST = async(req,res)=>{
   const signUpGET = (req, res) => {
 
     let referalId = req.query.ref
-    console.log('=====================')
-    console.log(referalId)
-    console.log('=====================')
 
     try{
       if(req.session.signupErr){
@@ -209,9 +212,7 @@ const signinOtpPOST = async(req,res)=>{
 const signUpPOST = (req, res) => {
 
     let user = req.body
-    // console.log('=========================')
-    // console.log(req.body)
-    // console.log('=========================')
+
     if(req.body.referalId){
       let referalBonus = 100
       console.log('its a referal sign-up')
@@ -242,7 +243,7 @@ const signUpPOST = (req, res) => {
     }).catch((err)=>{
       next(err)
     })
-  
+                  
     }
 
   
@@ -254,24 +255,24 @@ const signUpPOST = (req, res) => {
   }
 
 const shopNow = async(req,res)=>{
-// try{
-  // let productDetails = await productHelpers.viewAllProducts()  
+  try{
+
   let productDetails =res.getPaginatedResult.products
   let pages = res.getPaginatedResult.pages
   let categoryDetails = await productHelpers.viewCategories()
   let wishlistProducts = await cartHelpers.getWishlistProductDetails()
   
-  // let products = res.paginatedResult.products;
+  
   if(req.session.user){
     let userId = req.session.user._id
     let cartCount = await cartHelpers.getCartCount(userId)
-    res.render('user/shop-now',{user:req.session.user,productDetails,categoryDetails,cartCount,userheader:true,pages,wishlistProducts})
+    res.render('user/shop-now',{user:req.session.user,productDetails,categoryDetails,cartCount,userheader:true,pages,wishlistProducts,couponCount:req.session.couponCount,coupons:req.session.coupons,walletMoney:req.session.walletMoney})
   }else{
     res.render('user/shop-now',{productDetails,categoryDetails,userheader:true,pages})
   }
-// }catch{
-//   throw(err)
-// }
+}catch(err){
+  next(err)
+}
 }
 
 const productDetailsID = (req,res)=>{
@@ -296,7 +297,7 @@ const productDetails =async(req,res)=>{
     if(req.session.user){
       let userId = req.session.user._id
       let cartCount = await cartHelpers.getCartCount(userId)
-      res.render('user/product-details',{singleProductDetail,user:req.session.user,cartCount,userheader:true,subcatWiseProducts})
+      res.render('user/product-details',{singleProductDetail,user:req.session.user,cartCount,userheader:true,subcatWiseProducts,couponCount:req.session.couponCount,coupons:req.session.coupons,walletMoney:req.session.walletMoney })
     }else{
       res.render('user/product-details',{singleProductDetail,userheader:true,subcatWiseProducts})
     }
@@ -315,7 +316,7 @@ const cart = async(req,res)=>{
       
       if(cartCount==0){
   
-        res.render('user/cart',{userheader:true,user:req.session.user,cartCount})
+        res.render('user/cart',{userheader:true,user:req.session.user,cartCount,couponCount:req.session.couponCount,coupons:req.session.coupons,walletMoney:req.session.walletMoney})
       }else{
          await cartHelpers.pendingCartCheck(userId).then(async()=>{
 
@@ -323,7 +324,7 @@ const cart = async(req,res)=>{
           console.log(cartDetails)
           let total = await cartHelpers.getCartTotal(userId) 
           total = total[0].total
-          res.render('user/cart',{user:req.session.user,cartDetails,cartCount,userheader:true,total,couponDiscountDetails:req.session.response})
+          res.render('user/cart',{user:req.session.user,cartDetails,cartCount,userheader:true,total,couponDiscountDetails:req.session.response,couponCount:req.session.couponCount,coupons:req.session.coupons})
         })
 
       }
@@ -371,6 +372,7 @@ const addToCartProduct = async(req,res)=>{
 }
 
 const changeProductQuantity = (req,res,next)=>{
+  console.log(req.body)
   cartHelpers.changeProductQuantity(req.body).then(async(response)=>{
   response.total = await cartHelpers.getCartTotal(req.body.user)
   res.json(response)
@@ -414,7 +416,7 @@ const checkoutGET  = async(req,res)=>{
 
         let cartDetails = await cartHelpers.getCartDetails(userId)
         let couponDiscount = await cartHelpers.getCouponDiscount(userId)
-        res.render('user/checkout',{userheader:true,user:req.session.user,total,cartDetails,addressArray,couponDiscount,coupons})
+        res.render('user/checkout',{userheader:true,user:req.session.user,total,cartDetails,addressArray,couponDiscount,couponCount:req.session.couponCount,coupons:req.session.coupons,walletMoney:req.session.walletMoney})
       }else{
           res.redirect('/cart')
       }
@@ -705,7 +707,7 @@ const orderHistory = async(req,res)=>{
       let productImages = await orderHelpers.getProImages(orderDoc.orderId)
       // console.log("order details is here...............................")
       // console.log(productImages)
-      res.render('user/order-history',{userheader:true,orderDetials,user:req.session.user,productImages})
+      res.render('user/order-history',{userheader:true,orderDetials,user:req.session.user,productImages,walletMoney:req.session.walletMoney})
     }else{
   
       res.redirect('/sign-in')
@@ -723,7 +725,7 @@ const orderDisplayId = async(req,res)=>{
       let orderDetials = await orderHelpers.displayOrderDetials(orderId) 
     let orderTotal = await orderHelpers.getOrderTotal(orderId)
     let address = await orderHelpers.getAddress(orderId)
-     res.render('user/order-display',{userheader:true,user:req.session.user,orderDetials,orderTotal,address,orderId})
+     res.render('user/order-display',{userheader:true,user:req.session.user,orderDetials,orderTotal,address,orderId,walletMoney:req.session.walletMoney})
     }else{
      res.redirect('/sign-in')
     }
@@ -733,33 +735,6 @@ const orderDisplayId = async(req,res)=>{
 
 }
 
-// const orderDisplay = async(req,res)=>{
-//  try{
-//     if(req.session.loggedIn){
-//       let orderDetials = await orderHelpers.displayOrderDetials(orderDoc.orderId)
-//       console.log('========================================')
-//       console.log(orderDetials)
-//       console.log('========================================')
-
-      
-  
-//       if(displayOrderDetials.status == 'placed'){
-//        var orderStatus = true;
-//       }
-//       else if(displayOrderDetials.status == "delivered"){
-//        var deliveryStatus = true;
-//       }
-     
-//     let orderTotal = await orderHelpers.getOrderTotal(orderId)
-//     let address = await orderHelpers.getAddress(orderId)
-//      res.render('user/order-display',{userheader:true,user:req.session.user,orderDetials,orderTotal,address,orderStatus,deliveryStatus,orderId:orderDoc.orderId})
-//     }else{
-//      res.redirect('/sign-in')
-//     }
-//   }catch{
-//     throw(err)
-//   }
-// }
 
 const cancelOrder = async(req,res)=>{ 
   await orderHelpers.cancelOrders(req.query.orderId).then(()=>{
@@ -846,13 +821,11 @@ const categoryWiseShopping = async(req,res)=>{
   let categoryDetails = await productHelpers.viewCategories()
   let wishlistProducts = await cartHelpers.getWishlistProductDetails()
   let productByCat = await productHelpers.getProductByCatgories(catId)
-  console.log('=======================products by cat=============')
-  console.log(productByCat)
   if(req.session.user){
     let userId = req.session.user._id
     let cartCount = await cartHelpers.getCartCount(userId)
    
-      res.render('user/categorywise',{user:req.session.user,productByCat,categoryDetails,cartCount,userheader:true,wishlistProducts})
+      res.render('user/categorywise',{user:req.session.user,productByCat,categoryDetails,cartCount,userheader:true,wishlistProducts,walletMoney:req.session.walletMoney})
   }else{
     res.render('user/categorywise',{productByCat,categoryDetails,userheader:true})
   }
@@ -861,12 +834,7 @@ const categoryWiseShopping = async(req,res)=>{
 
 
 const applyCoupon = (req,res)=>{
-  
-  console.log('call is coming here')
-  console.log(req.body)
-  console.log('call is coming here')
-
-  productHelpers.applyCoupon(req.body.couponCode,req.body.userId,req.body.total).then((response)=>{
+   productHelpers.applyCoupon(req.body.couponCode,req.body.userId,req.body.total).then((response)=>{
     let message = response.message
     let validity = response.couponValid
     console.log(response)
@@ -891,11 +859,11 @@ const wishList = async(req,res)=>{
    let count = await cartHelpers.wishlistCount(req.session.user._id)
    console.log(count)
   let productDetails = await cartHelpers.getWishlistProductDetails(req.session.user._id)
-  console.log('\\\\\\\\\\\\\\\\\\')
-  console.log(productDetails)
-    res.render('user/wishlist',{userheader:true,productDetails,user:req.session.user})
+    res.render('user/wishlist',{userheader:true,productDetails,user:req.session.user,couponCount:req.session.couponCount,coupons:req.session.coupons,walletMoney:req.session.walletMoney})
+  }else{
+
+    res.render('user/wishlist',{userheader:true})
   }
-  res.render('user/wishlist',{userheader:true})
 }
 
 const addtoWishlist =(req,res)=>{
@@ -914,7 +882,6 @@ const addtoWishlist =(req,res)=>{
 
 const removeProductWishlist =(req,res)=>{
 
-  // console.log(req.body)
   cartHelpers.removeFromWishlist(req.body.userId,req.body.productId).then(()=>{
     res.json({removeStatus:true})
   })
@@ -946,7 +913,7 @@ const subcatWiseShopping = async(req,res)=>{
   if(req.session.loggedIn){
     let userId = req.session.user._id
     let cartCount = await cartHelpers.getCartCount(userId)
-    res.render('user/subcatshop',{userheader:true,products,categoryDetails,wishlistProducts,cartCount})
+    res.render('user/subcatshop',{userheader:true,products,categoryDetails,wishlistProducts,cartCount,couponCount:req.session.couponCount,coupons:req.session.coupons,walletMoney:req.session.walletMoney})
 
   }else{
 
@@ -994,7 +961,6 @@ module.exports = {
     changePassword,
     orderHistory,
     orderDisplayId,
-    // orderDisplay,
     cancelOrder,
     updateAddress,
     addNewAddress,

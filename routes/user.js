@@ -108,7 +108,7 @@ router.delete('/address/delete/:id',deleteAddress)
 router.get('/category-wise-shop-now/:id',categoryWiseShopping),
 router.get('/subcatwise/',subcatWiseShopping)
 
-//=================search========p===========
+//=================search===================
 router.post('/product/search',getSearchResults)
 
 

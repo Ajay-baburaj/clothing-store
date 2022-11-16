@@ -29,6 +29,8 @@
                           name="Code" required>
                         <input type="number" class="form-control mb-3" placeholder="Percentage"
                           name="Percentage" required>
+                        <input type="number" class="form-control mb-3" placeholder="Percentage"
+                          name="maximumDiscount" required>
                         <input type="text" class="form-control  mb-3" placeholder="Description"
                           name="Description" required>
                         <input type="date" class="form-control  mb-3" placeholder="Date"
@@ -54,6 +56,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Code</th>
                     <th scope="col">%</th>
+                     <th scope="col">Maximum Discount</th>
                     <th scope="col">Description</th>
                     <th scope="col">Date</th>
 
@@ -68,6 +71,7 @@
                     <td>{{this.Name}}</td>
                     <td>{{this.Code}}</td>
                     <td>{{this.Percentage}}</td>
+                    <td>{{this.maximumDiscount}}</td>
                     <td>{{this.Description}}</td>
                     <td>{{this.Date}}</td>
 
@@ -108,6 +112,9 @@
                               placeholder="Code" name="Code" required>
                             <input type="number" value="{{this.Percentage}}" class="form-control mb-2"
                               placeholder="Percentage" name="Percentage" required>
+
+                              <input type="number" value="{{this.maximumDiscount}}" class="form-control mb-2"
+                              placeholder="maximumDiscount" name="Percentage" required>
 
                             <input type="text" name="couponId" hidden value="{{this._id}}">
 

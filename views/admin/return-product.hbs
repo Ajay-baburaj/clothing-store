@@ -1,7 +1,7 @@
 
 <div id="main" >
 
-    <h3>order for return aproval</h3>
+    <h4 class="text-center fw-500 mb-2">For return aproval</h4>
 <table class="table table-striped" id="dataTable">
             <thead>
                 <tr class="text-center">
@@ -83,7 +83,7 @@
 
 
 {{#if returnApprovedProducts}}
-<h3 class="mt-5">return approved orders</h3>
+<h4 class="mt-5 text-center fw-500 mb-2">Return approved orders</h4>
 <table class="table table-striped" id="dataTable">
             <thead>
                 <tr class="text-center">
@@ -115,7 +115,6 @@
 
 <script>
     function approveReturn(orderid,total,userId){
-       alert(userId)
         $.ajax({
             url:'/admin/approve/return/?orderId='+orderid+'&total='+total+'&userId='+userId,
             method:'post',

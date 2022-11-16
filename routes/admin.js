@@ -61,7 +61,7 @@ router.get('/sales/report',adminFalse,salesReport)
 
 //offer management
 router.get('/offer/management',adminFalse,offerManagementGET)
-router.post('/add/offer',adminFalse,addOffer)
+router.post('/add/offer',addOffer)
 router.post('/add/offer/category',categoryOffer)
 router.delete('/remove/offer/',removeProductOffer)
 router.patch('/remove/category/offer/',categoryOfferRemoval)
@@ -99,16 +99,6 @@ module.exports = router;
 
 
 
-
-
-
-// router.post('/subcat-update-dropdown',async(req,res)=>{
-
-//   let subcatArray = await producthelpers.getSubcategories(req.body.catId)
-//   let subcat = subcatArray.subcategory
-//   console.log(subcat)
-//   res.json({subcat})
-// })
 
 
 

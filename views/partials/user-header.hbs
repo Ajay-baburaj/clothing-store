@@ -1,453 +1,193 @@
-   
+<div class="offcanvas-menu-overlay"></div>
 
-    <div class="offcanvas-menu-overlay"></div>
-    {{!-- <div class="offcanvas-menu-wrapper">
-        <div class="offcanvas__option">
-            <div class="offcanvas__links">
-                <a href="#">Sign in</a>
-                <a href="#">FAQs</a>
-            </div>
-            <div class="offcanvas__top__hover">
-                <span>Usd <i class="arrow_carrot-down"></i></span>
-                <ul>
-                    <li>USD</li>
-                    <li>EUR</li>
-                    <li>USD</li>
-                </ul>
-            </div>
-        </div>
-        <div class="offcanvas__nav__option">
-            <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-            <a href="#"><img src="img/icon/heart.png" alt=""></a>
-            <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
-            <div class="price">$0.00</div>
-        </div>
-        <div id="mobile-menu-wrap"></div>
-        <div class="offcanvas__text">
+<!-- Offcanvas Menu End -->
+
+<!-- Header Section Begin -->
+<header class="header">
+  <div class="header__top">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 col-md-7">
+          <div class="header__top__left">
             <p>Free shipping, 30-day return or refund guarantee.</p>
+          </div>
         </div>
-    </div> --}}
-    <!-- Offcanvas Menu End -->
+        <div class="col-lg-6 col-md-5">
+          <div class="header__top__right">
+            <div class="header__top__links">
 
-    <!-- Header Section Begin -->
-    <header class="header">
-        <div class="header__top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-7">
-                        <div class="header__top__left">
-                            <p>Free shipping, 30-day return or refund guarantee.</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-5">
-                        <div class="header__top__right">
-                            <div class="header__top__links">
-                                
-                                {{#if user}}
-                                <a href="/my-account">{{user.name}}</a>    
-                                {{else}}
-                                <a href="/sign-in">SIGN IN</a> 
-                                {{/if}}    
+              {{#if user}}
+              <a href="/my-account">{{user.name}}</a>
+              {{else}}
+              <a href="/sign-in">SIGN IN</a>
+              {{/if}}
 
-                                </a>
-                                {{#if user}}
-                                    <a href="/logout">log out</a>
-                                {{/if}}    
+              </a>
+              {{#if user}}
+              <a href="/logout">log out</a>
+              {{/if}}
 
-                            </div>
-                            {{!-- <div class="header__top__hover">
-                                <span>Usd <i class="arrow_carrot-down"></i></span>
-                                <ul>
-                                    <li>USD</li>
-                                    <li>EUR</li>
-                                    <li>USD</li>
-                                </ul>
-                            </div> --}}
-                        </div>
-                    </div>
-                </div>
             </div>
+            
+          </div>
         </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-3">
-                    <div class="header__logo">
-                        <a href="/"><strong><span class="fw-bolder h2 text-dark m-0 p-0">IND<span class="fw-bolder h2 text-danger m-0 p-0"> W</span>EAR</span></strong></a>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <nav class="header__menu mobile-men u">
-                        <ul>
-                            <li class="active"><a href="/">Home</a></li>
-                            <li><a href="/shop/now/?page=1">Shop</a></li>
-                            <li><a href="#">Pages</a>
-                                <ul class="dropdown">
-                                    <li><a href="./about.html">About Us</a></li>
-                                    <li><a href="./shop-details.html">Shop Details</a></li>
-                                    <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                                    <li><a href="./checkout.html">Check Out</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="./blog.html">Blog</a></li>
-                            <li><a href="./contact.html">Contacts</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-lg-3 col-md-3">
-                    <div class="header__nav__option">
-                      
-                        <a href="#" class="search-switch"><img src="/img/icon/search.png" alt="search"></a>
-                        {{!-- <a href="#" class="search-switch"><i class="fa-regular fa-magnifying-glass"></i></a>  --}}
-                         {{!-- <i class="fa-regular fa-magnifying-glass"></i></a>  --}}
-                        <button class="btn btn-trasnparent" data-toggle="modal" data-target=".bd-example-modal-sm"><i class="fa-solid fa-wallet"></i></button>
-                        <a href="/wishlist"><img src="/img/icon/heart.png" alt=""></a>
-                        <a href="/cart"><img src="/img/icon/cart.png" alt=""><span class="badge text-bg-secondary ml-3" id="cart-count">{{cartCount}}</span></a>
-                    </div>
-                </div>
-            </div>
-            <div class="canvas__open"><i class="fa fa-bars"></i></div>
-        </div>
-    </header>
-
-     <div class="search-model">
-        <div class="h-100 d-flex align-items-center justify-content-center">
-            <div class="search-close-switch">+</div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" onkeyup="sendData(this)" placeholder="Search here.....">
-                <div id="searchResults" class="bg-light" style="max-height:500px;overflow:scroll">
-
-                  <div class="row">
-                    <div id="productName" class="col-4"></div>
-                    <div id="ProductImage" class="col-4"></div>
-                    <div class="col-4"></div>
-                  </div>
-
-        </div>
+      </div>
     </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-md-3">
+        <div class="header__logo">
+          <a href="/"><strong><span class="fw-bolder h2 text-dark m-0 p-0">IND<span
+                  class="fw-bolder h2 text-danger m-0 p-0"> W</span>EAR</span></strong></a>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6">
+        <nav class="header__menu mobile-men u">
+          <ul>
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/shop/now/?page=1">Shop</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="col-lg-3 col-md-3">
+        <div class="header__nav__option">
 
+          <a href="#" class="search-switch"><img src="/img/icon/search.png" alt="search"></a>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-transparent border border-0" data-bs-toggle="modal"
+            data-bs-target="#exampleModal">
+            <i class="fa-sharp fa-solid fa-bell text-dark"></i>
+            <span class="badge rounded-pill badge-notification bg-danger">{{couponCount}}</span>
+          </button>
 
-                </div>
-            </form>
+          <button class="btn btn-trasnparent" data-toggle="modal" data-target=".bd-example-modal-sm"><i
+              class="fa-solid fa-wallet"></i></button>
+          <a href="/wishlist"><img src="/img/icon/heart.png" alt=""></a>
+          <a href="/cart"><img src="/img/icon/cart.png" alt=""><span class="badge text-bg-secondary ml-3"
+              id="cart-count">{{cartCount}}</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="canvas__open"><i class="fa fa-bars"></i></div>
+  </div>
+</header>
+
+<div class="search-model">
+  <div class="h-100 d-flex align-items-center justify-content-center">
+    <div class="search-close-switch">+</div>
+    <form class="search-model-form">
+      <input type="text" id="search-input" onkeyup="sendData(this)" placeholder="Search here.....">
+      <div id="searchResults" class="bg-light" style="max-height:500px;overflow:scroll">
+
+        <div class="row">
+          <div id="productName" class="col-4"></div>
+          <div id="ProductImage" class="col-4"></div>
+          <div class="col-4"></div>
         </div>
 
-    </div>
+      </div>
+  </div>
 
-    
 
-<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+</div>
+</form>
+</div>
+
+</div>
+
+
+
+<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
-    <div class="container wallet-container">
+      <div class="container wallet-container">
         <div class="mobile">
-            <div class="wallet-header">
-                {{!-- <div class="navigation">
-                    <i class="fas fa-arrow-left"></i>
-                </div> --}}
-                <div class="filter">
-                    {{!-- <div class="calendar"> --}}
-                        {{!-- <i class="far fa-calendar-alt"></i> --}}
-                    {{!-- </div> --}}
-                    {{!-- <div class="option"></div> --}}
-                    <div class="select">
-                        {{!-- <i class="fas fa-angle-down"></i> --}}
-                    </div>
-                </div>
+          <div class="wallet-header">
+            {{!-- <div class="navigation">
+              <i class="fas fa-arrow-left"></i>
+            </div> --}}
+            <div class="filter">
+              {{!-- <div class="calendar"> --}}
+                {{!-- <i class="far fa-calendar-alt"></i> --}}
+                {{!-- </div> --}}
+              {{!-- <div class="option"></div> --}}
+              <div class="select">
+                {{!-- <i class="fas fa-angle-down"></i> --}}
+              </div>
             </div>
-            <div class="content">
-                <div class="total">
-                    <div class="label">Wallet balance</div>
-                    <div class="value">{{walletMoney}}</div>
-                    <div class="balance">+ <span>{{walletMoney}}</span></div>
-                </div>
+          </div>
+          <div class="content">
+            <div class="total">
+              <div class="label">Wallet balance</div>
+              <div class="value">{{walletMoney}}</div>
+              <div class="balance">+ <span>{{walletMoney}}</span></div>
             </div>
+          </div>
         </div>
-    </div>
+      </div>
     </div>
   </div>
 </div>
 
 
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 fw-bold text-danger" id="exampleModalLabel">Wohoo !! you got Dicount Coupons</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        {{#each coupons}}
+        <div class="d-flex flex-row align-items-center mb-2">
+          <div class="d-flex flex-column mb-2">
+            <h6 class="fw-bold p-0 m-0">{{this.Name}}</h6>
+            <div class="copy-link mt-2">
+              <input type="text" class="copy-link-input form-control" value="{{this.Code}}" hidden>
+              <button type="button" class="copy-link-button btn btn-transparent">
+                <span class="material-icons text-bold ">copy</span>
+              </button>
+            </div>
+            <strong> <span class="text-success">{{this.Description}}<br>
+              </span></strong>
+          </div>
+        </div>
+        {{/each}}
 
 
-
-
-{{!-- <style>
- 
-.wallet-container {
-  display: grid;
-  grid-template-columns: auto;
-  justify-content: center;
-  height: 40%;
-}
-
-.mobile {
-  width: 360px;
-  height: 150px;
-  align-self: center;
-  display: grid;
-  grid-template-rows: 10% auto;
-  color: #fff;
-}
-
-.mobile > div {
-  padding: 1rem 2rem;
-}
-
-.wallet-header {
-  background: #21223f;
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.filter {
-  display: flex;
-  padding: 0.5rem;
-  min-width: 80px;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid #828393;
-  border-radius: 10px;
-}
-
-.calendar i,
-.select i,
-.total .label {
-  color: #828393;
-}
-
-.content {
-  background: #21223f;
-  border-bottom-left-radius: 1rem;
-  border-bottom-right-radius: 1rem;
-  display: grid;
-}
-
-.total {
-  align-self: start;
-  justify-self: center;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.total > div:not(:first-child):not(:last-child) {
-  margin: 0.5rem;
-}
-
-.total .label,
-.card .label {
-  text-transform: uppercase;
-  font-weight: 100;
-  font-size: 0.8rem;
-}
-
-.total .value {
-  font-size: 1.8rem;
-}
-
-.total .balance {
-  background: #1f3a4a;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  color: #02ca8c;
-}
-
-.cards {
-  display: grid;
-  overflow-x: auto;
-  overflow-y: hidden;
-  grid-template-columns: repeat(auto-fill, minmax(auto, 0));
-  grid-gap: 10px;
-  align-self: start;
-}
-
-.card {
-  min-width: 130px;
-  height: 90px;
-  padding: 1rem;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.green {
-  background: #00cccc;
-}
-
-.magenta {
-  background: #7359ff;
-}
-
-.gray {
-  background: #7a7faf;
-}
-
-.card .balance {
-  display: flex;
-  align-self: start;
-  padding: 0.5rem 0;
-  width: 60px;
-  justify-content: space-around;
-  font-size: 0.8rem;
-}
-
-.card .label {
-  color: #adffff;
-  font-size: 0.7rem;
-}
-
-.card .item {
-  align-self: start;
-  padding: 0.5rem 0;
-  height: 36px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.card .arrow-up {
-  transform: rotateZ(45deg);
-}
-
-.card .item .value {
-  font-size: 1.3rem;
-}
-
-::-webkit-scrollbar {
-  height: 5px;
-  width: 5px;
-}
-
-::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px #21233f;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #676767;
-  border-radius: 10px;
-}
-
-.menu {
-  list-style-type: none;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 2px;
-}
-
-.menu li {
-  height: 40px;
-  position: relative;
-}
-
-.menu label,
-.menu input {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0.7;
-}
-
-.menu input[type="radio"] {
-  opacity: 0.011;
-  z-index: 100;
-}
-
-.menu input[type="radio"]:checked + label {
-  border-bottom: 1px solid #2181ff;
-  opacity: 1;
-}
-
-.menu input[type="radio"]:checked + label i {
-  color: #2181ff;
-}
-
-.menu label {
-  cursor: pointer;
-  z-index: 90;
-  font-size: 0.7rem;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-}
-
-.menu label:hover {
-  opacity: 0.7;
-}
-
-.list {
-  background: #211c3a;
-  display: grid;
-  grid-gap: 5px;
-  padding: 5px 0;
-  height: 180px;
-  overflow-y: auto;
-}
-
-.list div[class^="item"] {
-  display: flex;
-  justify-content: space-between;
-  background: #21223f;
-  padding: 10px 0;
-}
-
-.list div[class^="section"] {
-  font-size: 0.8rem;
-  display: flex;
-  align-items: center;
-}
-
-.list .icon {
-  display: flex;
-  align-items: center;
-  margin-right: 10px;
-}
-
-.list .icon.up {
-  color: #00ff00;
-  transform: rotateZ(30deg);
-}
-
-.list .icon.down {
-  color: #ff0000;
-  transform: rotateZ(-150deg);
-}
-
-.list .description {
-  color: #7d7d7d;
-}
-
-.list .signal {
-  font-weight: bold;
-}
-
-.list .signal.positive {
-  color: #00ff00;
-}
-
-.list .signal.negative {
-  color: #ff0000;
-}
-
-</style> --}}
-
-
-
-
-
+      </div>
+    </div>
+  </div>
+</div>
+                   
+               
+    
 
 
  <script>
+
+  document.querySelectorAll(".copy-link").forEach((copyLinkParent) => {
+  const inputField = copyLinkParent.querySelector(".copy-link-input");
+  const copyButton = copyLinkParent.querySelector(".copy-link-button");
+  const text = inputField.value;
+
+  inputField.addEventListener("focus", () => inputField.select());
+
+  copyButton.addEventListener("click", () => {
+    inputField.select();
+    navigator.clipboard.writeText(text);
+
+    inputField.value = "Copied!";
+    setTimeout(() => (inputField.value = text), 2000);
+  });
+});
+
+
         function sendData(e){
           console.log(e)
           let searchResultsContainer = document.getElementById('searchResults')

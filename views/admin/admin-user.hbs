@@ -1,16 +1,4 @@
-{{!--       
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-           <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables.css">
-          <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables_themeroller.css">
-        <title>Document</title>
-      </head>
-      <body> --}}
 <section id="main">
 
         <div class="container">
@@ -36,14 +24,12 @@
         <td>{{this.name}}</td>
         <td>{{this.email}}</td>
         <td>{{this.mobile}}</td>
-        {{!-- <td>9567088516</td> --}}
         <td>
             {{#if this.status}}
             <button class="btn btn-danger" onclick="blockUser('{{this._id}}')">block</button>
             
             {{else}}
             <button class="btn btn-success" onclick="unblockUser('{{this._id}}')">unblock</button>
-            {{!-- <a href="/admin/unblock-user/{{this._id}}" class="btn btn-success" onclick="return  confirm('do you want to unblock {{this.name}}')">unblock</a> --}}
             {{/if}}
             </td>
       </tr>
