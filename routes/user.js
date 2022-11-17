@@ -9,7 +9,7 @@ var {home,singinGET,signinPOST,signinOtpGET,signinOtpPOST,otpEnterPageGET,otpEnt
     // orderDisplay
     ,cancelOrder
     ,updateAddress,addNewAddress,addressEditGET,addressEditPATCH,deleteAddress,categoryWiseShopping,applyCoupon,removeCoupon,wishList,addtoWishlist
-  ,removeProductWishlist,getSearchResults,returnApproval,subcatWiseShopping} = require('../controller/userController')
+  ,removeProductWishlist,getSearchResults,returnApproval,subcatWiseShopping,payUsingWallet} = require('../controller/userController')
 
 var{productListPageNation} =require('../middlewares/middleware')
 
@@ -77,6 +77,7 @@ router.get('/cancel', cancel);
 router.get('/order-succesfull',orderSuccessFull)
 router.post('/verify-payment', verifyPayment)
 router.delete('/remove-payfail',paymentFail)
+// router.post('/pay/using/wallet',payUsingWallet)
 
 //============ profile===========
 router.get('/my-account',myAccount)
@@ -95,7 +96,6 @@ router.get('/order-history',orderHistory)
 router.get('/order-display/:id',orderDisplayId)
 router.patch('/cancel-order',cancelOrder)
 router.post('/return/approval',returnApproval)
-// router.get('/order-display',orderDisplay)
 
 // ==========address section===========
 router.get('/address-update',updateAddress)

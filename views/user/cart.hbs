@@ -187,7 +187,12 @@
                         alert('Product removed from cart')
                         location.reload()
                     }else if(response.quantityFalse){
-                        alert('out of stock')
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'product is out of stock!',
+                        })
+
                         
                     }else{
                         document.getElementById(productId).innerHTML = quantity+count;

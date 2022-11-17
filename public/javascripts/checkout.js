@@ -6,14 +6,12 @@ $("#checkout-form").submit((e)=>{
         method:'post',
         data:$('#checkout-form').serialize(),
         success:(response)=>{
-            console.log(response)
             if(response.codStatus){
-                console.log('CALL IS COMING')
-                console.log(response)
                 window.location.href='/order-succesfull'
-            }else if(response.razorpayStatus){
-                    console.log("Call is coming")
-                    console.log(response)
+            }else if(response.walletStatus){
+                window.location.href = '/order-succesfull'
+            }
+            else if(response.razorpayStatus){
                     rayzorpayPayment(response)
 
                 }else if(response){

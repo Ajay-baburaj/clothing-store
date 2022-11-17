@@ -14,7 +14,7 @@ module.exports={
         var today = new Date();
         var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 
-            let status = billingDetails.paymentMethod ==="COD" ? "placed" :"pending"
+            let status = billingDetails.paymentMethod ==="COD" || "wallet" ? "placed" :"pending"
             let orderObject = {
 
                 addressId:objectId(billingDetails.addressId),
@@ -28,13 +28,11 @@ module.exports={
 
             db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObject).then((response)=>{
                 db.get().collection(collection.CART_COLLECTION).deleteOne({user:objectId(billingDetails.userId)})
-                // console.log('===============get order id from response=========')
-                // console.log(response)
+
                 resolve(response.insertedId)
             }).catch((err)=>{
                 reject(err)
             })
-            // console.log(billingDetails,products,cartTotal)
             
         })
 

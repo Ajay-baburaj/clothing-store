@@ -44,7 +44,7 @@ const dashboard =async(req,res,next)=>{
       }
       res.render('admin/login')
     }catch (err){
-      throw(err)
+      next(err)
     }
   }
 
@@ -62,7 +62,7 @@ const dashboard =async(req,res,next)=>{
         console.log(credentials)
       }
     }catch (err){
-      throw(err)
+      next(err)
     }
 
 }
@@ -72,7 +72,7 @@ const userListing = (req,res)=>{
   adminUserHelpers.signupUserInfo().then((response)=>{
     res.render('admin/admin-user',{response,adminheader:true})
   }).catch((err)=>{
-    throw(err)
+    next(err)
   })
 }
 
@@ -80,7 +80,7 @@ const blockUser = async(req,res)=>{
   adminUserHelpers.blockUser(req.query.userId).then(()=>{
     res.json({status:true})
   }).catch((err)=>{
-    throw(err)
+    next(err)
   })
 }
 
@@ -92,8 +92,8 @@ const unblockUser = async(req,res)=>{
       res.json({status:true})
     })
   }
-  catch{
-    throw(err)
+  catch(err){
+    next(err)
   }
 }
 const productListing = (req, res) => {
@@ -103,8 +103,8 @@ const productListing = (req, res) => {
       res.render('admin/products', { products, adminheader: true })
     })
   }
-  catch {
-    throw(err)
+  catch(err) {
+    next(err)
   }
 }
 
@@ -285,10 +285,6 @@ const logout = (req,res)=>{
 const orderDetials = async(req,res)=>{
   try{
     let orderArrray =  await orderHelpers.adminOrderArray()
-    // console.log('===============order array is here=============')
-    // console.log(orderArrray)
-    // console.log('===============order array is here=============')
-
     res.render('admin/order-management',{orderArrray,adminheader:true})
 
   }catch{
@@ -300,17 +296,14 @@ const orderDetials = async(req,res)=>{
   try{
     let orderId = req.params.id
     let address = await orderHelpers.getAddress(orderId)
-    // let orderTotal = await orderHelpers.displayOrderTotal(orderId)
     let orderTotal = await orderHelpers.getOrderTotal(orderId)
     let orderDetials = await orderHelpers.displayOrderDetials(orderId)
-    // console.log('=============order details============')
-    // console.log(orderDetials)
-    // console.log('=============order details============')
+   
 
   
     res.render('admin/order-view-more',{address,orderTotal,adminheader:true,orderDetials})
   }catch{
-    throw(err)
+    next(err)
   }
 }
 

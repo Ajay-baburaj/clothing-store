@@ -15,7 +15,7 @@ body{
                 <div class="breadcrumb__text">
                     <h4>Check Out</h4>
                     <div class="breadcrumb__links">
-                        <a href="./index.html">Home</a>
+                        <a href="/">Home</a>
                         <a href="/shop/now">Shop</a>
                         <span>Check Out</span>
                     </div>
@@ -48,8 +48,6 @@ body{
         <div class="checkout__form">
             <form id="checkout-form">
                 <div class="row">
-                    {{!-- <h6 class="coupon__code"><span class="icon_tag_alt"></span> Have a coupon? <a href="#">Click
-                            here</a> to enter your code</h6> --}}
                     
                     <h6 class="checkout__title">Billing Details</h6>
                     
@@ -60,7 +58,6 @@ body{
                             data-bs-target="#staticBackdrop">Add
                             Address</button>
                         <div class="card p-1 py-2 card-1 text-left" style="display:flex;flex-wrap:wrap">
-                            {{!-- <div class=""> --}}
                                 {{#each addressArray}}
                                 <div class="p-3 card-child">
                                     <div class="d-flex flex-row align-items-center ">
@@ -78,8 +75,6 @@ body{
                                             onclick="editAddress('{{this._id}}')" data-bs-toggle="modal"
                                             data-bs-target="#editaddressModal">
                                             edit</button>
-                                        {{!-- <button class="border-0 btn-sm text-primary" id="deleteBtn"
-                                            onclick="displayAlert('{{this._id}}')">delete</button> --}}
                                     </div>
                                 </div>
                                 {{/each}}
@@ -118,6 +113,12 @@ body{
                                 <input type="radio" id="cod" name="paymentMethod" value="COD" checked>
                                 <label for="cod">Cash on delivery</label>
                             </div>
+                            {{#if walletPayment}}
+                             <div class="inline">
+                                <input type="radio" id="wallet" name="paymentMethod" value="wallet"  onclick="payUsingWallet('{{user._id}}','{{total}}')">
+                                <label for="cod">Wallet Money ( &nbsp;<span class="text-danger fw-500">₹ {{walletMoney}}</span>)</label>
+                            </div>
+                            {{/if}}
                             <div class="inline">
                                 <input type="radio" id="razorpay" name="paymentMethod" value="razorpay">
                                 <label for="razorpay">Razorpay</label>
@@ -137,72 +138,7 @@ body{
 
 </section>
 
-<!-- Modal  for add address-->
-{{!-- <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Your Address
-                </h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form id="addressAddForm">
-                <div class="modal-body">
 
-                    <div class="row">
-                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
-                            <label for="input-firstname">Name <span class="required-f text-danger">
-                                    *</span></label>
-                            <input name="name" value="" id="input-firstname" type="text" class="form-control">
-                        </div>
-                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
-                            <label for="input-email">E-Mail <span class="required-f text-danger">*</span></label>
-                            <input name="email" value="" id="input-email" type="email" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
-                            <label for="input-telephone">Telephone <span class="required-f text-danger">*</span></label>
-                            <input name="mobile" value="" id="input-telephone" type="tel" class="form-control">
-                        </div>
-                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
-                            <label for="input-address-1">Address <span class="required-f text-danger">*</span></label>
-                            <input name="address" value="" id="input-address" type="text" class="form-control">
-                        </div>
-                    </div>
-
-                    <input type="text" name="userId" value="{{user._id}}" hidden>
-                    <div class="row">
-
-                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
-                            <label for="input-city">City <span class="required-f text-danger">*</span></label>
-                            <input name="city" value="" id="input-city" type="text" class="form-control">
-                        </div>
-                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
-                            <label for="input-postcode">Post Code <span class="required-f text-danger">*</span></label>
-                            <input name="pincode" value="" id="input-postcode" type="text" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row">
-
-                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
-                            <label for="input-landmark">State<span class="required-f text-danger">*</span></label>
-                            <input name="landmark" value="Kerala" id="input-landmark" type="text" readonly
-                                class="form-control">
-                        </div>
-
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div> --}}
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -275,69 +211,7 @@ body{
     </div>
 </div>
 
-<!-- Modal for edit address-->
-{{!-- <div class="modal fade" id="editaddressModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Your Address
-                </h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form id="editAddressForm">
-                <div class="modal-body">
 
-                    <div class="row">
-                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
-                            <label for="input-firstname">Name <span class="required-f text-danger">
-                                    *</span></label>
-                            <input name="name" value="" id="input-Firstname" type="text" class="form-control">
-                        </div>
-                       
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
-                            <label for="input-telephone">Telephone <span class="required-f text-danger">*</span></label>
-                            <input name="mobile" value="" id="input-Telephone" type="tel" class="form-control">
-                        </div>
-                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
-                            <label for="input-address-1">Address <span class="required-f text-danger">*</span></label>
-                            <input name="address" value="" id="input-Address" type="text" class="form-control">
-                        </div>
-                    </div>
-
-                    <input type="text" name="addressId" value="" id="addressId" hidden>
-                    <div class="row">
-
-                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
-                            <label for="input-city">City <span class="required-f text-danger">*</span></label>
-                            <input name="city" value="" id="input-City" type="text" class="form-control">
-                        </div>
-                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
-                            <label for="input-postcode">Post Code <span class="required-f text-danger">*</span></label>
-                            <input name="pincode" value="" id="input-Postcode" type="text" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row">
-
-                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
-                            <label for="input-landmark">State<span class="required-f text-danger">*</span></label>
-                            <input name="landmark" value="Kerala" id="input-State" type="text" readonly
-                                class="form-control">
-                        </div>
-
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div> --}}
 <div class="modal fade" id="editaddressModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -517,6 +391,29 @@ body{
 
 })
 }
+
+ function payUsingWallet(userId,total){
+
+    
+    $.ajax({
+        url:'/pay/using/wallet',
+        method:'post',
+        data:{userId:userId,total:total},
+        success:(response)=>{
+            if(response.response.notEnoughBalance){
+                Swal.fire(
+                'Not enough balance in wallet',
+                )
+            }else if(response.response.paymentSuccessFul){
+                Swal.fire(
+                'payment successfull',
+                )
+
+            }        
+        }
+
+    })
+ }
 
 </script>
 

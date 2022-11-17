@@ -775,6 +775,73 @@ module.exports={
             console.log(count)
             resolve(count)
         })
+    },
+
+    walletCheck:(userId,total)=>{
+        let response = {}
+        total = parseInt(total)
+        return new Promise(async(resolve,reject)=>{
+
+          let  walletMoney =    await db.get().collection(collection.USER_COLLECTION).aggregate([
+                {
+                    $match:{_id:objectId(userId)}
+                },
+                {
+                    $project:{
+                        walletTotal:{$sum:'$wallet'}
+                    }
+                }
+            ]).toArray()
+
+            if(walletMoney[0].walletTotal){
+                if(walletMoney[0].walletTotal < parseInt(total)){
+                    response.notEnoughBalance = true
+                    resolve(response)
+                }else{
+                   await db.get().collection(collection.USER_COLLECTION).updateOne({_id:objectId(userId)},
+                    {
+                        $push:{wallet:-total}
+                    })
+                    response.paymentSuccessFul = true
+                    resolve(response)
+                } 
+                
+            }else{
+                response.noMoney = true
+                resolve(response)
+            }
+        })
+    },
+
+    walletPayment:(userId,total)=>{
+        let response = {}
+        return new Promise(async(resolve,reject)=>{
+
+            let  walletMoney =    await db.get().collection(collection.USER_COLLECTION).aggregate([
+                {
+                    $match:{_id:objectId(userId)}
+                },
+                {
+                    $project:{
+                        walletTotal:{$sum:'$wallet'}
+                    }
+                }
+            ]).toArray()
+
+            if(walletMoney[0].walletTotal){
+
+                await db.get().collection(collection.USER_COLLECTION).updateOne({_id:objectId(userId)},
+                {
+                    $push:{wallet:-total}
+                })
+                response.paymentSuccessFul = true
+                resolve(response)
+            }else{
+                response.insufficientBalance = true
+                resolve(response)
+            } 
+
+        })
     }
 
 
