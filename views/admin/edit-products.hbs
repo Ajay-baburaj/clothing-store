@@ -7,24 +7,28 @@
                 
                 <input type="text" value="{{productDetails._id}}" name="productId" hidden>
                 <label for="">name</label>
-                <input  class="form-control" type="text" value="{{productDetails.name}}" name="name">
+                <input  class="form-control" type="text" value="{{productDetails.name}}" name="name" required>
 
-                <label for="">Category</label>
-                <input class="form-control" type="text" value="{{productDetails.categoryName.category}}" readonly>
-                <input class="form-control" type="text" value="{{productDetails.categoryName._id}}" name="category" hidden>
+    
+                <select name="category" class="form-select" onmouseenter="categoryChange()">
+                    <option id="category" class="text-dark" style="display: none;!important" value="{{productDetails.categoryName._id}}"> {{productDetails.categoryName.category}} </option>
+                    {{#each categories}}
+                        <option class="text-dark" value="{{this._id}}"> {{this.category}} </option>
+                    {{/each}}
+                </select>
 
                 <label for="">sub categery</label>
                 <input class="form-control" type="text" value="{{productDetails.subCategory}}" name="subCategory">
 
                 <label for="">Price</label>
-                <input name="price" class="form-control" type="text" value="{{productDetails.price}}">
+                <input name="price" class="form-control" type="text" value="{{productDetails.price}}" required>
                 
                 <label for="">Quantiy</label>
-                <input name="quantity" class="form-control" type="text" value="{{productDetails.quantity}}">
+                <input name="quantity" class="form-control" type="text" value="{{productDetails.quantity}}" required>
 
 
                 <label for="">Description</label>
-                <input class="form-control" type="text" value="{{productDetails.description}}" name="description" class="mb-2">
+                <input class="form-control" type="text" value="{{productDetails.description}}" name="description" class="mb-2" required>
 
                 <label for="">Image</label>
                 <div class="mb-2 mt-2">
@@ -44,8 +48,8 @@
 </section>
 
 
-
 <script>
+
    
     function viewImage(event){
         document.getElementById('imageView').src = URL.createObjectURL(event.target.files[0])

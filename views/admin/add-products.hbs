@@ -60,13 +60,7 @@ select {
                           </select>
                         </div>
                         
-                        {{!-- <label for="sub category">sub category</label>
-                          <div class="form-group mb-3">
-                            <select class="dark" name="subcategory" id="subCatselect">
-                              <option></option>
-                            </select>
-                          </div>
-                        --}}
+        
                         <div class="form-group mb-3">
                           <label for="price">sub category</label>
                           <input type="text" name="subCategory" class="form-control">
@@ -86,12 +80,19 @@ select {
                           <label for="quantity">quantity</label>
                           <input type="number" name="quantity" class="form-control">
                         </div>
-                       
+                       <div class="mt-2">
+
+                            <img src="https://img.freepik.com/free-photo/cloud-uploading-icon-technology-graphic_53876-14666.jpg?w=740&t=st=1668269991~exp=1668270591~hmac=c26a3d1094cbc87157eadde994e5cbb5fba3145c00670fa45b10f3ae3d6b3058" id="imgView1" alt="" style="width:50px; height:50px;" >
+                            <img src="https://img.freepik.com/free-photo/cloud-uploading-icon-technology-graphic_53876-14666.jpg?w=740&t=st=1668269991~exp=1668270591~hmac=c26a3d1094cbc87157eadde994e5cbb5fba3145c00670fa45b10f3ae3d6b3058" id="imgView2" alt="" style="width:50px; height:50px;" >
+                            <img src="https://img.freepik.com/free-photo/cloud-uploading-icon-technology-graphic_53876-14666.jpg?w=740&t=st=1668269991~exp=1668270591~hmac=c26a3d1094cbc87157eadde994e5cbb5fba3145c00670fa45b10f3ae3d6b3058" id="imgView3" alt="" style="width:50px; height:50px;" >
+                            <img src="https://img.freepik.com/free-photo/cloud-uploading-icon-technology-graphic_53876-14666.jpg?w=740&t=st=1668269991~exp=1668270591~hmac=c26a3d1094cbc87157eadde994e5cbb5fba3145c00670fa45b10f3ae3d6b3058" id="imgView4" alt="" style="width:50px; height:50px;" >
+
+                        </div>
 
 
                         <div class="form-group mt-3 mb-3">
                           <label for="image">image</label>
-                          <input type="file" class="form-control" name="image" id="gallery-photo-add" multiple required accept="image/jpeg, image/jpg, image/png, image/webp">
+                          <input type="file" class="form-control" name="image" id="gallery-photo-add" onchange="viewImage(event)" multiple required accept="image/jpeg, image/jpg, image/png, image/webp">
                         </div>
                   
               </div>
@@ -106,6 +107,17 @@ select {
       </div>
 
 </section>      
+
+<script src="https://cdn.crop.guide/loader/l.js?c=ZQVVZF"></script>
+<script>
+  function viewImage(event){
+    document.getElementById('imgView1').src = URL.createObjectURL(event.target.files[0])
+    document.getElementById('imgView2').src = URL.createObjectURL(event.target.files[1])
+    document.getElementById('imgView3').src = URL.createObjectURL(event.target.files[2])
+    document.getElementById('imgView4').src = URL.createObjectURL(event.target.files[3])
+  }
+</script>
+
 
       
   

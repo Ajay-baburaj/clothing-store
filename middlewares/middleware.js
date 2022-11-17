@@ -10,7 +10,7 @@ const adminTrue = function(req,res,next){
     next()
   }
 
-const adminFalse =  function (req,res,next){
+const verifyLogin =  function (req,res,next){
   if(!req.session.adminloggedIn){
     res.redirect('/admin/login')
   }
@@ -56,7 +56,7 @@ const productListPageNation = async(req,res,next)=>{
 }
 
 module.exports={
-    adminTrue,adminFalse,productListPageNation
+    adminTrue,verifyLogin,productListPageNation
 } 
 
 

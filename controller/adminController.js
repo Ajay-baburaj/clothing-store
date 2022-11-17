@@ -154,11 +154,13 @@ const addProductPOST = (req,res)=>{
 const editProductGET = async(req,res)=>{
   try{
     const productId = req.query.productId
+    
     // productHelpers.getProductDetailsNew(productId)
     const product = await producthelpers.getProductDetailsNew(productId)
     const productDetails = product[0]
+    let categories = await producthelpers.getCat(productDetails.category)
     
-    res.render('admin/edit-products',{productDetails,adminheader:true})
+    res.render('admin/edit-products',{productDetails,categories,adminheader:true})
   }
   catch{
     throw(err)

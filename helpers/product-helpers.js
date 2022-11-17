@@ -245,7 +245,13 @@ module.exports={
                 {
                     $set:{'subcategory.$':reqBody.editedSubCat}
                 }
-                )
+                ).then(()=>{
+                    db.get().collection(collection.PRODUCT_COLLECTION).updateMany({$and:[{category:objectId(reqBody.catId)},{subCategory:reqBody.filter}]},{
+                        $set:{
+                            subCategory:reqBody.editedSubCat
+                        }
+                    })
+                })
                 resolve()
             }catch{
                 reject(err)
@@ -842,7 +848,19 @@ module.exports={
             } 
 
         })
-    }
+    },
+    getCat:(catID)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.CATEGORY_COLLECTION).find({
+                _id:{
+                    $nin:[catID]
+                }
+            }).toArray().then((data)=>{
+            
+                resolve(data)
+            })
+        })
+    },
 
 
 

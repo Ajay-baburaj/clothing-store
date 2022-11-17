@@ -5,10 +5,6 @@ const { order } = require('paypal-rest-sdk')
 
 module.exports={
     placeOders:(billingDetails,products,cartTotal)=>{
-        console.log('-------------------')
-        console.log(cartTotal)
-        console.log('-------------------')
-
         return new Promise(async(resolve,reject)=>{
 
         var today = new Date();
